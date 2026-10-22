@@ -1,0 +1,216 @@
+/* One invitation, six painted worlds. Text remains live and accessible. */
+.wedding-app { overflow-x: clip; }
+.site-header { position: fixed; inset: 0 0 auto; grid-template-areas: "brand nav audio"; grid-template-columns: auto minmax(0, 1fr) auto; gap: 1rem; align-items: start; padding: 1rem 1.4rem; border: 0; background: transparent; pointer-events: none; }
+.site-header > * { pointer-events: auto; }
+.site-brand { justify-content: center; min-width: 52px; min-height: 44px; padding: .35rem .55rem; border-radius: 5px; background: #fff8eb; font-size: 1.8rem; }
+.event-nav { justify-self: center; max-width: 100%; padding: .1rem .5rem; border: 1px solid #e2d4bd; border-radius: 32px; background: #fff8eb; scrollbar-width: none; }
+.event-nav::-webkit-scrollbar { display: none; }
+.event-nav ul { min-width: 0; padding: 0; gap: 0; }
+.event-nav__link { font-size: .72rem; padding: .45rem .65rem; }
+.audio-control__button { background: #fff8eb; }
+.site-content { --anchor-offset: 0px; }
+.wedding-journey { position: relative; isolation: isolate; background: #f1dfbf; }
+.wedding-journey .welcome-scene { position: relative; z-index: 1; height: 115svh; scroll-margin-top: 0; }
+.wedding-journey .welcome-hero { position: sticky; top: 0; height: 100svh; min-height: 0; padding: 5.4rem 1.5rem 5rem; }
+.welcome-hero__artwork { transform-origin: 50% 45%; }
+.welcome-hero__artwork img { object-position: center; }
+.welcome-hero__shade { background: radial-gradient(ellipse 37% 63% at 50% 49%, #fff8e9f5 0%, #fff6e2e6 48%, #f8ecd475 82%, transparent 100%); }
+.welcome-hero__copy { position: relative; width: min(46rem, 100%); padding: 0; border: 0; box-shadow: none; background: transparent; }
+.welcome-hero__blessing { max-width: 28ch; margin: 0 auto 1.2rem; font-size: clamp(1.05rem, 1.6vw, 1.4rem); }
+.welcome-hero h1 { max-width: 10ch; margin: auto; font-size: clamp(4.25rem, 8.6vw, 6rem); line-height: .83; letter-spacing: -.035em; }
+.welcome-hero h1 span { display: inline-block; padding: .04em 0; font-size: .55em; }
+.welcome-hero__full-names { margin-top: 1.2rem; font-size: .8rem; }
+.welcome-hero__date-range { margin-top: 1.2rem; font-size: .72rem; letter-spacing: .025em; }
+.welcome-hero__introduction { max-width: 41ch; margin-top: 1.05rem; font-size: .85rem; line-height: 1.6; }
+.welcome-hero__punjabi { border: 0; margin-top: .8rem; padding: 0; font-size: .72rem; line-height: 1.9; }
+.welcome-hero__link { flex-direction: column; gap: .65rem; min-height: 44px; margin-top: 1.5rem; color: var(--color-maroon); font-size: .68rem; letter-spacing: .04em; text-decoration: none; }
+.scene-scroll-line { display: block; height: 38px; width: 1px; background: #9c6e2e; }
+
+.ceremony-scene { --scene-ink: #fff1d0; --scene-accent: #f4cd81; --scene-deep: #10271e; --scene-flower: #e8c87d; position: relative; z-index: 2; height: 130svh; background: var(--scene-deep); scroll-margin-top: 0; }
+.ceremony-stage { position: sticky; top: 0; height: 100svh; min-height: 620px; overflow: hidden; isolation: isolate; color: var(--scene-ink); background: var(--scene-deep); }
+.ceremony-art { position: absolute; z-index: -3; inset: -4% 0 -8%; }
+.ceremony-art img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.ceremony-veil { position: absolute; z-index: -2; inset: 0; background: linear-gradient(90deg, #081e19e8 0%, #081e19c9 30%, #081e1940 65%, #081e1920), linear-gradient(0deg, #081e19b3, transparent 35%); }
+.ceremony-light { position: absolute; z-index: -1; inset: -2%; background: radial-gradient(ellipse at 70% 35%, #f8ca7840, transparent 55%); mix-blend-mode: screen; opacity: .4; animation: invitation-glow 4s ease-in-out infinite alternate; animation-play-state: paused; pointer-events: none; }
+.ceremony-copy { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; height: 100%; width: min(48rem, 57%); margin-left: 7vw; padding: 7.5rem 0 10rem; }
+.ceremony-chapter { display: flex; align-items: center; gap: .9rem; margin: 0 0 1.5rem; color: var(--scene-accent); font-size: .75rem; letter-spacing: .09em; text-transform: uppercase; }
+.ceremony-chapter span { font-family: var(--font-display); font-size: 1.6rem; font-style: italic; border-right: 1px solid currentColor; padding-right: .9rem; line-height: 1; }
+.ceremony-copy h2 { max-width: 12ch; margin: 0; font-family: var(--font-display); font-size: clamp(3.7rem, 6.7vw, 6rem); font-weight: 400; letter-spacing: -.035em; line-height: .95; text-wrap: balance; }
+.ceremony-title-line { display: block; white-space: nowrap; }
+.ceremony-title-dot { color: var(--scene-accent); font-size: .6em; }
+.ceremony-scene--jaggo h2 { font-size: clamp(3.3rem, 5.9vw, 5.8rem); }
+.ceremony-date { margin: 1.7rem 0 0; font-size: .77rem; letter-spacing: .015em; }
+.ceremony-invitation { max-width: 30ch; margin: 1.1rem 0 0; font-family: var(--font-display); font-size: 1.5rem; line-height: 1.2; }
+.ceremony-byline { margin: .5rem 0 0; font-size: .7rem; }
+.ceremony-when { display: flex; align-items: baseline; gap: .8rem; margin-top: 1.8rem; }
+.ceremony-when > span { font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; color: var(--scene-accent); }
+.ceremony-when strong { font-weight: 400; font-size: .9rem; }
+.ceremony-venue { max-width: 40ch; margin: .45rem 0 0; font-size: .8rem; }
+.ceremony-details { position: absolute; z-index: 10; bottom: 3.4rem; left: 7vw; width: min(33rem, 80vw); }
+.ceremony-details summary { display: flex; justify-content: space-between; align-items: center; min-height: 48px; gap: 1rem; padding: .65rem 0; border-bottom: 1px solid var(--scene-accent); color: var(--scene-accent); font-size: .8rem; cursor: pointer; list-style: none; }
+.ceremony-details summary::-webkit-details-marker { display: none; }
+.ceremony-details summary > span { font-size: 1.6rem; font-weight: 400; transition: transform .25s ease; }
+.ceremony-details[open] summary > span { transform: rotate(45deg); }
+.ceremony-details[open] { padding: 1rem 1.3rem; border: 1px solid #b4915b; background: #fff7eafc; color: #472a25; box-shadow: 0 15px 55px #0004; }
+.ceremony-details[open] summary { color: #704928; border-color: #a98c65; }
+.ceremony-details__body { max-height: 49svh; overflow-y: auto; overscroll-behavior: contain; padding-top: 1.1rem; scrollbar-color: #b4915b #fff7ea; }
+.ceremony-details dl { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 1.5rem; margin: 0; }
+.ceremony-details dl > div:last-child { grid-column: 1 / -1; }
+.ceremony-details dt { font-size: .64rem; color: #775331; text-transform: uppercase; letter-spacing: .06em; }
+.ceremony-details dd { margin: .2rem 0; font-size: .9rem; font-weight: 500; }
+.ceremony-details address { font-size: .76rem; font-style: normal; line-height: 1.6; }
+.ceremony-directions { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; margin-top: 1rem; padding-top: .8rem; border-top: 1px solid #bfa98c; }
+.ceremony-directions a { display: inline-flex; min-height: 44px; align-items: center; font-size: .74rem; }
+.ceremony-directions button { min-height: 44px; padding: .4rem 0; border: 0; background: transparent; color: inherit; font-size: .74rem; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
+.ceremony-next { position: absolute; right: 4vw; bottom: 3rem; display: flex; align-items: center; gap: .75rem; min-height: 44px; color: var(--scene-ink); text-decoration: none; font-size: 1.5rem; }
+.ceremony-next span { font-size: .65rem; text-transform: uppercase; letter-spacing: .1em; }
+
+/* Ceremony-specific color and composition. */
+.ceremony-scene--sagan { --scene-ink: #601f2e; --scene-accent: #78372d; --scene-deep: #f2dfbc; --scene-flower: #e8a52d; }
+.ceremony-scene--sagan .ceremony-veil { background: linear-gradient(90deg, #fff3ddea 0%, #fff1d6c9 31%, #fff2dc15 67%), linear-gradient(0deg, #fff0d5bb, transparent 35%); }
+.ceremony-scene--jaggo { --scene-deep: #10152c; --scene-flower: #d64784; }
+.ceremony-scene--jaggo .ceremony-veil { background: linear-gradient(90deg, #10152cf0, #10152cd4 30%, #10152c30 70%), linear-gradient(0deg, #10152cbb, transparent 35%); }
+.ceremony-scene--haldi-mehendi { --scene-ink: #28432b; --scene-accent: #5b4724; --scene-deep: #e7c16e; --scene-flower: #edb42d; }
+.ceremony-scene--haldi-mehendi .ceremony-copy { margin-left: auto; margin-right: 7vw; width: 43%; }
+.ceremony-scene--haldi-mehendi .ceremony-veil { background: linear-gradient(270deg, #fff4d6f5, #fff4d6f0 45%, #fff4d600 78%), linear-gradient(0deg, #fff1b8bd, transparent 35%); }
+.ceremony-scene--haldi-mehendi .ceremony-details { left: auto; right: 7vw; }
+.ceremony-scene--haldi-mehendi .ceremony-next { left: 4vw; right: auto; }
+.ceremony-scene--anand-karaj { --scene-ink: #294658; --scene-accent: #624c2e; --scene-deep: #e8eff0; --scene-flower: #fff6df; }
+.ceremony-scene--anand-karaj .ceremony-copy { width: min(48rem, 85%); align-items: center; margin: 0 auto; text-align: center; }
+.ceremony-scene--anand-karaj h2 { max-width: 18ch; }
+.ceremony-scene--anand-karaj .ceremony-veil { background: radial-gradient(ellipse 42% 65% at 50% 51%, #f5f6edf0, #f6f5e8c4 65%, #f6f5e830 100%); }
+.ceremony-scene--anand-karaj .ceremony-details { left: 50%; transform: translateX(-50%); }
+.ceremony-scene--wedding-celebration { --scene-ink: #fff0da; --scene-accent: #ffcfab; --scene-deep: #6b2135; --scene-flower: #e8a3b2; --scene-flower-heart: #b65b65; }
+.ceremony-scene--wedding-celebration .ceremony-veil { background: linear-gradient(90deg, #521729ed, #63233ac4 29%, #65233a25 70%), linear-gradient(0deg, #592135bb, transparent 35%); }
+
+/* Foreground layers move independently of the paintings. */
+.scene-ornaments { position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none; color: var(--scene-flower); }
+.scene-ornament { position: absolute; left: calc(3% + var(--i) * 8.3%); top: -8%; width: 20px; opacity: .7; animation: flower-fall calc(10s + var(--i) * .4s) linear infinite; animation-delay: calc(var(--i) * -1.7s); animation-play-state: paused; }
+.scene-ornament svg { width: 100%; height: auto; }
+.scene-ornaments--engagement .scene-ornament { top: -25px; width: 26px; height: calc(160px + var(--i) * 9px); animation-name: crystal-sway; animation-duration: calc(3s + var(--i) * .3s); transform-origin: center top; opacity: .7; }
+.scene-ornaments--engagement svg { height: 100%; }
+.scene-ornaments--anand-karaj .scene-ornament { left: calc(-2% + var(--i) * 17%); top: -30px; width: 48px; height: 55svh; animation: garland-sway 7s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -.8s); animation-play-state: paused; transform-origin: center top; opacity: .65; }
+.scene-ornaments--anand-karaj svg { height: 100%; }
+.scene-ornaments--sagan .scene-ornament { width: 15px; }
+.scene-ornaments--jaggo .scene-ornament { width: 8px; filter: drop-shadow(0 2px 5px #d99b5d); }
+.scene-ornaments--haldi-mehendi .scene-ornament { width: 28px; }
+.scene-ornaments--wedding-celebration .scene-ornament { width: 18px; }
+.is-in-view .scene-ornament, .is-in-view .ceremony-light { animation-play-state: running; }
+.is-paused .scene-ornament, .is-paused .ceremony-light { animation-play-state: paused; }
+@keyframes flower-fall { 0% { transform: translate3d(-15px, -30px, 0) rotate(0deg); } 100% { transform: translate3d(50px, 115svh, 0) rotate(300deg); } }
+@keyframes crystal-sway { 0%,100% { transform: rotate(-3deg); opacity: .4; } 50% { transform: rotate(3deg); opacity: .95; } }
+@keyframes garland-sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+@keyframes invitation-glow { to { opacity: .85; transform: scale(1.06); } }
+
+.illustrated-interlude { position: relative; isolation: isolate; overflow: hidden; }
+.invitation-countdown { min-height: 64svh; background: linear-gradient(180deg, #dfe9e6 0%, #f4ead6 100%); }
+.invitation-countdown::before { content: ''; position: absolute; z-index: 0; top: 2%; left: 50%; width: clamp(12rem, 29vw, 25rem); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #e9c27a72 0 34%, #e9c27a2e 58%, transparent 72%); transform: translateX(-50%) scale(.96); opacity: .62; animation: countdown-sun-breathe 8s ease-in-out infinite; animation-play-state: paused; }
+.invitation-countdown::after { content: ''; position: absolute; z-index: 0; left: 50%; bottom: -26%; width: min(60rem, 92vw); height: 86%; border: 1px solid #9f7a4542; border-bottom: 0; border-radius: 50% 50% 0 0; transform: translateX(-50%); pointer-events: none; }
+.invitation-countdown.is-in-view::before { animation-play-state: running; }
+.wedding-journey.is-paused .invitation-countdown::before { animation-play-state: paused; }
+.invitation-countdown .countdown { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; gap: 2rem; min-height: 64svh; align-content: center; padding: 5rem 1.5rem; background: transparent; color: #63313a; text-align: center; }
+.countdown__intro { text-align: center; }
+.countdown__units { justify-self: center; width: min(40rem, 100%); }
+.invitation-countdown .countdown__intro h2 { scroll-margin-top: 6.5rem; color: #592535; font-size: clamp(2.25rem, 4.8vw, 3.6rem); line-height: 1.08; }
+.invitation-countdown .countdown__intro p { color: #5e493e; }
+.invitation-countdown .countdown__label { color: #59483d; }
+.invitation-countdown .countdown__number { color: #592535; }
+.invitation-countdown .countdown__units li { padding-inline: .65rem; border-right: 1px solid #a989604d; }
+.invitation-countdown .countdown__units li:last-child { border-right: 0; }
+@keyframes countdown-sun-breathe { 0%,100% { opacity: .55; transform: translateX(-50%) scale(.96); } 50% { opacity: .9; transform: translateX(-50%) scale(1.04); } }
+.family-welcome { position: relative; isolation: isolate; padding: clamp(4.5rem, 8vw, 7rem) max(1.25rem, calc((100vw - var(--content-width)) / 2)) 6rem; background: linear-gradient(180deg, #f8efdf 0%, #f2e3d0 100%); scroll-margin-top: var(--anchor-offset); }
+.family-welcome::before { content: ''; position: absolute; z-index: 0; inset: 1.5rem 2.5vw; border: 1px solid #9f7a4538; border-radius: 50% 50% 0 0 / 12% 12% 0 0; pointer-events: none; }
+.family-welcome__motif { position: relative; z-index: 1; display: block; width: 9.5rem; height: auto; margin: 0 auto 1.3rem; overflow: visible; color: #967546; }
+.family-welcome__motif path, .family-welcome__motif circle { stroke: currentColor; stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; }
+.family-welcome__motif circle { fill: #f8efdf; }
+.family-welcome__heading { position: relative; z-index: 1; }
+.family-welcome__profiles { position: relative; z-index: 1; overflow: hidden; background: #fffaf1; border-block: 1px solid #9f7a4542; }
+.family-profile { background: #fffaf1; padding: clamp(1.5rem, 3vw, 2.6rem); }
+.family-profile + .family-profile { border-color: #9f7a4542; }
+.family-profile__side { color: #765630; font-size: .68rem; letter-spacing: .12em; }
+.family-profile h3 { margin-bottom: 1.3rem; font-size: clamp(2rem, 3.2vw, 2.7rem); line-height: 1.08; }
+.family-profile dl { gap: 0; }
+.family-profile dl div { grid-template-columns: 5.8rem minmax(0, 1fr); gap: .85rem; padding: .62rem 0; border-top: 1px solid #7956311c; }
+.family-profile dt { font-size: .82rem; }
+.family-profile dd { font-size: .9rem; line-height: 1.45; overflow-wrap: break-word; }
+.invitation-actions { position: relative; z-index: 2; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 2rem; margin: 3rem auto 0; max-width: 55rem; }
+.invitation-actions button { display: inline-flex; align-items: center; justify-content: space-between; gap: 1.2rem; min-height: 48px; padding: .7rem 0; border: 0; border-bottom: 1px solid #ad846a; background: transparent; color: #5c2935; font-size: .8rem; cursor: pointer; }
+.invitation-actions button:hover { color: #985038; border-color: currentColor; }
+.invitation-actions button span { font-size: 1.2rem; }
+.invitation-actions p { width: 100%; margin: 0; min-height: 1.5rem; font-size: .75rem; text-align: center; }
+.site-footer { display: flex; width: 100%; max-width: none; min-height: 5.5rem; align-items: center; justify-content: center; margin: 0; padding: 1.5rem max(1.25rem, calc((100vw - var(--content-width)) / 2)); background: #582836; color: #fff1dd; }
+.site-footer a { color: #ffdab3; }
+.opening-gate__backdrop { transition: transform 1.45s var(--ease-open); }
+.opening-gate[data-phase="opening"] .opening-gate__backdrop { transform: scale(1.16); }
+.opening-gate[data-phase="opening"] { animation: gate-dissolve 1.45s both; }
+@keyframes gate-dissolve { 0%, 76% { opacity: 1; } 100% { opacity: 0; } }
+
+@media (max-width: 58rem) {
+  .site-header { grid-template-areas: "brand audio"; grid-template-columns: 1fr auto; padding: .85rem 1rem; }
+  .event-nav { position: fixed; inset: auto 1rem 1rem; width: calc(100% - 2rem); max-width: none; padding: .15rem .4rem; box-shadow: 0 8px 22px #100e1826; }
+  .event-nav ul { justify-content: flex-start; }
+  .event-nav__link { min-height: 44px; white-space: nowrap; padding-inline: .75rem; font-size: .72rem; }
+  .welcome-hero__shade { background: radial-gradient(ellipse 66% 65% at 50% 48%, #fff8e9f5, #fff6e2dd 60%, #f8ecd438 100%); }
+  .ceremony-details { bottom: 6.5rem; }
+  .ceremony-next { bottom: 6.5rem; }
+  .site-footer { padding-bottom: 6rem; }
+  .invitation-countdown, .invitation-countdown .countdown { min-height: 60svh; }
+}
+@media (max-width: 46rem) {
+  .wedding-journey .welcome-hero { padding: 5.2rem 1.3rem 5.5rem; }
+  .welcome-hero__copy { width: 100%; }
+  .welcome-hero__blessing { max-width: 28ch; font-size: 1.05rem; margin-bottom: 1rem; }
+  .welcome-hero h1 { font-size: clamp(4rem, 18vw, 5.6rem); }
+  .welcome-hero__full-names { margin-top: .9rem; font-size: .7rem; }
+  .welcome-hero__date-range { max-width: 29ch; margin: .8rem auto 0; font-size: .68rem; }
+  .welcome-hero__introduction { font-size: .75rem; max-width: 37ch; margin-top: .75rem; }
+  .welcome-hero__punjabi { font-size: .68rem; margin-top: .7rem; }
+  .welcome-hero__link { margin-top: .9rem; font-size: .65rem; }
+  .scene-scroll-line { height: 24px; }
+  .ceremony-scene { height: 120svh; }
+  .ceremony-stage { min-height: 640px; }
+  .ceremony-art img { object-position: 62% center; }
+  .ceremony-copy, .ceremony-scene--haldi-mehendi .ceremony-copy, .ceremony-scene--anand-karaj .ceremony-copy { width: auto; margin: 0; padding: 5rem 1.4rem 12rem; justify-content: flex-end; align-items: flex-start; text-align: left; }
+  .ceremony-copy h2, .ceremony-scene--jaggo h2 { font-size: clamp(3.15rem, 13vw, 4.8rem); max-width: 13ch; }
+  .ceremony-chapter { margin-bottom: .9rem; font-size: .66rem; }
+  .ceremony-chapter span { font-size: 1.35rem; }
+  .ceremony-date { margin-top: 1rem; font-size: .7rem; }
+  .ceremony-invitation { font-size: 1.3rem; margin-top: .8rem; }
+  .ceremony-when { margin-top: 1rem; gap: .6rem; }
+  .ceremony-when strong { font-size: .83rem; }
+  .ceremony-venue { font-size: .72rem; }
+  .ceremony-details, .ceremony-scene--haldi-mehendi .ceremony-details, .ceremony-scene--anand-karaj .ceremony-details { left: 1.4rem; right: auto; width: calc(100% - 2.8rem); transform: none; bottom: 6.2rem; }
+  .ceremony-details summary { font-size: .75rem; }
+  .ceremony-details dl { grid-template-columns: 1fr; }
+  .ceremony-next { display: none; }
+  .ceremony-scene .ceremony-veil { background: linear-gradient(0deg, #0d231bf7 0%, #0d231be0 24%, #0d231b8a 48%, #0d231b0d 80%); }
+  .ceremony-scene--sagan .ceremony-veil { background: linear-gradient(0deg, #fff0d5fa, #fff0d5ed 28%, #fff0d5a6 49%, #fff0d500 85%); }
+  .ceremony-scene--jaggo .ceremony-veil { background: linear-gradient(0deg, #10152cf9, #10152ce8 27%, #10152c73 52%, #10152c00 85%); }
+  .ceremony-scene--haldi-mehendi .ceremony-veil { background: linear-gradient(0deg, #fff1c5fc, #fff1c5ed 28%, #fff1c58c 52%, #fff1c500 85%); }
+  .ceremony-scene--anand-karaj .ceremony-veil { background: linear-gradient(0deg, #f1f3eafa, #f1f3eaed 27%, #f1f3eab0 52%, #f1f3ea00 90%); }
+  .ceremony-scene--wedding-celebration .ceremony-veil { background: linear-gradient(0deg, #592135fa, #592135ed 27%, #59213580 52%, #59213500 85%); }
+  .scene-ornaments--engagement .scene-ornament { width: 18px; }
+  .scene-ornaments--anand-karaj .scene-ornament { width: 25px; }
+  .family-welcome { padding: 4.8rem 1.4rem 5.5rem; }
+  .family-welcome::before { inset: 1rem .6rem; }
+  .family-profile { padding: 1.45rem 1.15rem; }
+  .family-profile dl div { grid-template-columns: 5.4rem minmax(0, 1fr); gap: .65rem; }
+  .family-profile dd { font-size: .88rem; }
+  .invitation-countdown, .invitation-countdown .countdown { min-height: 56svh; }
+  .invitation-countdown .countdown { gap: 1.4rem; padding: 3rem 1.25rem; }
+  .invitation-countdown::before { top: 8%; width: clamp(11rem, 46vw, 18rem); }
+  .invitation-countdown .countdown__units li { padding-inline: .25rem; }
+}
+@media (max-height: 700px) and (max-width: 46rem) {
+  .welcome-hero__introduction { display: none; }
+  .welcome-hero h1 { font-size: 3.7rem; }
+  .welcome-hero__blessing { font-size: .93rem; }
+  .ceremony-copy h2, .ceremony-scene--jaggo h2 { font-size: 2.85rem; }
+  .ceremony-invitation { font-size: 1.1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wedding-journey .welcome-scene, .ceremony-scene { height: auto; }
+  .wedding-journey .welcome-hero { position: relative; min-height: 100svh; height: auto; }
+  .ceremony-stage { position: relative; clip-path: none !important; }
+  .scene-ornament, .ceremony-light, .invitation-countdown::before { animation: none; }
+}

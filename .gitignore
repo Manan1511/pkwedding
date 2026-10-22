@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.vite/
+*.local
+*.log
+Thumbs.db
+.DS_Store
+
+# Local invitation source references and downloads
+/WEDDING_REFERENCE.md
+/WhatsApp Image*.jpeg
+/india_happy-indian-wedding-490659.mp3
+/docs/itinerary-review-*.png
+/docs/artwork-review.jpg
+/docs/full-invitation-review.md
+/docs/scroll-prototype-review.md
+/docs/superpowers/
+/pavgun-ashmeet-*.ics
+/pavgun-ashmeet-*.pdf

@@ -1,0 +1,36 @@
+:root {
+  color-scheme: light;
+  font-family: "DM Sans", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "DM Sans", Arial, sans-serif;
+  --font-punjabi: "Noto Sans Gurmukhi", "DM Sans", sans-serif;
+
+  --color-paper: #f8f1e4;
+  --color-paper-light: #fffaf0;
+  --color-ink: #30231e;
+  --color-ink-soft: #57463b;
+  --color-maroon: #7d2738;
+  --color-maroon-deep: #481521;
+  --color-old-gold: #c49a52;
+  --color-brass: #9c6e2e;
+  --color-ivory: #f5ecdc;
+  --color-navy: #111a34;
+  --color-indigo: #252448;
+  --color-fuchsia: #c54b78;
+  --color-saffron: #e6842b;
+  --color-leaf: #4a674e;
+  --color-blush: #e9c6bb;
+  --color-white: #fffdf8;
+
+  --line-soft: rgb(73 49 33 / 18%);
+  --shadow-lift: 0 14px 32px rgb(40 25 18 / 16%);
+  --shadow-ink: 0 10px 30px rgb(9 10 23 / 32%);
+  --radius-soft: 14px;
+  --content-width: 76rem;
+  --ease-open: cubic-bezier(0.16, 1, 0.3, 1);
+}
