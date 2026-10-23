@@ -1,8 +1,8 @@
-import "@fontsource/cormorant-garamond/400.css";
-import "@fontsource/cormorant-garamond/500.css";
-import "@fontsource/dm-sans/400.css";
-import "@fontsource/dm-sans/500.css";
-import "@fontsource/noto-sans-gurmukhi/400.css";
+import "@fontsource/cormorant-garamond/latin-400.css";
+import "@fontsource/cormorant-garamond/latin-500.css";
+import "@fontsource/dm-sans/latin-400.css";
+import "@fontsource/dm-sans/latin-500.css";
+import "@fontsource/noto-sans-gurmukhi/gurmukhi-400.css";
 import "./styles/global.css";
 import "./styles/website.css";
 import "./styles/journey.css";

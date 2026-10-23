@@ -107,13 +107,24 @@ export default function WelcomeScene() {
       <div className="welcome-hero">
         <picture aria-hidden="true" className="welcome-hero__artwork">
           <source
+            type="image/avif"
+            sizes="100vw"
+            srcSet="/images/welcome-courtyard-768.avif 768w, /images/welcome-courtyard-1536.avif 1536w"
+          />
+          <source
+            type="image/webp"
             sizes="100vw"
             srcSet="/images/welcome-courtyard-768.webp 768w, /images/welcome-courtyard-1536.webp 1536w"
           />
           <img
             alt=""
-            fetchPriority="high"
-            src="/images/welcome-courtyard-1536.png"
+            decoding="async"
+            height={1024}
+            loading="eager"
+            sizes="100vw"
+            src="/images/welcome-courtyard-1536.webp"
+            srcSet="/images/welcome-courtyard-768.webp 768w, /images/welcome-courtyard-1536.webp 1536w"
+            width={1536}
           />
         </picture>
         <div className="welcome-hero__shade" />

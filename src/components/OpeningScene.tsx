@@ -76,10 +76,26 @@ export default function OpeningScene({
     >
       <picture aria-hidden="true" className="opening-gate__backdrop">
         <source
+          type="image/avif"
           sizes="100vw"
-          srcSet="/images/welcome-courtyard-768.png 768w, /images/welcome-courtyard-1536.png 1536w"
+          srcSet="/images/welcome-courtyard-768.avif 768w, /images/welcome-courtyard-1536.avif 1536w"
         />
-        <img alt="" src="/images/welcome-courtyard-1536.png" />
+        <source
+          type="image/webp"
+          sizes="100vw"
+          srcSet="/images/welcome-courtyard-768.webp 768w, /images/welcome-courtyard-1536.webp 1536w"
+        />
+        <img
+          alt=""
+          decoding="async"
+          fetchPriority="high"
+          height={1024}
+          loading="eager"
+          sizes="100vw"
+          src="/images/welcome-courtyard-1536.webp"
+          srcSet="/images/welcome-courtyard-768.webp 768w, /images/welcome-courtyard-1536.webp 1536w"
+          width={1536}
+        />
       </picture>
       <div aria-hidden="true" className="opening-gate__shade" />
 

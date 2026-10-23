@@ -50,12 +50,25 @@ export default function JaggoScene() {
     >
       <div className="jaggo-stage">
       <picture aria-hidden="true" className="jaggo-scene__artwork">
+        <source
+          type="image/avif"
+          sizes="100vw"
+          srcSet="/images/jaggo-courtyard-768.avif 768w, /images/jaggo-courtyard-1536.avif 1536w"
+        />
+        <source
+          type="image/webp"
+          sizes="100vw"
+          srcSet="/images/jaggo-courtyard-768.webp 768w, /images/jaggo-courtyard-1536.webp 1536w"
+        />
         <img
           alt=""
+          decoding="async"
+          height={1024}
           loading="lazy"
           sizes="100vw"
-          src="/images/jaggo-courtyard-768.png"
-          srcSet="/images/jaggo-courtyard-768.png 768w, /images/jaggo-courtyard-1536.png 1536w"
+          src="/images/jaggo-courtyard-1536.webp"
+          srcSet="/images/jaggo-courtyard-768.webp 768w, /images/jaggo-courtyard-1536.webp 1536w"
+          width={1536}
         />
       </picture>
       <div aria-hidden="true" className="jaggo-scene__light" />

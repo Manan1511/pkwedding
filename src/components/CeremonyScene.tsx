@@ -25,7 +25,9 @@ export default function CeremonyScene({ event, index }: { event: WeddingEvent; i
   return <section className={`ceremony-scene ceremony-scene--${event.id}`} data-theme={event.sceneTheme} id={`event-${event.id}`} tabIndex={-1} aria-labelledby={`scene-title-${event.id}`}>
     <div className="ceremony-stage">
       <picture className="ceremony-art" aria-hidden="true">
-        <img alt="" loading="lazy" decoding="async" src={`/images/${image}-1536.png`} srcSet={`/images/${image}-768.webp 768w, /images/${image}-1536.webp 1536w`} sizes="100vw" />
+        <source type="image/avif" sizes="100vw" srcSet={`/images/${image}-768.avif 768w, /images/${image}-1536.avif 1536w`} />
+        <source type="image/webp" sizes="100vw" srcSet={`/images/${image}-768.webp 768w, /images/${image}-1536.webp 1536w`} />
+        <img alt="" decoding="async" height={1024} loading="lazy" sizes="100vw" src={`/images/${image}-1536.webp`} srcSet={`/images/${image}-768.webp 768w, /images/${image}-1536.webp 1536w`} width={1536} />
       </picture>
       <div className="ceremony-veil" aria-hidden="true" />
       <div className="ceremony-light" aria-hidden="true" />
