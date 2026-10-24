@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="210" viewBox="0 0 360 210">
+  <g fill="none" stroke="#C9A24B" stroke-width="1.6" stroke-linecap="round">
+    <!-- top crest -->
+    <path d="M180 18 C175 30 170 36 180 46 C190 36 185 30 180 18 Z" fill="#C9A24B" stroke="none"/>
+    <path d="M180 46 L180 70"/>
+    <!-- mirrored scrolls: drawn once, mirrored via transform -->
+    <g id="half">
+      <path d="M180 64 C150 60 132 70 128 92 C126 108 138 120 152 116 C140 112 138 98 150 96 C162 94 168 106 162 118"/>
+      <path d="M180 78 C156 80 146 96 150 112"/>
+      <path d="M128 92 C108 86 92 96 90 116 C88 134 102 146 118 140 C106 136 104 122 116 120"/>
+      <path d="M90 116 C74 116 64 128 66 142"/>
+      <circle cx="160" cy="120" r="3" fill="#C9A24B" stroke="none"/>
+      <circle cx="116" cy="142" r="3" fill="#C9A24B" stroke="none"/>
+      <!-- small leaves -->
+      <path d="M150 70 C140 64 130 66 126 74 C134 78 144 76 150 70 Z" fill="#C9A24B" stroke="none" opacity="0.6"/>
+    </g>
+    <g transform="translate(360,0) scale(-1,1)">
+      <path d="M180 64 C150 60 132 70 128 92 C126 108 138 120 152 116 C140 112 138 98 150 96 C162 94 168 106 162 118"/>
+      <path d="M180 78 C156 80 146 96 150 112"/>
+      <path d="M128 92 C108 86 92 96 90 116 C88 134 102 146 118 140 C106 136 104 122 116 120"/>
+      <path d="M90 116 C74 116 64 128 66 142"/>
+      <circle cx="160" cy="120" r="3" fill="#C9A24B" stroke="none"/>
+      <circle cx="116" cy="142" r="3" fill="#C9A24B" stroke="none"/>
+      <path d="M150 70 C140 64 130 66 126 74 C134 78 144 76 150 70 Z" fill="#C9A24B" stroke="none" opacity="0.6"/>
+    </g>
+    <!-- central lotus -->
+    <g transform="translate(180,118)">
+      <path d="M0 -22 C8 -10 8 4 0 16 C-8 4 -8 -10 0 -22 Z" fill="#C9A24B" fill-opacity="0.25"/>
+      <path d="M0 16 C-16 8 -26 -4 -28 -22 C-12 -14 -2 0 0 16 Z" fill="#C9A24B" fill-opacity="0.18"/>
+      <path d="M0 16 C16 8 26 -4 28 -22 C12 -14 2 0 0 16 Z" fill="#C9A24B" fill-opacity="0.18"/>
+      <circle cx="0" cy="18" r="2.6" fill="#C9A24B" stroke="none"/>
+    </g>
+    <!-- base flourish -->
+    <path d="M120 150 C150 168 210 168 240 150"/>
+    <path d="M150 158 C168 170 192 170 210 158"/>
+    <circle cx="180" cy="166" r="3.4" fill="#C9A24B" stroke="none"/>
+  </g>
+</svg>

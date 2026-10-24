@@ -1,6 +1,6 @@
 # Pavgun & Ashmeet Wedding
 
-A local, static wedding invitation and guest guide for Pavgun Kaur and Ashmeet Singh Sohal.
+A static wedding invitation and guest guide for Pavgun Kaur and Ashmeet Singh Sohal. The main page follows the supplied Ranthambore reference: a scroll-scrubbed gate opening, an illustrated celebration timeline, and individual framed event pages.
 
 ## Run locally
 
@@ -9,15 +9,13 @@ npm install
 npm run dev
 ```
 
-Vite prints the local preview URL in the terminal. The invitation now includes the courtyard opening, welcome, illustrated countdown, all six animated ceremonies in date order, and the family closing. Each ceremony includes venue and assembly directions and a calendar download. The closing includes combined dates, a freshly generated itinerary PDF, and native sharing with a copy-link fallback. Hosting is deferred.
+Vite prints the local preview URL in the terminal. The invitation includes all six celebrations, individual event pages, family details, assembly and venue directions, native sharing, RSVP copy, individual and combined calendar downloads, a generated itinerary PDF, a countdown to Anand Karaj, and optional instrumental music. The opening video is muted and scrubbed by scrolling; reduced-motion settings show the invitation without the scroll animation. Hosting is deferred.
 
-Original paintings are kept in `artwork/source/`; responsive AVIF/WebP artwork served by the site lives in `public/images/`. Rebuild those variants with `python scripts/prepare-artwork.py`. Scene prompts are recorded in `docs/ceremony-art-prompts.md`. Couple portraits and coordinator contacts require the family's supplied references and details.
+Responsive AVIF/WebP ceremony artwork lives in `public/images/`. The reference site assets used for the gate video, decorative frames, and flourishes are prepared with `python scripts/prepare-ranthambore-assets.py`. The reference source directory is intentionally ignored by Git. Couple portraits and coordinator contacts remain omitted until the family supplies references and real details.
 
 ## Checks
 
 ```sh
-npm run typecheck
-npm test
 npm run build
 ```
 

@@ -1,0 +1,71 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-24T16:03:53.706Z",
+        "reason": "Agent: the gate canvas intentionally fills the viewport edge to edge, as required by the chosen reference."
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "public/events/engagement.html"
+        ],
+        "createdAt": "2026-10-24T16:03:54.067Z",
+        "reason": "Agent: the event date is a purposeful invitation kicker above the title, matching the chosen wedding reference."
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "public/events/sagan.html"
+        ],
+        "createdAt": "2026-10-24T16:03:54.417Z",
+        "reason": "Agent: the event date is a purposeful invitation kicker above the title, matching the chosen wedding reference."
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "public/events/jaggo.html"
+        ],
+        "createdAt": "2026-10-24T16:03:54.782Z",
+        "reason": "Agent: the event date is a purposeful invitation kicker above the title, matching the chosen wedding reference."
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "public/events/haldi-mehendi.html"
+        ],
+        "createdAt": "2026-10-24T16:03:55.138Z",
+        "reason": "Agent: the event date is a purposeful invitation kicker above the title, matching the chosen wedding reference."
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "public/events/anand-karaj.html"
+        ],
+        "createdAt": "2026-10-24T16:03:55.504Z",
+        "reason": "Agent: the event date is a purposeful invitation kicker above the title, matching the chosen wedding reference."
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "public/events/wedding-celebration.html"
+        ],
+        "createdAt": "2026-10-24T16:03:55.859Z",
+        "reason": "Agent: the event date is a purposeful invitation kicker above the title, matching the chosen wedding reference."
+      }
+    ]
+  }
+}
