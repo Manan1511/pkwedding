@@ -18,3 +18,11 @@ Thumbs.db
 /docs/superpowers/
 /pavgun-ashmeet-*.ics
 /pavgun-ashmeet-*.pdf
+
+# Retired React prototype retained locally, not published with the invitation
+/src/
+/artwork/source/
+/docs/
+/PRODUCT.md
+/scripts/prepare-artwork.py
+/tsconfig.json
