@@ -17,14 +17,21 @@
       content="28 November – 6 December 2026 · Delhi, Mohali & Zirakpur. Step through the gates and celebrate with us."
     />
 
+    <link rel="preload" as="image" href="assets/gfx/gate-poster.webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=Manrope:wght@200;300;400;500;600;700;800&family=Gotu&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
-    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
-
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=Manrope:wght@200;300;400;500;600;700;800&family=Gotu&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <style>
       :root {
         --pink: #f3d5de;
@@ -81,10 +88,6 @@
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
       }
-      body.loading {
-        overflow: hidden;
-        height: 100vh;
-      }
       section {
         position: relative;
         z-index: 2;
@@ -95,81 +98,6 @@
       }
       sup {
         font-size: 0.5em;
-      }
-
-      /* ========== LOADER ========== */
-      .loader {
-        position: fixed;
-        inset: 0;
-        z-index: 4000;
-        background: radial-gradient(
-          ellipse at 50% 35%,
-          var(--pink-soft) 0%,
-          var(--pink) 52%,
-          var(--green-soft) 100%
-        );
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: var(--wine);
-        text-align: center;
-        gap: 24px;
-        transition: opacity 1s ease 0.2s;
-      }
-      .loader::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: var(--damask);
-        background-size: 220px;
-        opacity: 0.6;
-        pointer-events: none;
-      }
-      .loader.done {
-        opacity: 0;
-        pointer-events: none;
-      }
-      .loader > * {
-        position: relative;
-        z-index: 1;
-      }
-      .loader-names {
-        font-family: var(--disp);
-        font-size: clamp(1.5rem, 5vw, 2.4rem);
-        letter-spacing: 0.16em;
-        color: var(--wine);
-        text-transform: uppercase;
-      }
-      .loader-names span {
-        display: block;
-        font-family: var(--serif);
-        font-style: italic;
-        font-size: 1rem;
-        letter-spacing: 0.3em;
-        color: var(--gold-deep);
-        margin: 8px 0;
-        text-transform: none;
-      }
-      .loader-bar {
-        width: min(56vw, 200px);
-        height: 1px;
-        background: rgba(122, 42, 65, 0.2);
-        position: relative;
-        overflow: hidden;
-      }
-      .loader-bar i {
-        position: absolute;
-        inset: 0;
-        width: 0%;
-        background: linear-gradient(90deg, transparent, var(--gold-deep));
-        transition: width 0.3s ease;
-      }
-      .loader-pct {
-        font-family: var(--sans);
-        font-size: 0.8rem;
-        letter-spacing: 0.4em;
-        color: var(--ink-soft);
       }
 
       /* ========== SCROLLY HERO ========== */
@@ -642,6 +570,7 @@
         filter: drop-shadow(0 0 16px rgba(255, 160, 70, 0.45));
         animation: bob var(--d, 7s) ease-in-out infinite;
         animation-delay: var(--dl, 0s);
+        animation-play-state: paused;
       }
       @keyframes bob {
         0%,
@@ -1590,29 +1519,23 @@
   html { scroll-behavior:auto; }
   .reveal-hero { height:100svh; }
   .reveal, .ev, .lantern, .chai-elephant { animation:none !important; transition:none !important; }
+  .lantern i { animation:none !important; }
   .reveal { opacity:1 !important; transform:none !important; }
 }
     </style>
   </head>
-  <body class="loading">
+  <body>
     <audio id="weddingAudio" loop preload="none" aria-label="Punjabi wedding instrumental">
       <source src="audio/indian-wedding.mp3" type="audio/mpeg" />
     </audio>
     <button class="music-toggle" type="button" aria-pressed="false">
       <span aria-hidden="true">♫</span> Play music
     </button>
-    <!-- ===== LOADER ===== -->
-    <div class="loader" id="loader">
-      <div class="loader-names">Pavgun<span>weds</span>Ashmeet</div>
-      <div class="loader-bar"><i id="loadBar"></i></div>
-      <div class="loader-pct" id="loadPct">0%</div>
-    </div>
-
     <!-- ===== SCROLLY HERO ===== -->
     <section class="reveal-hero" id="revealHero">
       <div class="reveal-sticky">
         <canvas id="frameCanvas"></canvas>
-        <video id="frameVideo" class="frame-source" muted playsinline preload="auto" poster="assets/gfx/gate-poster.webp" aria-hidden="true" tabindex="-1">
+        <video id="frameVideo" class="frame-source" muted playsinline preload="none" poster="assets/gfx/gate-poster.webp" aria-hidden="true" tabindex="-1">
           <source src="assets/video/gates.mp4" type="video/mp4" />
         </video>
         <div class="hero-veil" id="heroVeil"></div>
@@ -1864,11 +1787,17 @@
           ><img
             src="assets/gfx/chai-elephant-left.webp"
             alt=""
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
         /></span>
         <span class="chai-elephant right"
           ><img
             src="assets/gfx/chai-elephant-right.webp"
             alt=""
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
         /></span>
         <img
           class="cartouche reveal"
@@ -2125,6 +2054,7 @@
     </div>
 
     <script src="assets/invitation.js"></script>
+    <script src="assets/lenis.min.js"></script>
     <script>
       /* Scroll-linked gate reveal: the native video keeps decoding light while
          the canvas preserves the reference site's full-bleed composition. */
@@ -2133,9 +2063,6 @@
         const canvas = document.getElementById("frameCanvas");
         const video = document.getElementById("frameVideo");
         const ctx = canvas.getContext("2d", { alpha: false });
-        const loader = document.getElementById("loader");
-        const loadBar = document.getElementById("loadBar");
-        const loadPct = document.getElementById("loadPct");
         const hBlessing = document.getElementById("hBlessing");
         const hNames = document.getElementById("hNames");
         const hMeta = document.getElementById("hMeta");
@@ -2154,7 +2081,14 @@
         if (reduceMotion) heroSec.classList.add("reduced-motion");
 
         function sizeCanvas() {
-          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          // Match the canvas to the source where possible. Extra pixels only
+          // upscale the 720p clip and make every scroll frame more expensive.
+          const sourceScale = Math.max(
+            1,
+            (video.videoWidth || 1280) / window.innerWidth,
+            (video.videoHeight || 720) / window.innerHeight,
+          );
+          const dpr = Math.min(window.devicePixelRatio || 1, 1.25, sourceScale);
           canvas.width = Math.floor(window.innerWidth * dpr);
           canvas.height = Math.floor(window.innerHeight * dpr);
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -2174,7 +2108,6 @@
           } else {
             w = cw; h = cw / ratio; x = 0; y = (ch - h) / 2;
           }
-          ctx.clearRect(0, 0, cw, ch);
           try { ctx.drawImage(source, x, y, w, h); } catch (_) { /* keep poster visible */ }
         }
         function lerp(p, a, b) {
@@ -2210,15 +2143,12 @@
             seekTo(wantedTime);
           }
         });
-        video.addEventListener("loadedmetadata", () => {
-          loadBar.style.width = "45%";
-          loadPct.textContent = "45%";
-        });
         video.addEventListener("loadeddata", () => {
           videoReady = true;
           video.pause();
           drawCover(video);
-          finishLoading();
+          if (!ready) finishLoading();
+          else { update(); parallax(); }
         }, { once: true });
         video.addEventListener("error", finishLoading, { once: true });
 
@@ -2257,14 +2187,16 @@
         }
         function parallax() {
           const vh = window.innerHeight;
+          const transforms = [];
           for (const el of pars) {
             const r = el.getBoundingClientRect();
             if (r.bottom < -200 || r.top > vh + 200) continue;
             const center = r.top + r.height / 2;
             const off = (center - vh / 2) / vh;
             const speed = parseFloat(el.dataset.par) || 0;
-            el.style.transform = "translate3d(0," + (off * -speed).toFixed(1) + "px,0)";
+            transforms.push([el, (off * -speed).toFixed(1)]);
           }
+          for (const [el, offset] of transforms) el.style.transform = "translate3d(0," + offset + "px,0)";
         }
         function startLenis() {
           if (reduceMotion || typeof Lenis === "undefined" || location.search.includes("nolenis")) return false;
@@ -2276,8 +2208,26 @@
             touchMultiplier: 1.1,
           });
           window.lenis = lenis;
-          function raf(time) { lenis.raf(time); update(); parallax(); requestAnimationFrame(raf); }
-          requestAnimationFrame(raf);
+          let rafId = 0;
+          function requestLenisFrame() {
+            if (!rafId) rafId = requestAnimationFrame(raf);
+          }
+          function raf(time) {
+            rafId = 0;
+            lenis.raf(time);
+            if (lenis.isScrolling) requestLenisFrame();
+          }
+          lenis.on("scroll", () => {
+            update();
+            parallax();
+            if (lenis.isScrolling) requestLenisFrame();
+          });
+          window.addEventListener("wheel", requestLenisFrame, { passive: true });
+          window.addEventListener("touchmove", requestLenisFrame, { passive: true });
+          window.addEventListener("scroll", requestLenisFrame, { passive: true });
+          window.addEventListener("keydown", (event) => {
+            if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) requestLenisFrame();
+          });
           return true;
         }
         function jumpToHash() {
@@ -2292,14 +2242,9 @@
         function finishLoading() {
           if (ready) return;
           ready = true;
-          loadBar.style.width = "100%";
-          loadPct.textContent = "100%";
           sizeCanvas();
           update();
           parallax();
-          document.body.classList.remove("loading");
-          loader.classList.add("done");
-          window.setTimeout(() => { loader.style.display = "none"; }, 900);
           if (!startLenis()) {
             window.addEventListener("scroll", () => { update(); parallax(); }, { passive: true });
           }
@@ -2312,19 +2257,17 @@
         if (reduceMotion) {
           video.preload = "none";
           finishLoading();
-        } else window.setTimeout(finishLoading, 6000);
-      })();
-
-      /* ====== ORNATE FRAME: fall back to a gilt mat until the PNG is present ====== */
-      (function () {
-        const test = new Image();
-        test.onload = function () {
-          document.body.classList.remove("frame-missing");
-        };
-        test.onerror = function () {
-          document.body.classList.add("frame-missing");
-        };
-        test.src = "assets/gfx/frame-oval.webp";
+        } else {
+          // Reveal the preloaded poster immediately. Start the heavier
+          // scroll-scrub clip after first paint without holding interaction.
+          window.requestAnimationFrame(() => {
+            finishLoading();
+            window.requestAnimationFrame(() => {
+              video.preload = "auto";
+              video.load();
+            });
+          });
+        }
       })();
 
       /* ===================== SCROLL REVEAL ===================== */
@@ -2344,6 +2287,13 @@
           el.style.transitionDelay = Math.min(i % 5, 4) * 0.07 + "s";
           io.observe(el);
         });
+        const motionObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            const bob = entry.target.querySelector("i");
+            if (bob) bob.style.animationPlayState = entry.isIntersecting ? "running" : "paused";
+          });
+        }, { rootMargin: "120px 0px" });
+        document.querySelectorAll(".lantern").forEach((el) => motionObserver.observe(el));
       })();
 
       /* ===================== COUNTDOWN ===================== */
