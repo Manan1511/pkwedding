@@ -17,6 +17,17 @@
       content="28 November – 6 December 2026 · Delhi, Mohali & Zirakpur. Step through the gates and celebrate with us."
     />
 
+    <script>
+      try {
+        if (
+          !window.location.hash &&
+          !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ) {
+          document.documentElement.classList.add("entry-pending");
+        }
+      } catch (_) {}
+    </script>
+
     <link rel="preload" as="image" href="assets/gfx/gate-poster.webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,6 +43,7 @@
         rel="stylesheet"
       />
     </noscript>
+    <link rel="stylesheet" href="/assets/festivities.css" />
     <style>
       :root {
         --pink: #f3d5de;
@@ -87,6 +99,94 @@
         font-weight: 300;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
+      }
+      html.entry-pending,
+      html.entry-pending body {
+        overflow: hidden;
+      }
+      .entry-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: none;
+        place-items: center;
+        padding: 24px;
+        color: #fffaf1;
+        text-align: center;
+        background:
+          linear-gradient(180deg, rgba(12, 6, 16, 0.28), rgba(12, 6, 16, 0.72)),
+          #0c0610 url("assets/gfx/gate-poster.webp") center / cover no-repeat;
+        opacity: 1;
+        transition: opacity 420ms ease, visibility 420ms ease;
+      }
+      html.entry-pending .entry-loader {
+        display: grid;
+      }
+      .entry-loader.is-ready {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .entry-loader__content {
+        display: grid;
+        justify-items: center;
+        width: min(100%, 320px);
+        gap: 12px;
+      }
+      .entry-loader__monogram {
+        color: #f2d69a;
+        font: 400 2.2rem/1 var(--serif);
+        letter-spacing: 0.04em;
+      }
+      .entry-loader__title {
+        color: #fffaf1;
+        font: italic 400 clamp(1.25rem, 4vw, 1.65rem)/1.2 var(--serif);
+      }
+      .entry-loader__status,
+      .entry-loader__percent {
+        color: rgba(255, 250, 241, 0.82);
+        font: 500 0.72rem/1.5 var(--sans);
+        letter-spacing: 0.02em;
+      }
+      .entry-loader__track {
+        width: min(70vw, 258px);
+        height: 3px;
+        margin-top: 8px;
+        overflow: hidden;
+        border-radius: 99px;
+        background: rgba(255, 250, 241, 0.28);
+      }
+      .entry-loader__fill {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, #d89b72, #f2d69a);
+        transform: scaleX(0.04);
+        transform-origin: left center;
+        transition: transform 180ms ease-out;
+      }
+      .entry-loader__continue {
+        min-height: 44px;
+        margin-top: 10px;
+        padding: 0 17px;
+        border: 1px solid rgba(242, 214, 154, 0.7);
+        border-radius: 999px;
+        color: #fffaf1;
+        background: rgba(12, 6, 16, 0.25);
+        font: 500 0.75rem/1 var(--sans);
+        cursor: pointer;
+      }
+      .entry-loader__continue[hidden] {
+        display: none;
+      }
+      .entry-loader__continue:focus-visible {
+        outline: 2px solid #f2d69a;
+        outline-offset: 4px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .entry-loader,
+        .entry-loader__fill {
+          transition: none;
+        }
       }
       section {
         position: relative;
@@ -540,17 +640,90 @@
         margin: 32px auto 0;
         line-height: 1.7;
       }
-      .invite-where {
-        margin-top: 32px;
-        font-family: var(--sans);
-        font-size: 0.8rem;
-        letter-spacing: 0.32em;
-        text-transform: uppercase;
-        color: var(--cream-text);
+      .date-reveal {
+        width: min(100%, 430px);
+        margin: 32px auto 0;
+        text-align: center;
       }
-      .invite-where b {
-        color: var(--gold-deep);
-        font-weight: 600;
+      .date-reveal-card {
+        position: relative;
+        display: grid;
+        justify-items: center;
+        align-content: center;
+        gap: 8px;
+        min-height: 124px;
+        padding: 20px clamp(14px, 5vw, 28px);
+        border: 1px solid rgba(148, 108, 28, 0.48);
+        background: rgba(255, 248, 235, 0.72);
+        color: var(--wine);
+      }
+      .date-reveal-card strong {
+        max-width: 19ch;
+        font-family: var(--serif);
+        font-size: clamp(1.25rem, 5vw, 1.8rem);
+        font-weight: 500;
+        line-height: 1.18;
+        text-wrap: balance;
+      }
+      .date-reveal-places {
+        color: var(--ink-soft);
+        font-family: var(--sans);
+        font-size: 0.76rem;
+        letter-spacing: 0.02em;
+        line-height: 1.5;
+      }
+      .date-reveal-cover {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        overflow: hidden;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        color: var(--wine);
+        cursor: crosshair;
+        font-family: var(--sans);
+        touch-action: pan-y;
+        transition: opacity 300ms ease;
+      }
+      .date-reveal-cover canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .date-reveal-cover[hidden] {
+        display: none;
+      }
+      .date-reveal-cover:focus-visible {
+        outline: 3px solid var(--wine);
+        outline-offset: 5px;
+      }
+      .date-reveal-hint {
+        margin: 12px auto 0;
+        color: var(--cream-text);
+        font-family: var(--serif);
+        font-size: 0.98rem;
+        font-style: italic;
+        line-height: 1.5;
+      }
+      .date-reveal.is-revealed .date-reveal-cover {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .date-reveal-status {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
 
       /* ========== EVENTS ========== */
@@ -672,6 +845,8 @@
         );
         box-shadow: 0 10px 22px -12px rgba(0, 0, 0, 0.36);
         border-top: 1px solid rgba(232, 206, 138, 0.45);
+        text-align: center;
+        text-wrap: balance;
       }
       /* inner hairline frame on the banner */
       .day-badge-pill::before {
@@ -904,13 +1079,17 @@
       }
 
       @media (max-width: 640px) {
+        .pad {
+          padding-right: clamp(16px, 4.5vw, 24px);
+          padding-left: clamp(16px, 4.5vw, 24px);
+        }
         .timeline::before {
           left: 22px;
         }
         .ev-row,
         .ev-row.right {
           justify-content: flex-end;
-          padding-left: 52px;
+          padding-left: clamp(42px, 14vw, 52px);
         }
         .ev-row::before {
           left: 22px;
@@ -924,14 +1103,20 @@
         }
         .day-badge {
           align-items: flex-start;
-          padding-left: 52px;
+          width: 100%;
+          padding-right: 4px;
+          padding-left: clamp(42px, 14vw, 52px);
         }
-        /* keep the ribbon banner inside the viewport */
+        /* Give the date room to wrap within the timeline's left gutter. */
         .day-badge-pill {
-          font-size: 0.8rem;
-          letter-spacing: 0.14em;
-          padding: 13px 24px;
+          width: fit-content;
           max-width: 100%;
+          min-width: 0;
+          padding: 11px clamp(12px, 3.5vw, 20px) 16px;
+          font-size: clamp(0.7rem, 3vw, 0.8rem);
+          letter-spacing: clamp(0.035em, 0.18vw, 0.08em);
+          line-height: 1.35;
+          white-space: normal;
         }
         .day-badge-sub {
           margin-top: 22px;
@@ -939,6 +1124,55 @@
         .tl-crest {
           align-items: flex-start;
           padding-left: 0;
+        }
+        .know-sec {
+          padding-bottom: 40px;
+        }
+        .venue-line {
+          margin-top: 38px;
+        }
+        .footer {
+          padding-top: 72px;
+          padding-bottom: 40px;
+        }
+        .footer .eyebrow {
+          margin-bottom: 20px;
+          letter-spacing: 0.28em;
+        }
+        .footer .countdown {
+          gap: 16px 20px;
+          margin-top: 0;
+        }
+        .cd-item {
+          min-width: min(76px, 20vw);
+        }
+        .cd-label {
+          margin-top: 9px;
+          font-size: 0.7rem;
+          letter-spacing: 0.18em;
+        }
+        .footer-hash {
+          max-width: 100%;
+          padding: 11px 16px;
+          font-size: 0.7rem;
+          letter-spacing: 0.16em;
+          line-height: 1.5;
+          white-space: normal;
+        }
+        .footer-credit {
+          margin-top: 24px;
+          font-size: 0.68rem;
+          letter-spacing: 0.12em;
+          line-height: 1.6;
+        }
+        .date-reveal {
+          margin-top: 26px;
+        }
+        .date-reveal-card {
+          min-height: 120px;
+        }
+        .date-reveal-hint {
+          font-size: 0.92rem;
         }
       }
 
@@ -1315,17 +1549,18 @@
       /* ========== FINALE / FOOTER ========== */
       .footer {
         position: relative;
-        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
-        padding: clamp(90px, 12vw, 150px) 24px;
-        padding-top: 31.5rem;
-        padding-bottom: 6rem;
+        padding: clamp(56px, 8vw, 96px) clamp(16px, 4vw, 24px)
+          clamp(42px, 6vw, 72px);
         color: #fff;
         overflow: hidden;
         background: #0b1322;
+      }
+      .know-sec {
+        padding-bottom: clamp(44px, 7vw, 76px);
       }
       .footer-bg {
         position: absolute;
@@ -1364,7 +1599,7 @@
         z-index: 3;
       }
       .footer .eyebrow {
-        color: var(--gold-light);
+        color: var(--wine);
         margin-bottom: 24px;
       }
       .footer .countdown {
@@ -1477,6 +1712,24 @@
           letter-spacing: 0.18em;
           padding-left: 0.18em;
         }
+        .day-badge-pill {
+          padding-right: 11px;
+          padding-left: 11px;
+          font-size: 0.7rem;
+          letter-spacing: 0.025em;
+        }
+        .ev-time {
+          font-size: 0.7rem;
+          letter-spacing: 0.18em;
+        }
+        .ev-body {
+          padding-right: 8px;
+          padding-left: 8px;
+        }
+        .date-reveal-card {
+          padding-right: 12px;
+          padding-left: 12px;
+        }
       }
       @media (prefers-reduced-motion: reduce) {
         .reveal {
@@ -1518,13 +1771,37 @@
 @media (prefers-reduced-motion:reduce) {
   html { scroll-behavior:auto; }
   .reveal-hero { height:100svh; }
-  .reveal, .ev, .lantern, .chai-elephant { animation:none !important; transition:none !important; }
+  .reveal, .ev, .lantern, .chai-elephant, .date-reveal-cover { animation:none !important; transition:none !important; }
   .lantern i { animation:none !important; }
   .reveal { opacity:1 !important; transform:none !important; }
 }
     </style>
   </head>
   <body>
+    <div id="entryLoader" class="entry-loader" aria-hidden="true">
+      <div class="entry-loader__content">
+        <div class="entry-loader__monogram" aria-hidden="true">P&amp;A</div>
+        <div class="entry-loader__title">Preparing your invitation</div>
+        <div id="entryStatus" class="entry-loader__status" aria-live="polite">
+          Warming the courtyard…
+        </div>
+        <div
+          class="entry-loader__track"
+          role="progressbar"
+          aria-label="Preparing the wedding invitation"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="4"
+          id="entryProgress"
+        >
+          <div class="entry-loader__fill" id="entryProgressFill"></div>
+        </div>
+        <div id="entryPercent" class="entry-loader__percent">4%</div>
+        <button id="entryContinue" class="entry-loader__continue" type="button" hidden>
+          Continue with the still cover
+        </button>
+      </div>
+    </div>
     <audio id="weddingAudio" loop preload="none" aria-label="Punjabi wedding instrumental">
       <source src="audio/indian-wedding.mp3" type="audio/mpeg" />
     </audio>
@@ -1554,8 +1831,7 @@
             <span class="nm">Ashmeet</span>
           </h1>
           <div class="hero-namemeta" id="hMeta" style="opacity: 0">
-            <span>28 Nov – 6 Dec 2026</span><span class="dot"></span
-            ><span>Delhi · Mohali · Zirakpur</span>
+            <span>Delhi · Mohali · Zirakpur</span>
           </div>
         </div>
         <div class="scroll-cue" id="scrollCue">
@@ -1590,9 +1866,20 @@
         <p class="invite-body reveal">
           as they begin their journey together, surrounded by family and friends
         </p>
-        <div class="invite-where reveal">
-          28<sup>th</sup> Nov – 6<sup>th</sup> Dec 2026 &nbsp;·&nbsp;
-          <b>Delhi · Mohali · Zirakpur</b>
+        <div class="date-reveal reveal" id="date-reveal" data-date-reveal>
+          <div class="date-reveal-card">
+            <strong id="weddingDates">28 November – 6 December 2026</strong>
+            <span class="date-reveal-places">Delhi · Mohali · Zirakpur</span>
+            <button
+              class="date-reveal-cover"
+              type="button"
+              aria-label="Scratch or tap to reveal the wedding dates"
+              aria-controls="weddingDates"
+              aria-describedby="dateRevealHint"
+            ><canvas aria-hidden="true"></canvas></button>
+          </div>
+          <p class="date-reveal-hint" id="dateRevealHint">Scratch across the gold surface, or tap once to reveal.</p>
+          <span class="date-reveal-status" aria-live="polite" data-date-reveal-status></span>
         </div>
         <div class="flourish reveal">
           <span class="l"></span><span class="o"></span><span class="d"></span
@@ -1601,186 +1888,28 @@
       </section>
 
       <!-- ===== EVENTS ===== -->
-      <section class="sec emerald-deep-bg jewel events pad" id="events">
-        <span
-          class="lantern"
-          data-par="60"
-          style="top: 3%; left: 6%; width: 60px; --d: 7s; --dl: 0s"
-          ><i></i
-        ></span>
-        <span
-          class="lantern"
-          data-par="115"
-          style="top: 8%; right: 8%; width: 86px; --d: 8.5s; --dl: -2s"
-          ><i></i
-        ></span>
-        <span
-          class="lantern"
-          data-par="45"
-          style="top: 23%; left: 13%; width: 46px; --d: 6s; --dl: -1s"
-          ><i></i
-        ></span>
-        <span
-          class="lantern"
-          data-par="95"
-          style="top: 34%; right: 15%; width: 72px; --d: 9s; --dl: -3s"
-          ><i></i
-        ></span>
-        <span
-          class="lantern"
-          data-par="135"
-          style="top: 49%; left: 4%; width: 92px; --d: 8s; --dl: -1.5s"
-          ><i></i
-        ></span>
-        <span
-          class="lantern"
-          data-par="70"
-          style="top: 60%; right: 6%; width: 54px; --d: 7.5s; --dl: -4s"
-          ><i></i
-        ></span>
-        <span
-          class="lantern"
-          data-par="50"
-          style="top: 75%; left: 17%; width: 58px; --d: 8s; --dl: -2.5s"
-          ><i></i
-        ></span>
-        <span
-          class="lantern"
-          data-par="120"
-          style="top: 87%; right: 12%; width: 80px; --d: 9.5s; --dl: -1s"
-          ><i></i
-        ></span>
+      <section class="event-showcase" id="events" aria-labelledby="festivities-title">
+        <header class="festivities-intro">
+          <h2 class="festivities-title" id="festivities-title">
+            Our wedding <span>festivities</span>
+          </h2>
+          <div class="festivities-flourish" aria-hidden="true">
+            <span></span><i></i><span></span>
+          </div>
+          <p>Six celebrations across Delhi, Mohali and Zirakpur.</p>
+        </header>
 
-        <!-- <div class="eyebrow reveal">On the following events</div> -->
-        <h2 class="title reveal">
-          Our wedding <span class="gold">festivities</span>
-        </h2>
-        <div class="flourish reveal">
-          <span class="l"></span><span class="o"></span><span class="d"></span
-          ><span class="o"></span><span class="l r"></span>
-        </div>
-        <p class="sub reveal">Six celebrations across Delhi, Mohali and Zirakpur.</p>
+        <div
+          class="event-panels"
+          id="eventPanels"
+          aria-label="Wedding celebrations in chronological order"
+        ></div>
 
-        <div class="timeline">
-          <!-- monogram crest -->
-          <div class="tl-crest reveal">
-            <svg
-              viewBox="0 0 120 96"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path
-                d="M60 6c10 9 24 12 38 12-2 30-16 52-38 66C38 70 24 48 22 18c14 0 28-3 38-12Z"
-              />
-              <path
-                d="M60 14c8 7 19 10 30 10-2 24-13 42-30 53C43 66 32 48 30 24c11 0 22-3 30-10Z"
-                opacity=".55"
-              />
-              <text
-                x="60"
-                y="52"
-                text-anchor="middle"
-                font-family="Aboreto, serif"
-                font-size="22"
-                fill="currentColor"
-                stroke="none"
-                letter-spacing="1"
-              >
-                P&amp;A
-              </text>
-              <path d="M12 30c-5 4-8 4-10 2M108 30c5 4 8 4 10 2" />
-            </svg>
-          </div>
-
-          <div class="day-badge reveal">
-            <div class="day-badge-pill">Saturday · 28 November 2026</div>
-          </div>
-          <div class="ev-row reveal">
-            <a class="ev" href="events/engagement.html">
-              <span class="ev-arch"><picture class="ev-photo"><source type="image/avif" srcset="images/engagement-768.avif 768w, images/engagement-1536.avif 1536w" sizes="(max-width: 640px) 80vw, 420px" /><source type="image/webp" srcset="images/engagement-768.webp 768w, images/engagement-1536.webp 1536w" sizes="(max-width: 640px) 80vw, 420px" /><img src="images/engagement-768.webp" loading="lazy" decoding="async" alt="" /></picture></span>
-              <div class="ev-body">
-                <div class="ev-time">7:00 PM onwards</div>
-                <div class="ev-name">Lights, Glitz &amp; Glam</div>
-                <div class="ev-divider"><i></i></div>
-                <div class="ev-venue"><b>The Imperium Beyond Luxury · Delhi</b></div>
-              </div>
-            </a>
-          </div>
-
-          <div class="day-badge reveal">
-            <div class="day-badge-pill">Friday · 4 December 2026</div>
-          </div>
-          <div class="ev-row reveal">
-            <a class="ev" href="events/sagan.html">
-              <span class="ev-arch"><picture class="ev-photo"><source type="image/avif" srcset="images/sagan-768.avif 768w, images/sagan-1536.avif 1536w" sizes="(max-width: 640px) 80vw, 420px" /><source type="image/webp" srcset="images/sagan-768.webp 768w, images/sagan-1536.webp 1536w" sizes="(max-width: 640px) 80vw, 420px" /><img src="images/sagan-768.webp" loading="lazy" decoding="async" alt="" /></picture></span>
-              <div class="ev-body">
-                <div class="ev-time">Assemble · 11:00 AM</div>
-                <div class="ev-name">Sagan Ceremony</div>
-                <div class="ev-divider"><i></i></div>
-                <div class="ev-venue"><b>Assembly: Dhillon Plaza</b><small>Venue: House 3200 · Gmada Aerocity</small></div>
-              </div>
-            </a>
-          </div>
-          <div class="ev-row right reveal">
-            <a class="ev" href="events/jaggo.html">
-              <span class="ev-arch"><picture class="ev-photo"><source type="image/avif" srcset="images/jaggo-courtyard-768.avif 768w, images/jaggo-courtyard-1536.avif 1536w" sizes="(max-width: 640px) 80vw, 420px" /><source type="image/webp" srcset="images/jaggo-courtyard-768.webp 768w, images/jaggo-courtyard-1536.webp 1536w" sizes="(max-width: 640px) 80vw, 420px" /><img src="images/jaggo-courtyard-768.webp" loading="lazy" decoding="async" alt="" /></picture></span>
-              <div class="ev-body">
-                <div class="ev-time">Assemble · 7:30 PM</div>
-                <div class="ev-name">Jaggo Ceremony</div>
-                <div class="ev-divider"><i></i></div>
-                <div class="ev-venue"><b>Assembly: Tulip Inn lobby</b><small>Venue: House 3200 · Gmada Aerocity</small></div>
-              </div>
-            </a>
-          </div>
-
-          <div class="day-badge reveal">
-            <div class="day-badge-pill">Saturday · 5 December 2026</div>
-          </div>
-          <div class="ev-row reveal">
-            <a class="ev" href="events/haldi-mehendi.html">
-              <span class="ev-arch"><picture class="ev-photo"><source type="image/avif" srcset="images/haldi-mehendi-768.avif 768w, images/haldi-mehendi-1536.avif 1536w" sizes="(max-width: 640px) 80vw, 420px" /><source type="image/webp" srcset="images/haldi-mehendi-768.webp 768w, images/haldi-mehendi-1536.webp 1536w" sizes="(max-width: 640px) 80vw, 420px" /><img src="images/haldi-mehendi-768.webp" loading="lazy" decoding="async" alt="" /></picture></span>
-              <div class="ev-body">
-                <div class="ev-time">Assemble · 11:00 AM</div>
-                <div class="ev-name">Haldi &amp; Mehendi</div>
-                <div class="ev-divider"><i></i></div>
-                <div class="ev-venue"><b>Assembly: Tulip Inn lobby</b><small>Venue: House 3200 · Gmada Aerocity</small></div>
-              </div>
-            </a>
-          </div>
-
-          <div class="day-badge reveal">
-            <div class="day-badge-pill">Sunday · 6 December 2026</div>
-          </div>
-          <div class="ev-row reveal">
-            <a class="ev" href="events/anand-karaj.html">
-              <span class="ev-arch"><picture class="ev-photo"><source type="image/avif" srcset="images/anand-karaj-768.avif 768w, images/anand-karaj-1536.avif 1536w" sizes="(max-width: 640px) 80vw, 420px" /><source type="image/webp" srcset="images/anand-karaj-768.webp 768w, images/anand-karaj-1536.webp 1536w" sizes="(max-width: 640px) 80vw, 420px" /><img src="images/anand-karaj-768.webp" loading="lazy" decoding="async" alt="" /></picture></span>
-              <div class="ev-body">
-                <div class="ev-time">Assemble 9:00 AM · Karaj 10:00 AM</div>
-                <div class="ev-name">Anand Karaj</div>
-                <div class="ev-divider"><i></i></div>
-                <div class="ev-venue"><b>Assembly: Tulip Inn lobby</b><small>Karaj: Guru Kirpa Dashmesh Darbar</small></div>
-              </div>
-            </a>
-          </div>
-          <div class="ev-row right reveal">
-            <a class="ev" href="events/wedding-celebration.html">
-              <span class="ev-arch"><picture class="ev-photo"><source type="image/avif" srcset="images/wedding-celebration-768.avif 768w, images/wedding-celebration-1536.avif 1536w" sizes="(max-width: 640px) 80vw, 420px" /><source type="image/webp" srcset="images/wedding-celebration-768.webp 768w, images/wedding-celebration-1536.webp 1536w" sizes="(max-width: 640px) 80vw, 420px" /><img src="images/wedding-celebration-768.webp" loading="lazy" decoding="async" alt="" /></picture></span>
-              <div class="ev-body">
-                <div class="ev-time">10:00 AM onwards</div>
-                <div class="ev-name">Shagna Da Rang</div>
-                <div class="ev-divider"><i></i></div>
-                <div class="ev-venue"><b>Crystal Resorts</b></div>
-              </div>
-            </a>
-          </div>
-          <p class="schedule-note reveal">On Sunday, the Anand Karaj and Wedding Celebration are both listed to begin at 10:00 AM at separate venues.</p>
-        </div>
+        <p class="event-overlap-note">
+          On Sunday, Anand Karaj and Wedding Celebration both begin at 10:00 am
+          at separate venues.
+        </p>
       </section>
-
       <!-- ===== MESSAGE ===== -->
       <section class="sec emerald jewel message pad" id="chaiMessage">
         <span class="chai-elephant left"
@@ -2054,12 +2183,19 @@
     </div>
 
     <script src="assets/invitation.js"></script>
+    <script src="/assets/festivities.js"></script>
     <script src="assets/lenis.min.js"></script>
     <script>
       /* Scroll-linked gate reveal: the native video keeps decoding light while
          the canvas preserves the reference site's full-bleed composition. */
       (function () {
         if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+        const entryLoader = document.getElementById("entryLoader");
+        const entryProgress = document.getElementById("entryProgress");
+        const entryProgressFill = document.getElementById("entryProgressFill");
+        const entryPercent = document.getElementById("entryPercent");
+        const entryStatus = document.getElementById("entryStatus");
+        const entryContinue = document.getElementById("entryContinue");
         const canvas = document.getElementById("frameCanvas");
         const video = document.getElementById("frameVideo");
         const ctx = canvas.getContext("2d", { alpha: false });
@@ -2070,15 +2206,124 @@
         const heroSec = document.getElementById("revealHero");
         const veil = document.getElementById("heroVeil");
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const shouldGateEntry = document.documentElement.classList.contains("entry-pending") && !reduceMotion;
         const pars = Array.from(document.querySelectorAll("[data-par]"));
         let ready = false;
         let videoReady = false;
+        let posterReady = !shouldGateEntry;
+        let fontsReady = !shouldGateEntry;
+        let videoFailed = false;
+        let entryProgressValue = shouldGateEntry ? 4 : 100;
+        let slowEntryTimer = 0;
+        const blockedPageNodes = [];
         let wantedTime = 0;
         let seekPending = false;
         let seekQueued = false;
         let lastSeekStarted = 0;
 
         if (reduceMotion) heroSec.classList.add("reduced-motion");
+        if (shouldGateEntry) {
+          entryLoader.setAttribute("aria-hidden", "false");
+          document.body.setAttribute("aria-busy", "true");
+          for (const node of document.body.children) {
+            if (node === entryLoader || node.tagName === "SCRIPT") continue;
+            node.inert = true;
+            blockedPageNodes.push(node);
+          }
+        }
+
+        function setEntryProgress(value, message) {
+          if (!shouldGateEntry || ready) return;
+          entryProgressValue = Math.max(
+            entryProgressValue,
+            Math.min(99, Math.round(value)),
+          );
+          entryProgress.setAttribute("aria-valuenow", String(entryProgressValue));
+          entryProgressFill.style.transform = "scaleX(" + entryProgressValue / 100 + ")";
+          entryPercent.textContent = entryProgressValue + "%";
+          if (message) entryStatus.textContent = message;
+        }
+
+        function bufferedRatio() {
+          if (!Number.isFinite(video.duration) || video.duration <= 0) return 0;
+          let end = 0;
+          for (let index = 0; index < video.buffered.length; index += 1) {
+            if (video.buffered.start(index) <= 0.1) {
+              end = Math.max(end, video.buffered.end(index));
+            }
+          }
+          return Math.max(0, Math.min(1, end / video.duration));
+        }
+
+        function checkEntryReady() {
+          if (!shouldGateEntry || ready || !posterReady || !fontsReady) return;
+          if (!videoFailed && !videoReady) return;
+          if (videoFailed) {
+            setEntryProgress(94, "Opening with the still cover…");
+          } else {
+            setEntryProgress(96, "The courtyard is ready…");
+          }
+          finishLoading();
+        }
+
+        function inspectVideoBuffer() {
+          if (!shouldGateEntry || ready || videoFailed) return;
+          const ratio = bufferedRatio();
+          setEntryProgress(12 + ratio * 80, "Loading the gate animation…");
+          if (
+            ratio >= 0.995 &&
+            video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
+          ) {
+            videoReady = true;
+            video.pause();
+            drawCover(video);
+            checkEntryReady();
+          }
+        }
+
+        function waitForImageDecode(source) {
+          return new Promise((resolve) => {
+            const image = new Image();
+            const settle = () => resolve();
+            image.onload = () => {
+              if (typeof image.decode === "function") image.decode().then(settle, settle);
+              else settle();
+            };
+            image.onerror = settle;
+            image.src = source;
+            if (image.complete) {
+              if (typeof image.decode === "function") image.decode().then(settle, settle);
+              else settle();
+            }
+          });
+        }
+
+        function waitForHeroFonts() {
+          if (!document.fonts || typeof document.fonts.load !== "function") {
+            return Promise.resolve();
+          }
+          const fontLoad = Promise.all([
+            document.fonts.load("400 1rem Cormorant"),
+            document.fonts.load("300 1rem Manrope"),
+          ]).catch(() => {});
+          const fallback = new Promise((resolve) => window.setTimeout(resolve, 2200));
+          return Promise.race([fontLoad, fallback]);
+        }
+
+        function continueWithStillCover() {
+          if (ready) return;
+          videoFailed = true;
+          videoReady = false;
+          video.pause();
+          video.removeAttribute("src");
+          const source = video.querySelector("source");
+          if (source) source.removeAttribute("src");
+          video.load();
+          entryContinue.hidden = true;
+          checkEntryReady();
+        }
+
+        entryContinue.addEventListener("click", continueWithStillCover);
 
         function sizeCanvas() {
           // Match the canvas to the source where possible. Extra pixels only
@@ -2144,13 +2389,29 @@
           }
         });
         video.addEventListener("loadeddata", () => {
-          videoReady = true;
           video.pause();
           drawCover(video);
-          if (!ready) finishLoading();
+          if (!shouldGateEntry) videoReady = true;
+          else {
+            setEntryProgress(Math.max(entryProgressValue, 18), "Loading the gate animation…");
+            inspectVideoBuffer();
+          }
+          if (!ready && videoReady) checkEntryReady();
           else { update(); parallax(); }
         }, { once: true });
-        video.addEventListener("error", finishLoading, { once: true });
+        video.addEventListener("loadedmetadata", inspectVideoBuffer);
+        video.addEventListener("progress", inspectVideoBuffer);
+        video.addEventListener("canplaythrough", inspectVideoBuffer);
+        video.addEventListener("error", () => {
+          if (!shouldGateEntry) {
+            finishLoading();
+            return;
+          }
+          videoFailed = true;
+          entryContinue.hidden = true;
+          setEntryProgress(88, "Opening with the still cover…");
+          checkEntryReady();
+        }, { once: true });
 
         function update() {
           const rect = heroSec.getBoundingClientRect();
@@ -2242,6 +2503,7 @@
         function finishLoading() {
           if (ready) return;
           ready = true;
+          window.clearTimeout(slowEntryTimer);
           sizeCanvas();
           update();
           parallax();
@@ -2252,14 +2514,52 @@
             [0, 120, 400, 900].forEach((delay) => window.setTimeout(jumpToHash, delay));
             window.addEventListener("load", jumpToHash, { once: true });
           }
+          if (shouldGateEntry) {
+            entryProgressValue = 100;
+            entryProgress.setAttribute("aria-valuenow", "100");
+            entryProgressFill.style.transform = "scaleX(1)";
+            entryPercent.textContent = "100%";
+            entryStatus.textContent = "Ready — enjoy the celebrations";
+            entryContinue.hidden = true;
+            entryLoader.classList.add("is-ready");
+            window.setTimeout(() => {
+              document.documentElement.classList.remove("entry-pending");
+              document.body.removeAttribute("aria-busy");
+              for (const node of blockedPageNodes) node.inert = false;
+              entryLoader.remove();
+            }, 440);
+          }
         }
         window.addEventListener("resize", () => { sizeCanvas(); update(); parallax(); });
         if (reduceMotion) {
           video.preload = "none";
           finishLoading();
+        } else if (shouldGateEntry) {
+          setEntryProgress(8, "Preparing the courtyard…");
+          Promise.all([
+            waitForImageDecode("assets/gfx/gate-poster.webp"),
+            waitForHeroFonts(),
+          ]).then(() => {
+            posterReady = true;
+            fontsReady = true;
+            setEntryProgress(12, "Loading the gate animation…");
+            checkEntryReady();
+          });
+          video.preload = "auto";
+          video.load();
+          if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+            videoReady = bufferedRatio() >= 0.995;
+            inspectVideoBuffer();
+          }
+          slowEntryTimer = window.setTimeout(() => {
+            if (!ready) {
+              entryStatus.textContent = "The animation is taking a little longer…";
+              entryContinue.hidden = false;
+            }
+          }, 9000);
         } else {
-          // Reveal the preloaded poster immediately. Start the heavier
-          // scroll-scrub clip after first paint without holding interaction.
+          // Direct event links and reduced motion keep entry immediate. Load
+          // the gate clip after first paint for anyone who scrolls back to it.
           window.requestAnimationFrame(() => {
             finishLoading();
             window.requestAnimationFrame(() => {
@@ -2404,6 +2704,192 @@
             window.setTimeout(() => { button.textContent = original; }, 3000);
           }
         });
+      })();
+
+      /* Touch, mouse and keyboard date scratch reveal. */
+      (function () {
+        const reveal = document.querySelector("[data-date-reveal]");
+        if (!reveal) return;
+
+        const cover = reveal.querySelector(".date-reveal-cover");
+        const canvas = cover && cover.querySelector("canvas");
+        const hint = reveal.querySelector(".date-reveal-hint");
+        const status = reveal.querySelector("[data-date-reveal-status]");
+        const dates = document.getElementById("weddingDates");
+        if (!cover || !canvas || !hint || !status || !dates) return;
+
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        if (!context) {
+          reveal.classList.add("is-revealed");
+          cover.hidden = true;
+          hint.textContent = "Your celebration dates are shown below.";
+          return;
+        }
+
+        let isScratching = false;
+        let moved = false;
+        let scratchStarted = false;
+        let lastPoint = null;
+        let startPoint = null;
+        let scratchDistance = 0;
+        let suppressClick = false;
+        let suppressClickTimer = 0;
+
+        function drawSurface() {
+          if (scratchStarted) return;
+          const rect = cover.getBoundingClientRect();
+          if (!rect.width || !rect.height) return;
+
+          const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+          canvas.width = Math.round(rect.width * ratio);
+          canvas.height = Math.round(rect.height * ratio);
+          context.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+          const gradient = context.createLinearGradient(0, 0, rect.width, rect.height);
+          gradient.addColorStop(0, "#cfad65");
+          gradient.addColorStop(0.42, "#f1dda8");
+          gradient.addColorStop(0.72, "#dfc17d");
+          gradient.addColorStop(1, "#bd9650");
+          context.globalCompositeOperation = "source-over";
+          context.fillStyle = gradient;
+          context.fillRect(0, 0, rect.width, rect.height);
+
+          for (let index = 0; index < 44; index += 1) {
+            const x = 12 + ((index * 71) % Math.max(1, rect.width - 24));
+            const y = 12 + ((index * 37) % Math.max(1, rect.height - 24));
+            context.beginPath();
+            context.arc(x, y, index % 3 === 0 ? 1.1 : 0.65, 0, Math.PI * 2);
+            context.fillStyle = index % 2
+              ? "rgba(255, 248, 226, 0.42)"
+              : "rgba(117, 77, 33, 0.16)";
+            context.fill();
+          }
+
+          context.strokeStyle = "rgba(91, 47, 40, 0.44)";
+          context.lineWidth = 1;
+          context.strokeRect(9.5, 9.5, rect.width - 19, rect.height - 19);
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+          context.fillStyle = "#532b32";
+          const fontFamily = window.getComputedStyle(cover).fontFamily;
+          const dateFontFamily = window.getComputedStyle(dates).fontFamily;
+          context.font = `600 14px ${fontFamily}`;
+          context.fillText("Scratch here to reveal", rect.width / 2, rect.height / 2 - 8);
+          context.font = `italic 12px ${dateFontFamily}`;
+          context.fillText("our wedding dates", rect.width / 2, rect.height / 2 + 13);
+        }
+
+        function pointFrom(event) {
+          const rect = canvas.getBoundingClientRect();
+          return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+        }
+
+        function eraseTo(point) {
+          if (!lastPoint) {
+            lastPoint = point;
+            return;
+          }
+          const dx = point.x - lastPoint.x;
+          const dy = point.y - lastPoint.y;
+          const distance = Math.hypot(dx, dy);
+          if (distance > 2) {
+            scratchDistance += distance;
+            scratchStarted = true;
+            context.globalCompositeOperation = "destination-out";
+            context.lineCap = "round";
+            context.lineJoin = "round";
+            context.lineWidth = 34;
+            context.beginPath();
+            context.moveTo(lastPoint.x, lastPoint.y);
+            context.lineTo(point.x, point.y);
+            context.stroke();
+          }
+          lastPoint = point;
+        }
+
+        function scratchedRatio() {
+          const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+          let cleared = 0;
+          let sampled = 0;
+          for (let alpha = 3; alpha < pixels.length; alpha += 64) {
+            if (pixels[alpha] < 32) cleared += 1;
+            sampled += 1;
+          }
+          return sampled ? cleared / sampled : 0;
+        }
+
+        function revealDates() {
+          if (reveal.classList.contains("is-revealed")) return;
+          reveal.classList.add("is-revealed");
+          cover.disabled = true;
+          cover.setAttribute("aria-hidden", "true");
+          status.textContent = "Wedding dates revealed: 28 November to 6 December 2026, across Delhi, Mohali and Zirakpur.";
+          hint.textContent = "Dates revealed. We cannot wait to celebrate with you.";
+          window.setTimeout(() => { cover.hidden = true; }, 320);
+        }
+
+        cover.addEventListener("pointerdown", (event) => {
+          if (cover.disabled || (event.button !== undefined && event.button !== 0)) return;
+          isScratching = true;
+          moved = false;
+          startPoint = pointFrom(event);
+          lastPoint = startPoint;
+          try { cover.setPointerCapture(event.pointerId); } catch (_) {}
+          if (event.pointerType === "mouse") event.preventDefault();
+        });
+
+        cover.addEventListener("pointermove", (event) => {
+          if (!isScratching) return;
+          const point = pointFrom(event);
+          if (startPoint && Math.hypot(point.x - startPoint.x, point.y - startPoint.y) > 7) moved = true;
+          eraseTo(point);
+        });
+
+        cover.addEventListener("pointerup", (event) => {
+          if (!isScratching) return;
+          isScratching = false;
+          lastPoint = null;
+          startPoint = null;
+          try { cover.releasePointerCapture(event.pointerId); } catch (_) {}
+          if (!moved) return;
+
+          suppressClick = true;
+          window.clearTimeout(suppressClickTimer);
+          suppressClickTimer = window.setTimeout(() => { suppressClick = false; }, 900);
+          if (
+            scratchedRatio() >= 0.3 ||
+            scratchDistance >= canvas.getBoundingClientRect().width * 1.3
+          ) revealDates();
+        });
+
+        cover.addEventListener("pointercancel", () => {
+          isScratching = false;
+          lastPoint = null;
+          startPoint = null;
+          moved = false;
+        });
+
+        cover.addEventListener("click", (event) => {
+          if (suppressClick) {
+            event.preventDefault();
+            suppressClick = false;
+            window.clearTimeout(suppressClickTimer);
+            return;
+          }
+          revealDates();
+        });
+
+        if ("ResizeObserver" in window) {
+          new ResizeObserver(drawSurface).observe(cover);
+        } else {
+          window.addEventListener("resize", drawSurface, { passive: true });
+        }
+
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(drawSurface);
+        } else {
+          drawSurface();
+        }
       })();
     </script>
   </body>

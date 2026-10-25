@@ -36,6 +36,7 @@
       line: "Ajj Nachna, Gaunna Te Khushiyan Manana!",
     },
   ];
+  window.weddingInvitationEvents = events;
 
   const pad = (value) => String(value).padStart(2, "0");
   const dateLabel = (value) => {
@@ -132,12 +133,12 @@
     save(new Blob([pdf], { type: "application/pdf" }), "pavgun-ashmeet-itinerary.pdf");
   };
 
-  document.querySelectorAll("[data-calendar-download]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const key = button.dataset.calendarDownload;
-      const selected = key === "all" ? events : events.filter((event) => event.id === key);
-      if (selected.length) downloadCalendar(selected);
-    });
+  document.addEventListener("click", (clickEvent) => {
+    const button = clickEvent.target.closest("[data-calendar-download]");
+    if (!button) return;
+    const key = button.dataset.calendarDownload;
+    const selected = key === "all" ? events : events.filter((event) => event.id === key);
+    if (selected.length) downloadCalendar(selected);
   });
   document.querySelectorAll("[data-itinerary-download]").forEach((button) => button.addEventListener("click", downloadItinerary));
 
