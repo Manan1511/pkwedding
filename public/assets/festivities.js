@@ -197,7 +197,6 @@
 
     const nextPanel = panel.nextElementSibling;
     if (nextPanel?.matches(".event-panel")) {
-      panel.style.setProperty("--next-art", cssImageUrl(nextPanel.dataset.art));
       panel.style.setProperty("--next-color", nextPanel.dataset.color);
       panel.classList.add("has-next-scene");
     }
@@ -223,7 +222,7 @@
           entry.target.classList.add("is-entered");
           revealObserver.unobserve(entry.target);
         });
-      }, { threshold: 0.18, rootMargin: "0px 0px -10% 0px" });
+      }, { threshold: 0.05 });
 
       scenesInOrder.forEach((panel) => revealObserver.observe(panel));
     }
