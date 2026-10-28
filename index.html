@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Pavgun & Ashmeet — Wedding Celebrations · 28 Nov – 6 Dec 2026</title>
     <meta
       name="description"
-      content="With the blessings of Waheguru Ji and their families, Pavgun Kaur and Ashmeet Singh Sohal invite you to celebrate their wedding across Delhi, Mohali and Zirakpur."
+      content="With the blessings of Waheguru Ji and their elders, the Thapar family warmly invites you to celebrate Pavgun Kaur and Ashmeet Singh Sohal in Delhi and Mohali."
     />
     <meta
       property="og:title"
@@ -14,11 +15,18 @@
     />
     <meta
       property="og:description"
-      content="28 November – 6 December 2026 · Delhi, Mohali & Zirakpur. Step through the gates and celebrate with us."
+      content="28 November – 6 December 2026 · Delhi and Mohali. Step through the gates and celebrate with us."
     />
 
     <script>
       try {
+        if (window.location.hash === "#date-reveal") {
+          window.history.replaceState(
+            window.history.state,
+            "",
+            window.location.pathname + window.location.search,
+          );
+        }
         if (
           !window.location.hash &&
           !window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -32,14 +40,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=Manrope:wght@200;300;400;500;600;700;800&family=Gotu&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Pinyon+Script&family=Manrope:wght@200;300;400;500;600;700;800&family=Gotu&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=Manrope:wght@200;300;400;500;600;700;800&family=Gotu&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Pinyon+Script&family=Manrope:wght@200;300;400;500;600;700;800&family=Gotu&display=swap"
         rel="stylesheet"
       />
     </noscript>
@@ -230,30 +238,11 @@
         opacity: 0;
         pointer-events: none;
       }
-      .music-toggle {
-        position: fixed;
-        z-index: 90;
-        top: 22px;
-        right: 22px;
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-        min-height: 46px;
-        padding: 0 19px;
-        border: 1px solid rgba(122, 42, 65, 0.32);
-        border-radius: 999px;
-        background: var(--cream);
-        color: var(--wine-deep);
-        font: 600 0.78rem/1 var(--sans);
-        cursor: pointer;
-      }
-      .music-toggle span { font-size: 1rem; }
       .reveal-hero.reduced-motion { height: 100svh; }
       .reduced-motion .hero-blessing,
       .reduced-motion .hero-names,
       .reduced-motion .hero-namemeta { opacity: 1 !important; }
       .reduced-motion .hero-names { transform: translate(-50%, -50%) !important; }
-      .reduced-motion .scroll-cue { display: none; }
       .reveal-sticky::after {
         content: "";
         position: absolute;
@@ -334,7 +323,7 @@
       }
       .hero-names .nm {
         display: block;
-        font-family: "Great Vibes", cursive;
+        font-family: "Pinyon Script", cursive;
         font-weight: 400;
         font-size: clamp(3.6rem, 13vw, 8rem);
         margin: 0.2em 0;
@@ -342,17 +331,24 @@
       .hero-names .weds {
         display: block;
         font-family: var(--disp);
-        font-size: clamp(0.8rem, 2.4vw, 1.3rem);
-        letter-spacing: 0.42em;
+        font-size: clamp(1rem, 3vw, 1.5rem);
+        font-weight: 600;
+        letter-spacing: 0.34em;
         text-transform: uppercase;
-        margin: 0.18em 0;
-        color: var(--gold-light);
-        padding-left: 2.42em;
+        margin: 0.24em auto;
+        padding: 0.4em 0.72em 0.4em 1.06em;
+        width: fit-content;
+        color: #fff7e5;
+        background: rgba(20, 11, 18, 0.66);
+        border: 1px solid rgba(242, 214, 154, 0.74);
+        border-radius: 999px;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.26);
       }
       .hero-namemeta {
         position: absolute;
         left: 50%;
-        bottom: 13%;
+        bottom: 20%;
         transform: translateX(-50%);
         font-family: var(--sans);
         font-size: 0.8rem;
@@ -376,29 +372,29 @@
       .scroll-cue {
         position: absolute;
         left: 50%;
-        bottom: 5%;
+        bottom: max(4%, env(safe-area-inset-bottom));
         transform: translateX(-50%);
         z-index: 6;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px;
-        color: rgba(255, 255, 255, 0.85);
+        gap: 8px;
+        padding: 8px 12px;
+        color: #fffaf0;
         font-family: var(--sans);
-        font-size: 0.78rem;
-        letter-spacing: 0.45em;
+        font-size: 0.94rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 22px rgba(0, 0, 0, 0.8);
         pointer-events: none;
         will-change: opacity;
+        white-space: nowrap;
       }
       .scroll-cue .ln {
-        width: 1px;
-        height: 46px;
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.9),
-          transparent
-        );
+        width: 2px;
+        height: 30px;
+        background: linear-gradient(180deg, #fffaf0, rgba(242, 214, 154, 0.12));
         position: relative;
         overflow: hidden;
       }
@@ -617,7 +613,7 @@
         text-align: center;
       }
       .invite-names .n {
-        font-family: "Great Vibes", cursive;
+        font-family: "Pinyon Script", cursive;
         font-weight: 400;
         font-size: clamp(3.6rem, 14vw, 7.6rem);
         color: var(--cream-text);
@@ -656,6 +652,104 @@
         border: 1px solid rgba(148, 108, 28, 0.48);
         background: rgba(255, 248, 235, 0.72);
         color: var(--wine);
+      }
+      .date-flower-burst {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        overflow: visible;
+        pointer-events: none;
+      }
+      .date-petal {
+        position: absolute;
+        top: var(--petal-start-y);
+        left: var(--petal-start-x);
+        z-index: 0;
+        width: 8px;
+        height: 14px;
+        border-radius: 72% 28% 68% 32%;
+        background: var(--petal-color);
+        box-shadow: 0 1px 5px rgba(83, 43, 50, 0.22);
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.12);
+      }
+      .date-petal--01 { --petal-start-x: 8%; --petal-start-y: 16%; --burst-x: -70px; --burst-y: -62px; --petal-color: #b94e61; --petal-turn: -35deg; --petal-delay: 0ms; }
+      .date-petal--02 { --petal-start-x: 23%; --petal-start-y: 10%; --burst-x: -34px; --burst-y: -95px; --petal-color: #d9a83f; --petal-turn: 42deg; --petal-delay: 45ms; }
+      .date-petal--03 { --petal-start-x: 41%; --petal-start-y: 17%; --burst-x: -12px; --burst-y: -112px; --petal-color: #71834d; --petal-turn: -18deg; --petal-delay: 90ms; }
+      .date-petal--04 { --petal-start-x: 60%; --petal-start-y: 11%; --burst-x: 18px; --burst-y: -110px; --petal-color: #d5a5a5; --petal-turn: 60deg; --petal-delay: 135ms; }
+      .date-petal--05 { --petal-start-x: 79%; --petal-start-y: 18%; --burst-x: 60px; --burst-y: -78px; --petal-color: #b94e61; --petal-turn: -48deg; --petal-delay: 180ms; }
+      .date-petal--06 { --petal-start-x: 92%; --petal-start-y: 35%; --burst-x: 98px; --burst-y: -28px; --petal-color: #d9a83f; --petal-turn: 25deg; --petal-delay: 225ms; }
+      .date-petal--07 { --petal-start-x: 91%; --petal-start-y: 67%; --burst-x: 101px; --burst-y: 27px; --petal-color: #71834d; --petal-turn: -12deg; --petal-delay: 30ms; }
+      .date-petal--08 { --petal-start-x: 78%; --petal-start-y: 89%; --burst-x: 70px; --burst-y: 83px; --petal-color: #d5a5a5; --petal-turn: 48deg; --petal-delay: 75ms; }
+      .date-petal--09 { --petal-start-x: 59%; --petal-start-y: 84%; --burst-x: 28px; --burst-y: 99px; --petal-color: #b94e61; --petal-turn: -42deg; --petal-delay: 120ms; }
+      .date-petal--10 { --petal-start-x: 39%; --petal-start-y: 91%; --burst-x: -18px; --burst-y: 95px; --petal-color: #d9a83f; --petal-turn: 30deg; --petal-delay: 165ms; }
+      .date-petal--11 { --petal-start-x: 20%; --petal-start-y: 83%; --burst-x: -62px; --burst-y: 75px; --petal-color: #71834d; --petal-turn: -54deg; --petal-delay: 210ms; }
+      .date-petal--12 { --petal-start-x: 7%; --petal-start-y: 61%; --burst-x: -100px; --burst-y: 24px; --petal-color: #d5a5a5; --petal-turn: 28deg; --petal-delay: 255ms; }
+      .date-petal--13 { --petal-start-x: 31%; --petal-start-y: 40%; --burst-x: -104px; --burst-y: -47px; --petal-color: #d9a83f; --petal-turn: -68deg; --petal-delay: 70ms; }
+      .date-petal--14 { --petal-start-x: 68%; --petal-start-y: 43%; --burst-x: 107px; --burst-y: -54px; --petal-color: #b94e61; --petal-turn: 72deg; --petal-delay: 115ms; }
+      .date-petal--15 { --petal-start-x: 29%; --petal-start-y: 64%; --burst-x: -105px; --burst-y: 52px; --petal-color: #71834d; --petal-turn: 18deg; --petal-delay: 160ms; }
+      .date-petal--16 { --petal-start-x: 70%; --petal-start-y: 62%; --burst-x: 106px; --burst-y: 48px; --petal-color: #d5a5a5; --petal-turn: -76deg; --petal-delay: 205ms; }
+      .date-petal--17 { --petal-start-x: 48%; --petal-start-y: 29%; --burst-x: -12px; --burst-y: -98px; --petal-color: #b94e61; --petal-turn: 38deg; --petal-delay: 250ms; }
+      .date-petal--18 { --petal-start-x: 52%; --petal-start-y: 74%; --burst-x: 14px; --burst-y: 96px; --petal-color: #d9a83f; --petal-turn: -25deg; --petal-delay: 95ms; }
+      .date-petal--19 { --petal-start-x: 44%; --petal-start-y: 52%; --burst-x: -84px; --burst-y: -4px; --petal-color: #71834d; --petal-turn: 58deg; --petal-delay: 140ms; }
+      .date-petal--20 { --petal-start-x: 57%; --petal-start-y: 51%; --burst-x: 88px; --burst-y: 7px; --petal-color: #d5a5a5; --petal-turn: -33deg; --petal-delay: 185ms; }
+      .date-reveal.flowers-blooming .date-petal {
+        animation: date-petal-party 1450ms cubic-bezier(0.16, 1, 0.3, 1) var(--petal-delay) both;
+      }
+      .date-flower {
+        position: absolute;
+        top: var(--flower-start-y);
+        left: var(--flower-start-x);
+        z-index: 1;
+        width: clamp(32px, 8vw, 42px);
+        height: auto;
+        color: var(--gold-deep);
+        opacity: 0;
+        transform: scale(0.18) rotate(-32deg);
+        transform-origin: center;
+        filter: drop-shadow(0 3px 7px rgba(83, 43, 50, 0.3)) drop-shadow(0 0 9px rgba(236, 200, 115, 0.42));
+      }
+      .date-flower--one { --flower-start-x: 24%; --flower-start-y: 28%; --flower-burst-x: -90px; --flower-burst-y: -84px; --flower-rotation: -18deg; }
+      .date-flower--two { --flower-start-x: 76%; --flower-start-y: 27%; --flower-burst-x: 94px; --flower-burst-y: -82px; --flower-rotation: 18deg; color: var(--wine); }
+      .date-flower--three { --flower-start-x: 73%; --flower-start-y: 73%; --flower-burst-x: 96px; --flower-burst-y: 78px; --flower-rotation: 8deg; }
+      .date-flower--four { --flower-start-x: 26%; --flower-start-y: 74%; --flower-burst-x: -92px; --flower-burst-y: 81px; --flower-rotation: -8deg; color: var(--wine); }
+      .date-reveal.flowers-blooming .date-flower {
+        animation: date-flower-burst 1400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .date-reveal.flowers-blooming .date-flower--two { animation-delay: 55ms; }
+      .date-reveal.flowers-blooming .date-flower--three { animation-delay: 110ms; }
+      .date-reveal.flowers-blooming .date-flower--four { animation-delay: 165ms; }
+      .date-reveal.is-revealed .date-reveal-card strong {
+        position: relative;
+        z-index: 2;
+        animation: date-text-pop 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        transform-origin: center;
+      }
+      .date-reveal.is-revealed .date-reveal-places {
+        position: relative;
+        z-index: 2;
+        animation: date-text-pop 720ms 90ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        transform-origin: center;
+      }
+      @keyframes date-flower-burst {
+        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.08) rotate(-55deg); }
+        18% { opacity: 1; transform: translate(-50%, -50%) scale(1.55) rotate(12deg); }
+        72% { opacity: 1; transform: translate(calc(-50% + var(--flower-burst-x)), calc(-50% + var(--flower-burst-y))) scale(0.94) rotate(var(--flower-rotation)); }
+        86% { opacity: 1; transform: translate(calc(-50% + var(--flower-burst-x)), calc(-50% + var(--flower-burst-y))) scale(1.12) rotate(var(--flower-rotation)); }
+        100% { opacity: 1; transform: translate(calc(-50% + var(--flower-burst-x)), calc(-50% + var(--flower-burst-y))) scale(1) rotate(var(--flower-rotation)); }
+      }
+      @keyframes date-petal-party {
+        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.12) rotate(0); }
+        16% { opacity: 1; transform: translate(-50%, -50%) scale(1.42) rotate(calc(var(--petal-turn) + 35deg)); }
+        72% { opacity: 1; transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(1.04) rotate(calc(var(--petal-turn) + 185deg)); }
+        86% { opacity: 1; transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(0.78) rotate(calc(var(--petal-turn) + 360deg)); }
+        100% { opacity: 1; transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(0.94) rotate(calc(var(--petal-turn) + 405deg)); }
+      }
+      @keyframes date-text-pop {
+        0% { opacity: 0; transform: translateY(9px) scale(0.82); }
+        62% { opacity: 1; transform: translateY(-3px) scale(1.08); }
+        82% { opacity: 1; transform: translateY(1px) scale(0.98); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
       }
       .date-reveal-card strong {
         max-width: 19ch;
@@ -1079,9 +1173,20 @@
       }
 
       @media (max-width: 640px) {
+        .reveal-hero {
+          height: 190svh;
+        }
+        .entry-loader {
+          background-position: center, calc(50% - min(16px, 3vw)) center;
+        }
+        #frameCanvas {
+          background-position: calc(50% - min(16px, 3vw)) center;
+        }
         .pad {
           padding-right: clamp(16px, 4.5vw, 24px);
           padding-left: clamp(16px, 4.5vw, 24px);
+          padding-top: clamp(64px, 14vw, 82px);
+          padding-bottom: clamp(56px, 12vw, 72px);
         }
         .timeline::before {
           left: 22px;
@@ -1166,13 +1271,21 @@
           line-height: 1.6;
         }
         .date-reveal {
-          margin-top: 26px;
+          margin-top: 20px;
         }
         .date-reveal-card {
           min-height: 120px;
         }
         .date-reveal-hint {
           font-size: 0.92rem;
+        }
+      }
+      @media (max-width: 640px) and (orientation: landscape) {
+        .entry-loader {
+          background-position: center, center;
+        }
+        #frameCanvas {
+          background-position: center;
         }
       }
 
@@ -1606,7 +1719,14 @@
         margin-top: 0;
       }
       .footer .cd-num {
-        text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65);
+        color: #704719;
+        text-shadow: 0 1px 8px rgba(255, 248, 235, 0.28);
+      }
+      .footer .cd-label {
+        color: rgba(70, 38, 47, 0.82);
+      }
+      .footer .cd-sep {
+        color: rgba(105, 76, 31, 0.72);
       }
       .footer-names {
         display: flex;
@@ -1625,11 +1745,14 @@
       }
       .footer-names .weds {
         font-family: var(--disp);
-        font-size: clamp(0.7rem, 1.8vw, 0.95rem);
-        letter-spacing: 0.5em;
+        font-size: clamp(0.95rem, 3vw, 1.15rem);
+        font-weight: 400;
+        line-height: 1.2;
+        letter-spacing: 0.36em;
         text-transform: uppercase;
         color: var(--gold-light);
-        padding-left: 1.5em;
+        padding-left: 0.36em;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.72);
       }
       .footer-tag {
         font-family: var(--serif);
@@ -1673,6 +1796,9 @@
         }
         .countdown {
           gap: 20px;
+        }
+        .footer-inner {
+          padding-top: 30px;
         }
         .corner {
           width: 64px;
@@ -1767,13 +1893,26 @@
 .schedule-note { max-width:540px; margin:18px auto 0; color:var(--ink-soft); font:italic 1rem/1.6 var(--serif); text-align:center; }
 .invite-blessing { max-width:620px; margin:20px auto; color:var(--ink-soft); font:italic clamp(1.05rem,2.3vw,1.32rem)/1.8 var(--serif); text-align:center; }
 @media (max-width:620px) { .rsvp-events { grid-template-columns:1fr; } }
-@media (max-width:620px) { .music-toggle { top:14px; right:14px; min-height:42px; padding:0 13px; } }
 @media (prefers-reduced-motion:reduce) {
   html { scroll-behavior:auto; }
   .reveal-hero { height:100svh; }
   .reveal, .ev, .lantern, .chai-elephant, .date-reveal-cover { animation:none !important; transition:none !important; }
   .lantern i { animation:none !important; }
   .reveal { opacity:1 !important; transform:none !important; }
+  .date-reveal.flowers-blooming .date-flower {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+  .date-reveal.flowers-blooming .date-petal {
+    animation: none !important;
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.88) rotate(var(--petal-turn));
+  }
+  .date-reveal.is-revealed .date-reveal-card strong,
+  .date-reveal.is-revealed .date-reveal-places {
+    animation: none !important;
+  }
 }
     </style>
   </head>
@@ -1805,9 +1944,6 @@
     <audio id="weddingAudio" loop preload="none" aria-label="Punjabi wedding instrumental">
       <source src="audio/indian-wedding.mp3" type="audio/mpeg" />
     </audio>
-    <button class="music-toggle" type="button" aria-pressed="false">
-      <span aria-hidden="true">♫</span> Play music
-    </button>
     <!-- ===== SCROLLY HERO ===== -->
     <section class="reveal-hero" id="revealHero">
       <div class="reveal-sticky">
@@ -1831,11 +1967,11 @@
             <span class="nm">Ashmeet</span>
           </h1>
           <div class="hero-namemeta" id="hMeta" style="opacity: 0">
-            <span>Delhi · Mohali · Zirakpur</span>
+            <span>Delhi · Mohali</span>
           </div>
         </div>
         <div class="scroll-cue" id="scrollCue">
-          Scroll
+          Scroll to open
           <div class="ln"></div>
         </div>
       </div>
@@ -1854,8 +1990,7 @@
           </p>
           <div class="invite-lead">
             With the blessings of Waheguru Ji and our beloved elders,<br />
-            the <span style="font-weight: 900">Thapar</span> and
-            <span style="font-weight: 900">Sohal</span> families warmly invite you to celebrate
+            the <span style="font-weight: 900">Thapar family</span> warmly invites you to celebrate
           </div>
         </div>
         <div class="invite-names reveal">
@@ -1868,17 +2003,79 @@
         </p>
         <div class="date-reveal reveal" id="date-reveal" data-date-reveal>
           <div class="date-reveal-card">
-            <strong id="weddingDates">28 November – 6 December 2026</strong>
-            <span class="date-reveal-places">Delhi · Mohali · Zirakpur</span>
+            <strong id="weddingDates">6 December 2026</strong>
+            <span class="date-reveal-places">Anand Karaj · Delhi · Mohali</span>
+            <span class="date-flower-burst" aria-hidden="true">
+              <span class="date-petal date-petal--01"></span>
+              <span class="date-petal date-petal--02"></span>
+              <span class="date-petal date-petal--03"></span>
+              <span class="date-petal date-petal--04"></span>
+              <span class="date-petal date-petal--05"></span>
+              <span class="date-petal date-petal--06"></span>
+              <span class="date-petal date-petal--07"></span>
+              <span class="date-petal date-petal--08"></span>
+              <span class="date-petal date-petal--09"></span>
+              <span class="date-petal date-petal--10"></span>
+              <span class="date-petal date-petal--11"></span>
+              <span class="date-petal date-petal--12"></span>
+              <span class="date-petal date-petal--13"></span>
+              <span class="date-petal date-petal--14"></span>
+              <span class="date-petal date-petal--15"></span>
+              <span class="date-petal date-petal--16"></span>
+              <span class="date-petal date-petal--17"></span>
+              <span class="date-petal date-petal--18"></span>
+              <span class="date-petal date-petal--19"></span>
+              <span class="date-petal date-petal--20"></span>
+              <svg class="date-flower date-flower--one" viewBox="0 0 64 64">
+                <g fill="currentColor">
+                  <ellipse cx="32" cy="17" rx="8" ry="14" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(72 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(144 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(216 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(288 32 32)" />
+                </g>
+                <circle cx="32" cy="32" r="7" fill="#f7dfa0" />
+              </svg>
+              <svg class="date-flower date-flower--two" viewBox="0 0 64 64">
+                <g fill="currentColor">
+                  <ellipse cx="32" cy="17" rx="8" ry="14" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(72 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(144 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(216 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(288 32 32)" />
+                </g>
+                <circle cx="32" cy="32" r="7" fill="#f7dfa0" />
+              </svg>
+              <svg class="date-flower date-flower--three" viewBox="0 0 64 64">
+                <g fill="currentColor">
+                  <ellipse cx="32" cy="17" rx="8" ry="14" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(72 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(144 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(216 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(288 32 32)" />
+                </g>
+                <circle cx="32" cy="32" r="7" fill="#f7dfa0" />
+              </svg>
+              <svg class="date-flower date-flower--four" viewBox="0 0 64 64">
+                <g fill="currentColor">
+                  <ellipse cx="32" cy="17" rx="8" ry="14" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(72 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(144 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(216 32 32)" />
+                  <ellipse cx="32" cy="17" rx="8" ry="14" transform="rotate(288 32 32)" />
+                </g>
+                <circle cx="32" cy="32" r="7" fill="#f7dfa0" />
+              </svg>
+            </span>
             <button
               class="date-reveal-cover"
               type="button"
-              aria-label="Scratch or tap to reveal the wedding dates"
+              aria-label="Scratch or tap to reveal the wedding date"
               aria-controls="weddingDates"
               aria-describedby="dateRevealHint"
             ><canvas aria-hidden="true"></canvas></button>
           </div>
-          <p class="date-reveal-hint" id="dateRevealHint">Scratch across the gold surface, or tap once to reveal.</p>
+          <p class="date-reveal-hint" id="dateRevealHint">Scratch across the gold surface, or tap once to reveal 6 December.</p>
           <span class="date-reveal-status" aria-live="polite" data-date-reveal-status></span>
         </div>
         <div class="flourish reveal">
@@ -1896,7 +2093,7 @@
           <div class="festivities-flourish" aria-hidden="true">
             <span></span><i></i><span></span>
           </div>
-          <p>Six celebrations across Delhi, Mohali and Zirakpur.</p>
+          <p>Six celebrations across Delhi and Mohali.</p>
         </header>
 
         <div
@@ -1951,7 +2148,7 @@
           </div>
           <p class="sub reveal presence">
             We would be delighted to celebrate with you. Prepare a reply below
-            and share it with the family member who sent your invitation.
+            and share it with the family contact who invited you.
           </p>
           <form class="rsvp-form reveal" id="rsvpForm">
             <div class="row2">
@@ -1972,6 +2169,15 @@
                   placeholder="Optional"
                 />
               </div>
+            </div>
+            <div class="field">
+              <label for="rfamily">Which family invited you?</label>
+              <select id="rfamily" required>
+                <option value="" selected disabled>Choose your family</option>
+                <option>Thapar’s</option>
+                <option>Sandhu’s</option>
+                <option>Kakkar’s</option>
+              </select>
             </div>
             <div class="row2">
               <div class="field">
@@ -2051,7 +2257,7 @@
               </svg>
             </div>
             <h3>Our families</h3>
-            <p>Meet the Thapar and Sohal families who invite you to celebrate.</p>
+            <p>Meet the Thapar family who invites you to celebrate.</p>
             <a class="know-cue" href="events/families.html">View family details →</a>
           </div>
           <a href="events/travel.html" class="know-item know-link reveal"
@@ -2111,7 +2317,7 @@
         </div>
 
         <div class="venue-line reveal">
-          <div class="venue-name">Delhi · Mohali · Zirakpur</div>
+          <div class="venue-name">Delhi · Mohali</div>
           <p class="venue-addr">
             Each celebration has its own venue. Open the event details for its
             address, assembly information and directions.
@@ -2141,7 +2347,7 @@
         <span class="corner tl"></span><span class="corner tr"></span
         ><span class="corner bl"></span><span class="corner br"></span>
         <div class="footer-inner">
-          <div class="eyebrow">Until Anand Karaj</div>
+          <div class="eyebrow">Until Anand Karaj · 6 December 2026</div>
           <div class="countdown" id="countdown">
             <div class="cd-item">
               <div class="cd-num" id="cdD">--</div>
@@ -2176,7 +2382,7 @@
           </div>
           <div class="footer-hash">Pavgun Kaur &amp; Ashmeet Singh Sohal</div>
           <div class="footer-credit">
-            28 November – 6 December 2026 · Delhi · Mohali · Zirakpur
+            28 November – 6 December 2026 · Delhi · Mohali
           </div>
         </div>
       </footer>
@@ -2334,8 +2540,10 @@
             (video.videoHeight || 720) / window.innerHeight,
           );
           const dpr = Math.min(window.devicePixelRatio || 1, 1.25, sourceScale);
-          canvas.width = Math.floor(window.innerWidth * dpr);
-          canvas.height = Math.floor(window.innerHeight * dpr);
+          const width = canvas.clientWidth || document.documentElement.clientWidth || window.innerWidth;
+          const height = canvas.clientHeight || window.innerHeight;
+          canvas.width = Math.floor(width * dpr);
+          canvas.height = Math.floor(height * dpr);
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
           drawCover(video);
         }
@@ -2343,13 +2551,17 @@
           const width = source.videoWidth || source.width;
           const height = source.videoHeight || source.height;
           if (!width || !height) return;
-          const cw = window.innerWidth;
-          const ch = window.innerHeight;
+          const cw = canvas.clientWidth || document.documentElement.clientWidth || window.innerWidth;
+          const ch = canvas.clientHeight || window.innerHeight;
           const ratio = width / height;
           const boxRatio = cw / ch;
           let w, h, x, y;
           if (ratio > boxRatio) {
-            h = ch; w = ch * ratio; x = (cw - w) / 2; y = 0;
+            h = ch; w = ch * ratio; x = (cw - w) / 2;
+            if (window.innerWidth <= 640 && window.innerHeight > window.innerWidth) {
+              x -= Math.min(16, cw * 0.03);
+            }
+            y = 0;
           } else {
             w = cw; h = cw / ratio; x = 0; y = (ch - h) / 2;
           }
@@ -2430,7 +2642,7 @@
             hNames.style.opacity = "1";
             hNames.style.transform = "translate(-50%, -50%)";
             hMeta.style.opacity = "1";
-            scrollCue.style.opacity = "0";
+            scrollCue.style.opacity = "1";
             veil.style.opacity = "0.25";
             return;
           }
@@ -2443,7 +2655,7 @@
           hNames.style.opacity = nameIn * fade;
           hNames.style.transform = "translate(-50%,-50%) translateY(" + (26 * (1 - nameIn) - 30 * (1 - fade)) + "px)";
           hMeta.style.opacity = lerp(p, 0.58, 0.74) * fade;
-          scrollCue.style.opacity = 1 - lerp(p, 0.02, 0.1);
+          scrollCue.style.opacity = p < 1 ? "1" : "0";
           veil.style.opacity = lerp(p, 0.82, 0.98) * 0.32;
         }
         function parallax() {
@@ -2660,12 +2872,14 @@
           const chosen = Array.from(form.querySelectorAll('input[name="events"]:checked')).map((input) => input.value);
           const name = document.getElementById("rname").value.trim();
           const phone = document.getElementById("rphone").value.trim();
+          const family = document.getElementById("rfamily").value;
           const attendance = document.getElementById("rattend").value;
           const guests = document.getElementById("rguests").value;
           const note = document.getElementById("rmsg").value.trim();
           summary.value = [
             "Pavgun Kaur & Ashmeet Singh Sohal — RSVP",
             "Name: " + name,
+            "Family: " + family,
             "Reply: " + attendance,
             "Guests: " + guests,
             "Celebrations: " + (chosen.length ? chosen.join(", ") : "Not specified"),
@@ -2720,7 +2934,7 @@
 
         const context = canvas.getContext("2d", { willReadFrequently: true });
         if (!context) {
-          reveal.classList.add("is-revealed");
+          reveal.classList.add("is-revealed", "flowers-blooming");
           cover.hidden = true;
           hint.textContent = "Your celebration dates are shown below.";
           return;
@@ -2776,7 +2990,7 @@
           context.font = `600 14px ${fontFamily}`;
           context.fillText("Scratch here to reveal", rect.width / 2, rect.height / 2 - 8);
           context.font = `italic 12px ${dateFontFamily}`;
-          context.fillText("our wedding dates", rect.width / 2, rect.height / 2 + 13);
+          context.fillText("6 December 2026", rect.width / 2, rect.height / 2 + 13);
         }
 
         function pointFrom(event) {
@@ -2820,12 +3034,14 @@
 
         function revealDates() {
           if (reveal.classList.contains("is-revealed")) return;
-          reveal.classList.add("is-revealed");
+          reveal.classList.add("is-revealed", "flowers-blooming");
           cover.disabled = true;
           cover.setAttribute("aria-hidden", "true");
-          status.textContent = "Wedding dates revealed: 28 November to 6 December 2026, across Delhi, Mohali and Zirakpur.";
-          hint.textContent = "Dates revealed. We cannot wait to celebrate with you.";
-          window.setTimeout(() => { cover.hidden = true; }, 320);
+          status.textContent = "Wedding date revealed: 6 December 2026, in Delhi and Mohali.";
+          hint.textContent = "Date revealed. We cannot wait to celebrate with you.";
+          window.setTimeout(() => {
+            cover.hidden = true;
+          }, 320);
         }
 
         cover.addEventListener("pointerdown", (event) => {

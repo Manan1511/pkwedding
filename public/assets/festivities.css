@@ -110,7 +110,8 @@
 }
 
 .event-panel:not(:first-child)::before,
-.event-panel:not(:first-child) .event-panel__picture {
+.event-panel:not(:first-child) .event-panel__picture,
+.event-panel:not(:first-child) .event-panel__video {
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 var(--scene-transition-height));
   mask-image: linear-gradient(180deg, transparent 0%, #000 var(--scene-transition-height));
 }
@@ -154,6 +155,28 @@
   object-position: center 40%;
 }
 
+.event-panel__video {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 800ms ease;
+}
+
+.event-panel.event-panel--video-ready .event-panel__picture {
+  opacity: 0;
+}
+
+.event-panel.event-panel--video-ready .event-panel__video {
+  opacity: 1;
+}
+
 .event-panel__shade {
   position: absolute;
   z-index: 1;
@@ -177,6 +200,10 @@
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.34);
 }
 
+.event-panel__schedule {
+  display: contents;
+}
+
 .event-date {
   display: block;
   margin-bottom: 10px;
@@ -195,6 +222,46 @@
   text-transform: uppercase;
 }
 
+#event-anand-karaj .event-date,
+#event-anand-karaj .event-time {
+  color: #344a56;
+  text-shadow: 0 1px 3px rgba(255, 248, 235, 0.56);
+}
+
+#event-sagan .event-date,
+#event-sagan .event-time {
+  color: #421826;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
+}
+
+#event-sagan .event-panel__schedule {
+  display: grid;
+  justify-items: center;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 12px;
+  padding: 9px 20px 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 246, 228, 0) 0%,
+    rgba(255, 246, 228, 0.94) 6%,
+    rgba(255, 246, 228, 0.94) 94%,
+    rgba(255, 246, 228, 0) 100%
+  );
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+#event-sagan .event-date {
+  margin-bottom: 5px;
+  text-shadow: none;
+}
+
+#event-sagan .event-time {
+  margin-bottom: 0;
+  text-shadow: none;
+}
+
 .event-title {
   color: #fff8eb;
   font: italic 500 clamp(2.35rem, 6.7vw, 4.45rem) / 0.98 var(--serif);
@@ -208,6 +275,21 @@
   font: 400 clamp(0.9rem, 1.9vw, 1.08rem) / 1.5 var(--serif);
   letter-spacing: 0.025em;
   text-wrap: balance;
+}
+
+.event-quote {
+  width: fit-content;
+  max-width: min(100%, 42ch);
+  box-sizing: border-box;
+  margin: 13px auto 0;
+  padding: 12px clamp(14px, 3vw, 22px);
+  border-block: 1px solid rgba(246, 209, 118, 0.76);
+  color: #fff8eb;
+  background: rgba(53, 73, 47, 0.94);
+  box-shadow: 0 7px 18px rgba(15, 20, 15, 0.3);
+  font: italic 400 clamp(1.05rem, 2.2vw, 1.28rem) / 1.42 var(--serif);
+  text-wrap: balance;
+  text-shadow: none;
 }
 
 .event-title-rule {
@@ -407,6 +489,11 @@
   transform: translateY(0) scale(1);
 }
 
+.has-festivities-motion .event-panel.event-panel--video-ready .event-panel__picture,
+.has-festivities-motion .event-panel.is-entered.event-panel--video-ready .event-panel__picture {
+  opacity: 0;
+}
+
 @media (min-width: 721px) {
   .event-panel::before {
     display: block;
@@ -429,9 +516,13 @@
 }
 
 @media (max-width: 720px) {
+  .festivities-intro {
+    padding: 48px 18px 34px;
+  }
+
   .event-panel {
-    --scene-transition-height: clamp(230px, 36svh, 300px);
-    min-height: max(108svh, 820px);
+    --scene-transition-height: clamp(150px, 24svh, 210px);
+    min-height: max(80svh, 680px);
   }
 
   .event-panel::before {
@@ -440,7 +531,7 @@
 
   .event-panel__portrait {
     width: 100%;
-    min-height: max(108svh, 820px);
+    min-height: max(80svh, 680px);
   }
 
   .event-panel__picture img {
@@ -479,11 +570,11 @@
 
 @media (max-width: 380px) {
   .event-panel {
-    min-height: 880px;
+    min-height: max(82svh, 680px);
   }
 
   .event-panel__portrait {
-    min-height: 880px;
+    min-height: max(82svh, 680px);
   }
 
   .event-panel__content {
@@ -504,6 +595,7 @@
   .event-panel::before,
   .event-panel::after,
   .event-panel__picture,
+  .event-panel__video,
   .event-panel__content,
   .event-action {
     animation: none !important;
@@ -517,5 +609,9 @@
     filter: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .event-panel__video {
+    opacity: 0 !important;
   }
 }

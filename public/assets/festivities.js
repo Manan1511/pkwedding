@@ -2,6 +2,21 @@
   const panels = document.getElementById("eventPanels");
   const events = window.weddingInvitationEvents;
   if (!panels || !Array.isArray(events)) return;
+  const artworkVersions = {
+    engagement: "-v3",
+    sagan: "-v2",
+    jaggo: "-v2",
+    "anand-karaj": "-v2",
+    "wedding-celebration": "-v2",
+  };
+  const eventVideos = {
+    engagement: "engagement-motion.mp4",
+    sagan: "sagan-motion.mp4",
+    jaggo: "jaggo-motion.mp4",
+    "haldi-mehendi": "haldi-mehendi-motion.mp4",
+    "anand-karaj": "anand-karaj-motion.mp4",
+    "wedding-celebration": "celebration-motion.mp4",
+  };
 
   const scenes = {
     engagement: {
@@ -99,14 +114,14 @@
     const parts = [];
 
     if (event.assembly) {
-      const assemblyName = event.assembly.replace(/\s+Zirakpur$/i, "");
+      const assemblyName = event.assembly;
       parts.push(locationMarkup({
         label: "Assembly point",
         name: assemblyName,
         address: stripLeadingPlace(event.assemblyAddress || "", event.assembly),
         directionLabel: "Directions to assembly",
         time: event.assemblyTime ? `Assembly at ${event.assemblyLabel}` : "",
-        mapAddress: event.assemblyAddress || assemblyName,
+        mapAddress: event.assemblyMapAddress || event.assemblyAddress || assemblyName,
       }));
     }
 
@@ -116,6 +131,7 @@
       address: stripLeadingPlace(event.venueAddress, event.venue),
       directionLabel: event.assembly ? "Directions to venue" : "Get directions",
       time: "",
+      mapAddress: event.venueMapAddress || event.venueAddress,
     }));
 
     return parts.join("");
@@ -125,7 +141,7 @@
     const scene = scenes[event.id];
     if (!scene) return "";
 
-    const asset = `images/${event.id}-portrait`;
+    const asset = `images/${event.id}-portrait-motion${artworkVersions[event.id] || ""}`;
     const eventTime = event.start === "assembly"
       ? `Assembly · ${event.timeLabel}`
       : event.start === "ceremony"
@@ -133,6 +149,19 @@
         : event.timeLabel;
     const loading = index === 0 ? "eager" : "lazy";
     const fetchPriority = index === 0 ? "high" : "auto";
+    const video = eventVideos[event.id]
+      ? `<video
+            class="event-panel__video"
+            data-video-src="videos/${escapeHtml(eventVideos[event.id])}"
+            width="720"
+            height="1080"
+            muted
+            playsinline
+            preload="none"
+            aria-hidden="true"
+            tabindex="-1"
+          ></video>`
+      : "";
 
     return `
       <article
@@ -166,13 +195,17 @@
               alt=""
             />
           </picture>
+          ${video}
           <div class="event-panel__shade" aria-hidden="true"></div>
 
           <div class="event-panel__content">
-            <time class="event-date" datetime="${escapeHtml(event.date)}">${escapeHtml(dateLabel(event.date))}</time>
-            <p class="event-time">${escapeHtml(eventTime)}</p>
+            <div class="event-panel__schedule">
+              <time class="event-date" datetime="${escapeHtml(event.date)}">${escapeHtml(dateLabel(event.date))}</time>
+              <p class="event-time">${escapeHtml(eventTime)}</p>
+            </div>
             <h3 class="event-title" id="event-title-${escapeHtml(event.id)}">${escapeHtml(scene.title)}</h3>
             ${scene.subtitle ? `<p class="event-subtitle">${escapeHtml(scene.subtitle)}</p>` : ""}
+            ${event.id === "haldi-mehendi" ? `<p class="event-quote"><strong>${escapeHtml(event.line)}</strong></p>` : ""}
             <div class="event-title-rule" aria-hidden="true"><span></span><i></i><span></span></div>
             <div class="event-locations">${renderLocation(event)}</div>
             <div class="event-actions">
@@ -191,6 +224,7 @@
   panels.innerHTML = events.map(renderEvent).join("");
 
   const scenesInOrder = Array.from(panels.querySelectorAll(".event-panel"));
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const loadArtwork = (panel) => {
     if (!panel || panel.classList.contains("art-ready")) return;
     panel.style.setProperty("--scene-art", cssImageUrl(panel.dataset.art));
@@ -214,7 +248,7 @@
 
     scenesInOrder.forEach((panel) => artworkObserver.observe(panel));
 
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (!reducedMotion.matches) {
       document.body.classList.add("has-festivities-motion");
       const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -229,6 +263,59 @@
   } else {
     scenesInOrder.forEach(loadArtwork);
     scenesInOrder.forEach((panel) => panel.classList.add("is-entered"));
+  }
+
+  const panelsWithVideo = scenesInOrder.filter((panel) => panel.querySelector(".event-panel__video"));
+  if ("IntersectionObserver" in window && panelsWithVideo.length) {
+    const visibleVideoPanels = new Set();
+    const syncVideo = (panel) => {
+      const video = panel.querySelector(".event-panel__video");
+      if (reducedMotion.matches) {
+        panel.classList.remove("event-panel--video-ready");
+        video.pause();
+        return;
+      }
+      if (document.hidden || !visibleVideoPanels.has(panel)) {
+        video.pause();
+        return;
+      }
+      if (video.ended) {
+        video.pause();
+        return;
+      }
+
+      if (!video.src) {
+        video.src = pageAssetUrl(video.dataset.videoSrc);
+        video.preload = "metadata";
+        video.load();
+      }
+
+      video.play().catch(() => {
+        // The poster and matching illustration stay visible if autoplay fails.
+      });
+    };
+
+    panelsWithVideo.forEach((panel) => {
+      const video = panel.querySelector(".event-panel__video");
+      video.addEventListener("playing", () => panel.classList.add("event-panel--video-ready"));
+      video.addEventListener("ended", () => {
+        video.pause();
+        panel.classList.add("event-panel--video-ready");
+      });
+      video.addEventListener("error", () => panel.classList.remove("event-panel--video-ready"));
+    });
+
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) visibleVideoPanels.add(entry.target);
+        else visibleVideoPanels.delete(entry.target);
+        syncVideo(entry.target);
+      });
+    }, { rootMargin: "0px", threshold: 0 });
+
+    panelsWithVideo.forEach((panel) => videoObserver.observe(panel));
+    document.addEventListener("visibilitychange", () => panelsWithVideo.forEach(syncVideo));
+    reducedMotion.addEventListener?.("change", () => panelsWithVideo.forEach(syncVideo));
   }
 
   const initialPanel = document.getElementById(window.location.hash.slice(1));

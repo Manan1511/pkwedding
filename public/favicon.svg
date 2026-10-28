@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="15" fill="#6a233b" />
+  <circle cx="32" cy="32" r="25" fill="none" stroke="#e8ce8a" stroke-width="1.5" />
+  <text
+    x="32"
+    y="40"
+    text-anchor="middle"
+    fill="#fcf5ee"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="23"
+    font-style="italic"
+    letter-spacing="-1.4"
+  >P&amp;A</text>
+</svg>

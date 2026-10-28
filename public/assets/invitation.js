@@ -4,35 +4,35 @@
     {
       id: "engagement", title: "Lights, Glitz & Glam", subtitle: "Engagement", date: "2026-11-28", time: "19:00", timeLabel: "7:00 PM onwards", start: "event",
       venue: "The Imperium Beyond Luxury", venueAddress: "The Imperium Beyond Luxury, A-14, Mahatma Gandhi Rd, Block A, Wazirpur Industrial Area, Ashok Vihar, Delhi, 110052",
-      line: "An evening of love, laughter & celebration",
+      line: "A Western cocktail-theme evening",
     },
     {
       id: "sagan", title: "Sagan Ceremony", subtitle: "Sagan", date: "2026-12-04", time: "11:00", timeLabel: "11:00 AM", start: "assembly",
-      assembly: "Dhillon Plaza", assemblyAddress: "Dhillon Plaza, Zirakpur, Punjab 140603",
+      assembly: "Dhillon Plaza", assemblyAddress: "Dhillon Plaza, Punjab 140603", assemblyMapAddress: "Dhillon Plaza, Punjab 140603, Mohali",
       venue: "House no. 3200", venueAddress: "House no. 3200, D Block, Gmada Aerocity, Sahibzada Ajit Singh Nagar, Mohali, Punjab 140306",
       line: "Auspicious Beginnings & Shagna Di Shuruaat",
     },
     {
       id: "jaggo", title: "Dhol Vajda • Dil Nachda • Jashan Sajda", subtitle: "Jaggo Ceremony", date: "2026-12-04", time: "19:30", timeLabel: "7:30 PM", start: "assembly",
-      assembly: "Lobby of Tulip Inn Zirakpur", assemblyAddress: "Tulip Inn Zirakpur, Chandigarh–Ambala Road, near Indian Oil Petrol Pump",
+      assembly: "Lobby of Tulip Inn", assemblyAddress: "Chandigarh–Ambala Road, near Indian Oil Petrol Pump", assemblyMapAddress: "Tulip Inn, Chandigarh–Ambala Road, near Indian Oil Petrol Pump, Mohali",
       venue: "House no. 3200", venueAddress: "House no. 3200, D Block, Gmada Aerocity, Sahibzada Ajit Singh Nagar, Mohali, Punjab 140306",
       line: "Nachdi Raat, Khushiyan De Naal!",
     },
     {
       id: "haldi-mehendi", title: "Mehfil-e-Mela", subtitle: "Haldi & Mehendi", date: "2026-12-05", time: "11:00", timeLabel: "11:00 AM", start: "assembly",
-      assembly: "Lobby of Tulip Inn Zirakpur", assemblyAddress: "Tulip Inn Zirakpur, Chandigarh–Ambala Road, near Indian Oil Petrol Pump",
+      assembly: "Lobby of Tulip Inn", assemblyAddress: "Chandigarh–Ambala Road, near Indian Oil Petrol Pump", assemblyMapAddress: "Tulip Inn, Chandigarh–Ambala Road, near Indian Oil Petrol Pump, Mohali",
       venue: "House no. 3200", venueAddress: "House no. 3200, D Block, Gmada Aerocity, Sahibzada Ajit Singh Nagar, Mohali, Punjab 140306",
-      line: "Meri bua ke mehndi mein zaroor aana — from Meher Kaur Thapar",
+      line: "Meri Bua Ki Mehndi Mein Zaroor Aana - Mehek Thapar",
     },
     {
       id: "anand-karaj", title: "Anand Karaj", subtitle: "Anand Karaj", date: "2026-12-06", time: "10:00", timeLabel: "10:00 AM", start: "ceremony",
-      assembly: "Lobby of Tulip Inn Zirakpur", assemblyAddress: "Tulip Inn Zirakpur, Chandigarh–Ambala Road, near Indian Oil Petrol Pump", assemblyTime: "09:00", assemblyLabel: "9:00 AM",
-      venue: "Guru Kirpa Dashmesh Darbar", venueAddress: "Guru Kirpa Dashmesh Darbar, Rampur Kalan, Zirakpur Rajpura Road, Behind Pappi Dhaba Mohali, 140601",
+      assembly: "Lobby of Tulip Inn", assemblyAddress: "Chandigarh–Ambala Road, near Indian Oil Petrol Pump", assemblyMapAddress: "Tulip Inn, Chandigarh–Ambala Road, near Indian Oil Petrol Pump, Mohali", assemblyTime: "09:00", assemblyLabel: "9:00 AM",
+      venue: "Guru Kirpa Dashmesh Darbar", venueAddress: "Guru Kirpa Dashmesh Darbar, Rampur Kalan, Behind Pappi Dhaba, Mohali, 140601", venueMapAddress: "Guru Kirpa Dashmesh Darbar, Rampur Kalan, Behind Pappi Dhaba, Mohali, 140601",
       line: "Two souls united in the presence of Waheguru Ji",
     },
     {
       id: "wedding-celebration", title: "Shagna Da Rang", subtitle: "Wedding Celebration", date: "2026-12-06", time: "10:00", timeLabel: "10:00 AM onwards", start: "event",
-      venue: "Crystal Resorts", venueAddress: "Crystal Resorts, Rampur Kalan, Patiala Road, Zirakpur, Punjab 140601",
+      venue: "Crystal Resorts", venueAddress: "Crystal Resorts, Rampur Kalan, Patiala Road, Mohali, Punjab 140601", venueMapAddress: "Crystal Resorts, Rampur Kalan, Patiala Road, Mohali, Punjab 140601",
       line: "Ajj Nachna, Gaunna Te Khushiyan Manana!",
     },
   ];
@@ -117,7 +117,7 @@
         eventLines(event).slice(1).forEach((line) => wrap(line, 88).forEach((part) => { text(part, 48, y, 10); y -= 15; }));
         y -= 25;
       });
-      text(`${pageIndex + 1} / 2 - With love, the Thapar and Sohal families`, 48, 36, 9);
+      text(`${pageIndex + 1} / 2 - With love, the Thapar family`, 48, 36, 9);
       const pageId = objects.length + 1; const contentId = pageId + 1;
       pages.push(pageId);
       objects.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${contentId} 0 R >>`);
@@ -143,22 +143,25 @@
   document.querySelectorAll("[data-itinerary-download]").forEach((button) => button.addEventListener("click", downloadItinerary));
 
   const audio = document.getElementById("weddingAudio");
-  document.querySelectorAll(".music-toggle").forEach((button) => {
-    const updateButton = (playing) => {
-      button.setAttribute("aria-pressed", String(playing));
-      button.innerHTML = `<span aria-hidden="true">${playing ? "Ⅱ" : "♫"}</span> ${playing ? "Mute music" : "Play music"}`;
+  if (audio) {
+    let hasPlayed = false;
+    const gestureEvents = ["wheel", "touchstart", "pointerdown", "keydown"];
+    const removeGestureListeners = () => gestureEvents.forEach((type) => window.removeEventListener(type, startMusic, true));
+    const startMusic = () => {
+      if (!audio.paused || document.hidden) return;
+      audio.play().then(() => {
+        hasPlayed = true;
+        removeGestureListeners();
+      }).catch(() => {
+        // Browser blocked playback; next scroll or input gesture retries.
+      });
     };
-    if (!audio) { button.hidden = true; return; }
-    button.addEventListener("click", async () => {
-      if (audio.paused) {
-        try { await audio.play(); updateButton(true); }
-        catch (_) { button.textContent = "Tap to retry music"; }
-      } else { audio.pause(); updateButton(false); }
+    gestureEvents.forEach((type) => window.addEventListener(type, startMusic, { capture: true, passive: true }));
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) audio.pause();
+      else if (hasPlayed) audio.play().catch(() => {});
     });
-    audio.addEventListener("pause", () => updateButton(false));
-    audio.addEventListener("play", () => updateButton(true));
-    document.addEventListener("visibilitychange", () => { if (document.hidden) audio.pause(); });
-  });
+  }
 
   const revealItems = document.querySelectorAll(".scroll-reveal");
   if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
