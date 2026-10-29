@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" as="image" href="/assets/gfx/invitation-wax-seal.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/gfx/invitation-curtains-closed-mobile.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/gfx/invitation-curtains-closed-wide.webp" type="image/webp" media="(min-width: 760px) and (min-aspect-ratio: 1/1)" fetchpriority="high" />
     <title>Pavgun & Ashmeet — Wedding Celebrations · 28 Nov – 6 Dec 2026</title>
     <meta
       name="description"
@@ -15,28 +18,34 @@
     />
     <meta
       property="og:description"
-      content="28 November – 6 December 2026 · Delhi and Mohali. Step through the gates and celebrate with us."
+      content="28 November – 6 December 2026 · Delhi and Mohali. Open the invitation card and celebrate with us."
     />
 
     <script>
+      if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
+      window.__directWeddingLink = /^#event-[a-z0-9-]+$/i.test(window.location.hash);
+      if (!window.__directWeddingLink && window.location.hash) {
+        window.history.replaceState(
+          window.history.state,
+          "",
+          window.location.pathname + window.location.search,
+        );
+      }
+      if (!window.__directWeddingLink) {
+        window.addEventListener("pageshow", () => window.scrollTo(0, 0), { once: true });
+      }
+      let shouldOpenWeddingCard = false;
       try {
-        if (window.location.hash === "#date-reveal") {
-          window.history.replaceState(
-            window.history.state,
-            "",
-            window.location.pathname + window.location.search,
-          );
-        }
-        if (
-          !window.location.hash &&
-          !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ) {
+        shouldOpenWeddingCard = !window.__directWeddingLink;
+        if (shouldOpenWeddingCard) {
           document.documentElement.classList.add("entry-pending");
         }
-      } catch (_) {}
+      } catch (_) {
+        shouldOpenWeddingCard = !window.__directWeddingLink;
+        if (shouldOpenWeddingCard) document.documentElement.classList.add("entry-pending");
+      }
     </script>
 
-    <link rel="preload" as="image" href="assets/gfx/gate-poster.webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -59,7 +68,7 @@
         --green: #d2e2cb;
         --green-soft: #e6efdd;
         --gold: #8a6315;
-        --gold-light: #e8ce8a; /* used only on the dark hero & footer */
+        --gold-light: #e8ce8a; /* used on the velvet opening & footer */
         --gold-deep: #734f0b;
         --wine: #7a2a41;
         --wine-deep: #531b2c;
@@ -67,7 +76,7 @@
         --cream-text: #6a233b; /* headings on pastel (deep wine) */
         --ink: #3a2a30;
         --ink-soft: #71515a;
-        /* legacy aliases retained for the dark hero/footer & a few accents */
+        /* legacy aliases retained for the velvet opening & a few accents */
         --emerald-deep: #2e4a3a;
         --midnight-deep: #0f1a30;
         --disp: "Aboreto", serif;
@@ -112,88 +121,285 @@
       html.entry-pending body {
         overflow: hidden;
       }
-      .entry-loader {
+      .invitation-opening {
         position: fixed;
         inset: 0;
-        z-index: 200;
+        z-index: 500;
         display: none;
         place-items: center;
-        padding: 24px;
-        color: #fffaf1;
+        padding: 0;
+        overflow: hidden;
+        isolation: isolate;
+        color: var(--wine-deep);
+        background: var(--pink-soft);
+        transition: background-color 1ms linear 900ms;
         text-align: center;
-        background:
-          linear-gradient(180deg, rgba(12, 6, 16, 0.28), rgba(12, 6, 16, 0.72)),
-          #0c0610 url("assets/gfx/gate-poster.webp") center / cover no-repeat;
-        opacity: 1;
-        transition: opacity 420ms ease, visibility 420ms ease;
       }
-      html.entry-pending .entry-loader {
+      html.entry-pending .invitation-opening {
         display: grid;
       }
-      .entry-loader.is-ready {
+      html.entry-pending .flow {
         opacity: 0;
-        visibility: hidden;
+        transition: opacity 280ms ease;
+      }
+      html.entry-pending .invitation-opening.is-opening ~ .flow {
+        opacity: 1;
+        transition-delay: 900ms;
+      }
+      .invitation-opening::before {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        content: "";
+        pointer-events: none;
+        background: radial-gradient(ellipse at 50% 48%, rgba(255, 226, 185, 0.24), transparent 56%);
+      }
+      .opening-curtains {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        perspective: 1400px;
         pointer-events: none;
       }
-      .entry-loader__content {
+      .opening-curtain {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+        background-image: url("/assets/gfx/invitation-curtains-closed-mobile.webp");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 200% 100%;
+        backface-visibility: hidden;
+        transform: translate3d(0, 0, 0);
+        visibility: hidden;
+        transition: visibility 0s linear, transform 1540ms cubic-bezier(0.7, 0, 0.3, 1);
+      }
+      .opening-curtain--left {
+        left: 0;
+        background-position: left center;
+        transform-origin: left center;
+        transition-delay: 0s, 650ms;
+      }
+      .opening-curtain--right {
+        right: 0;
+        background-position: right center;
+        transform-origin: right center;
+        transition-delay: 0s, 650ms;
+      }
+      @media (min-width: 760px) and (min-aspect-ratio: 1 / 1) {
+        .opening-curtain {
+          background-image: url("/assets/gfx/invitation-curtains-closed-wide.webp");
+        }
+      }
+      .opening-card {
+        position: relative;
+        z-index: 2;
+        width: min(100vw, 56.25vh, 460px);
+        width: min(100vw, 56.25svh, 460px);
+        height: min(100vh, 177.78vw, 820px);
+        height: min(100svh, 177.78vw, 820px);
+        perspective: 1500px;
+        filter: drop-shadow(0 24px 36px rgba(18, 4, 11, 0.25));
+        transition: transform 350ms ease 780ms, opacity 350ms ease 780ms;
+      }
+      .opening-card__face {
+        position: absolute;
+        inset: 0;
         display: grid;
+        align-content: center;
         justify-items: center;
-        width: min(100%, 320px);
-        gap: 12px;
+        padding: clamp(30px, 7vh, 58px) clamp(22px, 6vw, 46px);
+        text-align: center;
+        backface-visibility: hidden;
       }
-      .entry-loader__monogram {
-        color: #f2d69a;
-        font: 400 2.2rem/1 var(--serif);
-        letter-spacing: 0.04em;
+      .opening-card__cover {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        pointer-events: auto;
       }
-      .entry-loader__title {
-        color: #fffaf1;
-        font: italic 400 clamp(1.25rem, 4vw, 1.65rem)/1.2 var(--serif);
+      .opening-card__face::before {
+        top: 18px;
+        left: 18px;
+        border-top: 1px solid;
+        border-left: 1px solid;
       }
-      .entry-loader__status,
-      .entry-loader__percent {
-        color: rgba(255, 250, 241, 0.82);
-        font: 500 0.72rem/1.5 var(--sans);
-        letter-spacing: 0.02em;
+      .opening-card__face::after {
+        right: 18px;
+        bottom: 18px;
+        border-right: 1px solid;
+        border-bottom: 1px solid;
       }
-      .entry-loader__track {
-        width: min(70vw, 258px);
-        height: 3px;
-        margin-top: 8px;
-        overflow: hidden;
-        border-radius: 99px;
-        background: rgba(255, 250, 241, 0.28);
+      .opening-card__seal {
+        position: relative;
+        display: grid;
+        width: 120px;
+        aspect-ratio: 1;
+        place-items: center;
       }
-      .entry-loader__fill {
+      .opening-card__seal img {
+        position: absolute;
+        inset: 0;
+        display: block;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, #d89b72, #f2d69a);
-        transform: scaleX(0.04);
+        object-fit: contain;
+      }
+      .opening-card__seal span {
+        position: relative;
+        z-index: 1;
+        color: #e8ce8a;
+        font: 500 1.75rem/1 var(--serif);
+        letter-spacing: -0.08em;
+        text-shadow: 0 1px 1px rgba(34, 10, 17, 0.72);
+      }
+      .opening-card__flaps {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        perspective: 1400px;
+        transform-style: preserve-3d;
+      }
+      .opening-card__flap {
+        position: relative;
+        width: 50%;
+        height: 100%;
+        border-top: 1px solid rgba(232, 206, 138, 0.82);
+        border-bottom: 1px solid rgba(232, 206, 138, 0.82);
+        background-color: #57182d;
+        background-image:
+          linear-gradient(145deg, rgba(175, 86, 94, 0.34), transparent 48%),
+          linear-gradient(90deg, rgba(24, 4, 14, 0.3), transparent 40%, rgba(245, 212, 162, 0.07)),
+          linear-gradient(145deg, #74213a 0%, #57182d 55%, #3f1021 100%);
+        box-shadow: inset 0 0 0 4px rgba(232, 206, 138, 0.12);
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
+        transition: transform 1100ms cubic-bezier(0.55, 0.02, 0.25, 1);
+      }
+      .opening-card__flap--left {
+        border-left: 1px solid rgba(232, 206, 138, 0.82);
+        border-right: 1px solid rgba(232, 206, 138, 0.42);
         transform-origin: left center;
-        transition: transform 180ms ease-out;
+        transition-delay: 0ms;
       }
-      .entry-loader__continue {
+      .opening-card__flap--right {
+        border-right: 1px solid rgba(232, 206, 138, 0.82);
+        border-left: 0;
+        transform-origin: right center;
+        transition-delay: 80ms;
+      }
+      .opening-card__face {
+        z-index: 2;
+        gap: 30px;
+        border: 1px solid rgba(232, 206, 138, 0.8);
+        outline: 1px solid rgba(232, 206, 138, 0.45);
+        outline-offset: -9px;
+        color: #fff8ec;
+        background: transparent;
+        transition: opacity 220ms ease 140ms;
+      }
+      .opening-card__face::before,
+      .opening-card__face::after {
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        content: "";
+        border-color: var(--gold);
+        opacity: 0.76;
+      }
+      .opening-card__face::before {
+        top: 18px;
+        left: 18px;
+        border-top: 1px solid;
+        border-left: 1px solid;
+      }
+      .opening-card__face::after {
+        right: 18px;
+        bottom: 18px;
+        border-right: 1px solid;
+        border-bottom: 1px solid;
+      }
+      .opening-card__flaps .opening-card__flap--left::after {
+        position: absolute;
+        top: 8%;
+        right: -1px;
+        bottom: 8%;
+        width: 1px;
+        content: "";
+        background: linear-gradient(180deg, transparent, rgba(255, 237, 193, 0.58) 18%, rgba(34, 8, 18, 0.6) 52%, rgba(255, 237, 193, 0.48) 84%, transparent);
+      }
+      .opening-card__tap-cue {
+        display: inline-flex;
+        align-items: center;
         min-height: 44px;
-        margin-top: 10px;
-        padding: 0 17px;
-        border: 1px solid rgba(242, 214, 154, 0.7);
-        border-radius: 999px;
-        color: #fffaf1;
-        background: rgba(12, 6, 16, 0.25);
-        font: 500 0.75rem/1 var(--sans);
+        margin-top: 0;
+        padding: 10px 8px;
+        border: 0;
+        border-bottom: 1px solid rgba(232, 206, 138, 0.72);
+        color: var(--gold-light);
+        background: transparent;
+        font: 600 0.8rem/1.2 var(--sans);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        pointer-events: none;
+      }
+      .opening-screen-tap {
+        position: absolute;
+        z-index: 3;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        color: transparent;
+        background: transparent;
         cursor: pointer;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
       }
-      .entry-loader__continue[hidden] {
-        display: none;
+      .opening-screen-tap:focus-visible {
+        outline: 2px solid var(--gold-light);
+        outline-offset: -8px;
       }
-      .entry-loader__continue:focus-visible {
-        outline: 2px solid #f2d69a;
-        outline-offset: 4px;
+      html.entry-pending .invitation-opening.is-opening {
+        background-color: transparent;
+      }
+      html.entry-pending .invitation-opening.is-opening::before {
+        opacity: 0;
+        transition: opacity 220ms ease 900ms;
+      }
+      html.entry-pending .invitation-opening.is-opening .opening-card {
+        opacity: 0;
+        transform: translateY(8px) scale(0.96);
+      }
+      html.entry-pending .invitation-opening.is-opening .opening-card__face {
+        opacity: 0;
+      }
+      html.entry-pending .invitation-opening.is-opening .opening-curtain {
+        visibility: visible;
+      }
+      html.entry-pending .invitation-opening.is-opening .opening-card__flap--left {
+        transform: rotateY(-165deg);
+      }
+      html.entry-pending .invitation-opening.is-opening .opening-card__flap--right {
+        transform: rotateY(165deg);
+      }
+      html.entry-pending .invitation-opening.is-opening .opening-curtain--left {
+        transform: translate3d(-104%, 0, 0);
+      }
+      html.entry-pending .invitation-opening.is-opening .opening-curtain--right {
+        transform: translate3d(104%, 0, 0);
       }
       @media (prefers-reduced-motion: reduce) {
-        .entry-loader,
-        .entry-loader__fill {
+        .opening-curtain,
+        .opening-card,
+        .opening-card__cover,
+        .opening-card__flap,
+        .opening-card__face {
           transition: none;
+          animation: none !important;
         }
       }
       section {
@@ -206,220 +412,6 @@
       }
       sup {
         font-size: 0.5em;
-      }
-
-      /* ========== SCROLLY HERO ========== */
-      .reveal-hero {
-        position: relative;
-        background: #0c0610;
-        height: 380vh;
-      }
-      .reveal-sticky {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        width: 100%;
-        overflow: hidden;
-      }
-      #frameCanvas {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        display: block;
-        background: #0c0610 url("assets/gfx/gate-poster.webp") center / cover no-repeat;
-      }
-      .frame-source {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        left: -2px;
-        top: -2px;
-        opacity: 0;
-        pointer-events: none;
-      }
-      .reveal-hero.reduced-motion { height: 100svh; }
-      .reduced-motion .hero-blessing,
-      .reduced-motion .hero-names,
-      .reduced-motion .hero-namemeta { opacity: 1 !important; }
-      .reduced-motion .hero-names { transform: translate(-50%, -50%) !important; }
-      .reveal-sticky::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        z-index: 3;
-        background:
-          radial-gradient(
-            ellipse 85% 75% at 50% 45%,
-            transparent 42%,
-            rgba(8, 16, 12, 0.55) 100%
-          ),
-          linear-gradient(
-            180deg,
-            rgba(8, 16, 12, 0.35) 0%,
-            transparent 24%,
-            transparent 62%,
-            rgba(18, 63, 53, 0.25) 100%
-          );
-      }
-      .hero-veil {
-        position: absolute;
-        inset: 0;
-        z-index: 4;
-        pointer-events: none;
-        opacity: 0;
-        background: linear-gradient(
-          180deg,
-          #fae7ec 0%,
-          #fae7ec 55%,
-          #f4dee5 100%
-        );
-      }
-      .hero-overlay {
-        position: absolute;
-        inset: 0;
-        z-index: 5;
-        pointer-events: none;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        color: #fff;
-        padding: 24px;
-      }
-      .hero-eyebrow {
-        font-family: var(--sans);
-        font-size: 0.78rem;
-        letter-spacing: 0.5em;
-        text-transform: uppercase;
-        color: var(--gold-light);
-        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.8);
-        padding-left: 0.5em;
-        will-change: opacity, transform;
-      }
-      .hero-blessing {
-        font-family: var(--serif);
-        font-style: italic;
-        font-size: clamp(1.05rem, 2.5vw, 1.4rem);
-        color: rgba(255, 255, 255, 0.95);
-        margin-top: 14px;
-        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85);
-        will-change: opacity, transform;
-        max-width: 32ch;
-      }
-      .hero-names {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        text-shadow:
-          0 4px 34px rgba(0, 0, 0, 0.6),
-          0 0 60px rgba(0, 0, 0, 0.5);
-        will-change: opacity, transform;
-        line-height: 0.92;
-      }
-      .hero-names .nm {
-        display: block;
-        font-family: "Pinyon Script", cursive;
-        font-weight: 400;
-        font-size: clamp(3.6rem, 13vw, 8rem);
-        margin: 0.2em 0;
-      }
-      .hero-names .weds {
-        display: block;
-        font-family: var(--disp);
-        font-size: clamp(1rem, 3vw, 1.5rem);
-        font-weight: 600;
-        letter-spacing: 0.34em;
-        text-transform: uppercase;
-        margin: 0.24em auto;
-        padding: 0.4em 0.72em 0.4em 1.06em;
-        width: fit-content;
-        color: #fff7e5;
-        background: rgba(20, 11, 18, 0.66);
-        border: 1px solid rgba(242, 214, 154, 0.74);
-        border-radius: 999px;
-        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
-        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.26);
-      }
-      .hero-namemeta {
-        position: absolute;
-        left: 50%;
-        bottom: 20%;
-        transform: translateX(-50%);
-        font-family: var(--sans);
-        font-size: 0.8rem;
-        letter-spacing: 0.42em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.95);
-        text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        flex-wrap: wrap;
-        justify-content: center;
-        will-change: opacity;
-      }
-      .hero-namemeta .dot {
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: var(--gold-light);
-      }
-      .scroll-cue {
-        position: absolute;
-        left: 50%;
-        bottom: max(4%, env(safe-area-inset-bottom));
-        transform: translateX(-50%);
-        z-index: 6;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        color: #fffaf0;
-        font-family: var(--sans);
-        font-size: 0.94rem;
-        font-weight: 800;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 22px rgba(0, 0, 0, 0.8);
-        pointer-events: none;
-        will-change: opacity;
-        white-space: nowrap;
-      }
-      .scroll-cue .ln {
-        width: 2px;
-        height: 30px;
-        background: linear-gradient(180deg, #fffaf0, rgba(242, 214, 154, 0.12));
-        position: relative;
-        overflow: hidden;
-      }
-      .scroll-cue .ln::after {
-        content: "";
-        position: absolute;
-        top: -18px;
-        left: 0;
-        width: 100%;
-        height: 18px;
-        background: linear-gradient(180deg, transparent, var(--gold-light));
-        animation: cueDot 2.2s ease-in-out infinite;
-      }
-      @keyframes cueDot {
-        0% {
-          top: -18px;
-          opacity: 0;
-        }
-        30% {
-          opacity: 1;
-        }
-        100% {
-          top: 46px;
-          opacity: 0;
-        }
       }
 
       /* ========== SHARED ========== */
@@ -611,7 +603,10 @@
         margin: 6px auto;
         width: 100%;
         text-align: center;
+        font-weight: 400;
+        line-height: 1;
       }
+      #invitation-title:focus-visible { outline: none; }
       .invite-names .n {
         font-family: "Pinyon Script", cursive;
         font-weight: 400;
@@ -1173,15 +1168,6 @@
       }
 
       @media (max-width: 640px) {
-        .reveal-hero {
-          height: 190svh;
-        }
-        .entry-loader {
-          background-position: center, calc(50% - min(16px, 3vw)) center;
-        }
-        #frameCanvas {
-          background-position: calc(50% - min(16px, 3vw)) center;
-        }
         .pad {
           padding-right: clamp(16px, 4.5vw, 24px);
           padding-left: clamp(16px, 4.5vw, 24px);
@@ -1240,16 +1226,16 @@
           padding-top: 72px;
           padding-bottom: 40px;
         }
-        .footer .eyebrow {
-          margin-bottom: 20px;
-          letter-spacing: 0.28em;
-        }
-        .footer .countdown {
-          gap: 16px 20px;
-          margin-top: 0;
-        }
         .cd-item {
           min-width: min(76px, 20vw);
+        }
+        .countdown-reveal .countdown {
+          flex-wrap: nowrap;
+          gap: 12px;
+        }
+        .countdown-reveal .cd-item {
+          width: min(76px, 18vw);
+          min-width: 0;
         }
         .cd-label {
           margin-top: 9px;
@@ -1281,12 +1267,6 @@
         }
       }
       @media (max-width: 640px) and (orientation: landscape) {
-        .entry-loader {
-          background-position: center, center;
-        }
-        #frameCanvas {
-          background-position: center;
-        }
       }
 
       /* ========== MESSAGE ========== */
@@ -1658,6 +1638,31 @@
         font-size: 1.5rem;
         color: var(--gold-light);
       }
+      .countdown-reveal {
+        max-width: 760px;
+        margin: clamp(28px, 5vw, 44px) auto 0;
+        transition: opacity 850ms ease, filter 850ms ease, transform 850ms ease;
+      }
+      .countdown-reveal[aria-hidden="true"] {
+        opacity: 0.24;
+        filter: blur(9px);
+        transform: translateY(8px);
+        pointer-events: none;
+        user-select: none;
+      }
+      .countdown-reveal .eyebrow {
+        margin: 0 0 20px;
+        color: var(--cream-text);
+        font-size: clamp(0.68rem, 2.2vw, 0.8rem);
+        letter-spacing: 0.2em;
+      }
+      .countdown-reveal .countdown { margin-top: 0; }
+      .countdown-reveal .cd-num {
+        color: var(--gold-deep);
+        text-shadow: none;
+      }
+      .countdown-reveal .cd-label { color: rgba(83, 27, 44, 0.78); }
+      .countdown-reveal .cd-sep { color: rgba(115, 79, 11, 0.58); }
 
       /* ========== FINALE / FOOTER ========== */
       .footer {
@@ -1711,23 +1716,6 @@
         position: relative;
         z-index: 3;
       }
-      .footer .eyebrow {
-        color: var(--wine);
-        margin-bottom: 24px;
-      }
-      .footer .countdown {
-        margin-top: 0;
-      }
-      .footer .cd-num {
-        color: #704719;
-        text-shadow: 0 1px 8px rgba(255, 248, 235, 0.28);
-      }
-      .footer .cd-label {
-        color: rgba(70, 38, 47, 0.82);
-      }
-      .footer .cd-sep {
-        color: rgba(105, 76, 31, 0.72);
-      }
       .footer-names {
         display: flex;
         flex-direction: column;
@@ -1761,6 +1749,38 @@
         color: rgba(255, 255, 255, 0.88);
         margin-bottom: 26px;
         text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+      }
+      .footer-wishes {
+        max-width: 58ch;
+        margin: 0 auto 18px;
+        padding-inline: 12px;
+      }
+      .footer-wishes__label {
+        margin: 0 0 6px;
+        color: var(--gold-light);
+        font-family: var(--sans);
+        font-size: 0.72rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+      }
+      .footer-wishes__families {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+        font-family: var(--serif);
+        font-size: clamp(1rem, 2.4vw, 1.28rem);
+        line-height: 1.55;
+        text-wrap: balance;
+      }
+      .footer-wishes__families span {
+        margin-inline: 0.35em;
+        color: var(--gold-light);
+      }
+      .footer-hashtag {
+        margin: 0 auto 24px;
+        color: var(--gold-light);
+        font-family: var(--sans);
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
       }
       .footer-hash {
         display: inline-block;
@@ -1804,22 +1824,6 @@
           width: 64px;
           height: 64px;
         }
-        .hero-overlay {
-          padding: 24px 20px;
-        }
-        .hero-eyebrow {
-          font-size: 0.5rem;
-          letter-spacing: 0.26em;
-          padding-left: 0.26em;
-        }
-        .hero-blessing {
-          font-size: 1.05rem;
-        }
-        .hero-namemeta {
-          font-size: 0.8rem;
-          letter-spacing: 0.26em;
-          gap: 8px 10px;
-        }
         .chai-elephant {
           width: clamp(82px, 26vw, 130px);
           top: 18%;
@@ -1833,11 +1837,6 @@
         }
       }
       @media (max-width: 380px) {
-        .hero-eyebrow {
-          font-size: 0.46rem;
-          letter-spacing: 0.18em;
-          padding-left: 0.18em;
-        }
         .day-badge-pill {
           padding-right: 11px;
           padding-left: 11px;
@@ -1895,7 +1894,6 @@
 @media (max-width:620px) { .rsvp-events { grid-template-columns:1fr; } }
 @media (prefers-reduced-motion:reduce) {
   html { scroll-behavior:auto; }
-  .reveal-hero { height:100svh; }
   .reveal, .ev, .lantern, .chai-elephant, .date-reveal-cover { animation:none !important; transition:none !important; }
   .lantern i { animation:none !important; }
   .reveal { opacity:1 !important; transform:none !important; }
@@ -1913,73 +1911,53 @@
   .date-reveal.is-revealed .date-reveal-places {
     animation: none !important;
   }
+  .countdown-reveal { transition: none !important; }
 }
     </style>
   </head>
   <body>
-    <div id="entryLoader" class="entry-loader" aria-hidden="true">
-      <div class="entry-loader__content">
-        <div class="entry-loader__monogram" aria-hidden="true">P&amp;A</div>
-        <div class="entry-loader__title">Preparing your invitation</div>
-        <div id="entryStatus" class="entry-loader__status" aria-live="polite">
-          Warming the courtyard…
-        </div>
-        <div
-          class="entry-loader__track"
-          role="progressbar"
-          aria-label="Preparing the wedding invitation"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          aria-valuenow="4"
-          id="entryProgress"
-        >
-          <div class="entry-loader__fill" id="entryProgressFill"></div>
-        </div>
-        <div id="entryPercent" class="entry-loader__percent">4%</div>
-        <button id="entryContinue" class="entry-loader__continue" type="button" hidden>
-          Continue with the still cover
-        </button>
+    <div
+      id="invitationOpening"
+      class="invitation-opening"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Wedding invitation opening"
+      aria-hidden="true"
+    >
+      <div class="opening-curtains" aria-hidden="true">
+        <span class="opening-curtain opening-curtain--left"></span>
+        <span class="opening-curtain opening-curtain--right"></span>
       </div>
+      <div class="opening-card">
+        <div class="opening-card__cover">
+          <div class="opening-card__flaps" aria-hidden="true">
+            <span class="opening-card__flap opening-card__flap--left"></span>
+            <span class="opening-card__flap opening-card__flap--right"></span>
+          </div>
+          <div class="opening-card__face">
+            <span class="opening-card__seal" role="img" aria-label="P and A wax seal">
+              <img src="/assets/gfx/invitation-wax-seal.webp" width="640" height="640" alt="" fetchpriority="high" />
+              <span aria-hidden="true">P&amp;A</span>
+            </span>
+            <span class="opening-card__tap-cue" aria-hidden="true">Tap to Open</span>
+          </div>
+        </div>
+      </div>
+      <button
+        id="openingTap"
+        class="opening-screen-tap"
+        type="button"
+        aria-label="Tap anywhere to open invitation"
+        aria-expanded="false"
+      ></button>
     </div>
     <audio id="weddingAudio" loop preload="none" aria-label="Punjabi wedding instrumental">
       <source src="audio/indian-wedding.mp3" type="audio/mpeg" />
     </audio>
-    <!-- ===== SCROLLY HERO ===== -->
-    <section class="reveal-hero" id="revealHero">
-      <div class="reveal-sticky">
-        <canvas id="frameCanvas"></canvas>
-        <video id="frameVideo" class="frame-source" muted playsinline preload="none" poster="assets/gfx/gate-poster.webp" aria-hidden="true" tabindex="-1">
-          <source src="assets/video/gates.mp4" type="video/mp4" />
-        </video>
-        <div class="hero-veil" id="heroVeil"></div>
-        <div class="hero-overlay">
-          <div>
-            <!-- <div class="hero-eyebrow" id="hEyebrow">
-              Together with their families
-            </div> -->
-            <div class="hero-blessing" id="hBlessing">
-              we invite you to step through the gates&hellip;
-            </div>
-          </div>
-          <h1 class="hero-names" id="hNames" style="opacity: 0">
-            <span class="nm">Pavgun</span>
-            <span class="weds">weds</span>
-            <span class="nm">Ashmeet</span>
-          </h1>
-          <div class="hero-namemeta" id="hMeta" style="opacity: 0">
-            <span>Delhi · Mohali</span>
-          </div>
-        </div>
-        <div class="scroll-cue" id="scrollCue">
-          Scroll to open
-          <div class="ln"></div>
-        </div>
-      </div>
-    </section>
 
     <div class="flow">
       <!-- ===== INVITE ===== -->
-      <section class="sec emerald jewel invite pad">
+      <section class="sec emerald jewel invite pad" id="invitation" tabindex="-1">
         <span class="corner tl"></span>
         <span class="corner br"></span>
         <div class="reveal">
@@ -1993,18 +1971,18 @@
             the <span style="font-weight: 900">Thapar family</span> warmly invites you to celebrate
           </div>
         </div>
-        <div class="invite-names reveal">
+        <h1 class="invite-names reveal" id="invitation-title" tabindex="-1">
           <span class="n">Pavgun Kaur</span>
           <span class="weds">&</span>
           <span class="n">Ashmeet Singh Sohal</span>
-        </div>
+        </h1>
         <p class="invite-body reveal">
           as they begin their journey together, surrounded by family and friends
         </p>
         <div class="date-reveal reveal" id="date-reveal" data-date-reveal>
           <div class="date-reveal-card">
-            <strong id="weddingDates">6 December 2026</strong>
-            <span class="date-reveal-places">Anand Karaj · Delhi · Mohali</span>
+            <strong id="weddingDates">6th December 2026</strong>
+            <span class="date-reveal-places">Anand Karaj</span>
             <span class="date-flower-burst" aria-hidden="true">
               <span class="date-petal date-petal--01"></span>
               <span class="date-petal date-petal--02"></span>
@@ -2070,13 +2048,37 @@
             <button
               class="date-reveal-cover"
               type="button"
-              aria-label="Scratch or tap to reveal the wedding date"
+              aria-label="Scratch or tap to reveal"
               aria-controls="weddingDates"
               aria-describedby="dateRevealHint"
             ><canvas aria-hidden="true"></canvas></button>
           </div>
-          <p class="date-reveal-hint" id="dateRevealHint">Scratch across the gold surface, or tap once to reveal 6 December.</p>
+          <p class="date-reveal-hint" id="dateRevealHint">Scratch across the gold surface, or tap once to reveal.</p>
           <span class="date-reveal-status" aria-live="polite" data-date-reveal-status></span>
+        </div>
+        <div class="countdown-reveal" id="countdownReveal" aria-hidden="true">
+          <div class="eyebrow">Until Anand Karaj · 6 December 2026</div>
+          <div class="countdown" id="countdown">
+            <div class="cd-item">
+              <div class="cd-num" id="cdD">--</div>
+              <div class="cd-label">Days</div>
+            </div>
+            <div class="cd-sep">:</div>
+            <div class="cd-item">
+              <div class="cd-num" id="cdH">--</div>
+              <div class="cd-label">Hours</div>
+            </div>
+            <div class="cd-sep">:</div>
+            <div class="cd-item">
+              <div class="cd-num" id="cdM">--</div>
+              <div class="cd-label">Minutes</div>
+            </div>
+            <div class="cd-sep">:</div>
+            <div class="cd-item">
+              <div class="cd-num" id="cdS">--</div>
+              <div class="cd-label">Seconds</div>
+            </div>
+          </div>
         </div>
         <div class="flourish reveal">
           <span class="l"></span><span class="o"></span><span class="d"></span
@@ -2347,28 +2349,6 @@
         <span class="corner tl"></span><span class="corner tr"></span
         ><span class="corner bl"></span><span class="corner br"></span>
         <div class="footer-inner">
-          <div class="eyebrow">Until Anand Karaj · 6 December 2026</div>
-          <div class="countdown" id="countdown">
-            <div class="cd-item">
-              <div class="cd-num" id="cdD">--</div>
-              <div class="cd-label">Days</div>
-            </div>
-            <div class="cd-sep">:</div>
-            <div class="cd-item">
-              <div class="cd-num" id="cdH">--</div>
-              <div class="cd-label">Hours</div>
-            </div>
-            <div class="cd-sep">:</div>
-            <div class="cd-item">
-              <div class="cd-num" id="cdM">--</div>
-              <div class="cd-label">Minutes</div>
-            </div>
-            <div class="cd-sep">:</div>
-            <div class="cd-item">
-              <div class="cd-num" id="cdS">--</div>
-              <div class="cd-label">Seconds</div>
-            </div>
-          </div>
           <div class="flourish">
             <span class="l"></span><span class="o"></span><span class="d"></span
             ><span class="o"></span><span class="l r"></span>
@@ -2380,6 +2360,14 @@
           <div class="footer-tag">
             <b>Your blessings begin our journey together</b>
           </div>
+          <div class="footer-wishes">
+            <p class="footer-wishes__label">Best Wishes</p>
+            <p class="footer-wishes__families">
+              Thapar Family <span aria-hidden="true">·</span> Sandhu Family
+              <span aria-hidden="true">·</span> Kakkar Family
+            </p>
+          </div>
+          <div class="footer-hashtag">#Pav&amp;AshMeet</div>
           <div class="footer-hash">Pavgun Kaur &amp; Ashmeet Singh Sohal</div>
           <div class="footer-credit">
             28 November – 6 December 2026 · Delhi · Mohali
@@ -2392,272 +2380,18 @@
     <script src="/assets/festivities.js"></script>
     <script src="assets/lenis.min.js"></script>
     <script>
-      /* Scroll-linked gate reveal: the native video keeps decoding light while
-         the canvas preserves the reference site's full-bleed composition. */
+      /* Card opening, curtain reveal, anchor navigation, and lightweight scroll motion. */
       (function () {
         if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-        const entryLoader = document.getElementById("entryLoader");
-        const entryProgress = document.getElementById("entryProgress");
-        const entryProgressFill = document.getElementById("entryProgressFill");
-        const entryPercent = document.getElementById("entryPercent");
-        const entryStatus = document.getElementById("entryStatus");
-        const entryContinue = document.getElementById("entryContinue");
-        const canvas = document.getElementById("frameCanvas");
-        const video = document.getElementById("frameVideo");
-        const ctx = canvas.getContext("2d", { alpha: false });
-        const hBlessing = document.getElementById("hBlessing");
-        const hNames = document.getElementById("hNames");
-        const hMeta = document.getElementById("hMeta");
-        const scrollCue = document.getElementById("scrollCue");
-        const heroSec = document.getElementById("revealHero");
-        const veil = document.getElementById("heroVeil");
+        const opening = document.getElementById("invitationOpening");
+        const openingTap = document.getElementById("openingTap");
+        const flow = document.querySelector(".flow");
+        const invitationTitle = document.getElementById("invitation-title");
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const shouldGateEntry = document.documentElement.classList.contains("entry-pending") && !reduceMotion;
+        const shouldGateEntry = document.documentElement.classList.contains("entry-pending");
         const pars = Array.from(document.querySelectorAll("[data-par]"));
-        let ready = false;
-        let videoReady = false;
-        let posterReady = !shouldGateEntry;
-        let fontsReady = !shouldGateEntry;
-        let videoFailed = false;
-        let entryProgressValue = shouldGateEntry ? 4 : 100;
-        let slowEntryTimer = 0;
-        const blockedPageNodes = [];
-        let wantedTime = 0;
-        let seekPending = false;
-        let seekQueued = false;
-        let lastSeekStarted = 0;
+        let openingStarted = false;
 
-        if (reduceMotion) heroSec.classList.add("reduced-motion");
-        if (shouldGateEntry) {
-          entryLoader.setAttribute("aria-hidden", "false");
-          document.body.setAttribute("aria-busy", "true");
-          for (const node of document.body.children) {
-            if (node === entryLoader || node.tagName === "SCRIPT") continue;
-            node.inert = true;
-            blockedPageNodes.push(node);
-          }
-        }
-
-        function setEntryProgress(value, message) {
-          if (!shouldGateEntry || ready) return;
-          entryProgressValue = Math.max(
-            entryProgressValue,
-            Math.min(99, Math.round(value)),
-          );
-          entryProgress.setAttribute("aria-valuenow", String(entryProgressValue));
-          entryProgressFill.style.transform = "scaleX(" + entryProgressValue / 100 + ")";
-          entryPercent.textContent = entryProgressValue + "%";
-          if (message) entryStatus.textContent = message;
-        }
-
-        function bufferedRatio() {
-          if (!Number.isFinite(video.duration) || video.duration <= 0) return 0;
-          let end = 0;
-          for (let index = 0; index < video.buffered.length; index += 1) {
-            if (video.buffered.start(index) <= 0.1) {
-              end = Math.max(end, video.buffered.end(index));
-            }
-          }
-          return Math.max(0, Math.min(1, end / video.duration));
-        }
-
-        function checkEntryReady() {
-          if (!shouldGateEntry || ready || !posterReady || !fontsReady) return;
-          if (!videoFailed && !videoReady) return;
-          if (videoFailed) {
-            setEntryProgress(94, "Opening with the still cover…");
-          } else {
-            setEntryProgress(96, "The courtyard is ready…");
-          }
-          finishLoading();
-        }
-
-        function inspectVideoBuffer() {
-          if (!shouldGateEntry || ready || videoFailed) return;
-          const ratio = bufferedRatio();
-          setEntryProgress(12 + ratio * 80, "Loading the gate animation…");
-          if (
-            ratio >= 0.995 &&
-            video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
-          ) {
-            videoReady = true;
-            video.pause();
-            drawCover(video);
-            checkEntryReady();
-          }
-        }
-
-        function waitForImageDecode(source) {
-          return new Promise((resolve) => {
-            const image = new Image();
-            const settle = () => resolve();
-            image.onload = () => {
-              if (typeof image.decode === "function") image.decode().then(settle, settle);
-              else settle();
-            };
-            image.onerror = settle;
-            image.src = source;
-            if (image.complete) {
-              if (typeof image.decode === "function") image.decode().then(settle, settle);
-              else settle();
-            }
-          });
-        }
-
-        function waitForHeroFonts() {
-          if (!document.fonts || typeof document.fonts.load !== "function") {
-            return Promise.resolve();
-          }
-          const fontLoad = Promise.all([
-            document.fonts.load("400 1rem Cormorant"),
-            document.fonts.load("300 1rem Manrope"),
-          ]).catch(() => {});
-          const fallback = new Promise((resolve) => window.setTimeout(resolve, 2200));
-          return Promise.race([fontLoad, fallback]);
-        }
-
-        function continueWithStillCover() {
-          if (ready) return;
-          videoFailed = true;
-          videoReady = false;
-          video.pause();
-          video.removeAttribute("src");
-          const source = video.querySelector("source");
-          if (source) source.removeAttribute("src");
-          video.load();
-          entryContinue.hidden = true;
-          checkEntryReady();
-        }
-
-        entryContinue.addEventListener("click", continueWithStillCover);
-
-        function sizeCanvas() {
-          // Match the canvas to the source where possible. Extra pixels only
-          // upscale the 720p clip and make every scroll frame more expensive.
-          const sourceScale = Math.max(
-            1,
-            (video.videoWidth || 1280) / window.innerWidth,
-            (video.videoHeight || 720) / window.innerHeight,
-          );
-          const dpr = Math.min(window.devicePixelRatio || 1, 1.25, sourceScale);
-          const width = canvas.clientWidth || document.documentElement.clientWidth || window.innerWidth;
-          const height = canvas.clientHeight || window.innerHeight;
-          canvas.width = Math.floor(width * dpr);
-          canvas.height = Math.floor(height * dpr);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          drawCover(video);
-        }
-        function drawCover(source) {
-          const width = source.videoWidth || source.width;
-          const height = source.videoHeight || source.height;
-          if (!width || !height) return;
-          const cw = canvas.clientWidth || document.documentElement.clientWidth || window.innerWidth;
-          const ch = canvas.clientHeight || window.innerHeight;
-          const ratio = width / height;
-          const boxRatio = cw / ch;
-          let w, h, x, y;
-          if (ratio > boxRatio) {
-            h = ch; w = ch * ratio; x = (cw - w) / 2;
-            if (window.innerWidth <= 640 && window.innerHeight > window.innerWidth) {
-              x -= Math.min(16, cw * 0.03);
-            }
-            y = 0;
-          } else {
-            w = cw; h = cw / ratio; x = 0; y = (ch - h) / 2;
-          }
-          try { ctx.drawImage(source, x, y, w, h); } catch (_) { /* keep poster visible */ }
-        }
-        function lerp(p, a, b) {
-          return Math.max(0, Math.min(1, (p - a) / (b - a)));
-        }
-        function flushSeek() {
-          seekQueued = false;
-          if (!videoReady || video.seeking || !Number.isFinite(video.duration)) return;
-          const delta = wantedTime - video.currentTime;
-          if (Math.abs(delta) < 0.035) return;
-          const elapsed = performance.now() - lastSeekStarted;
-          if (elapsed < 40) {
-            seekQueued = true;
-            window.setTimeout(flushSeek, 40 - elapsed);
-            return;
-          }
-          lastSeekStarted = performance.now();
-          try { video.currentTime = wantedTime; } catch (_) { /* metadata may still be settling */ }
-        }
-        function seekTo(time) {
-          if (!videoReady || reduceMotion) return;
-          wantedTime = Math.max(0, Math.min(video.duration || 0, time));
-          if (video.seeking) { seekPending = true; return; }
-          if (!seekQueued) {
-            seekQueued = true;
-            requestAnimationFrame(flushSeek);
-          }
-        }
-        video.addEventListener("seeked", () => {
-          drawCover(video);
-          if (seekPending) {
-            seekPending = false;
-            seekTo(wantedTime);
-          }
-        });
-        video.addEventListener("loadeddata", () => {
-          video.pause();
-          drawCover(video);
-          if (!shouldGateEntry) videoReady = true;
-          else {
-            setEntryProgress(Math.max(entryProgressValue, 18), "Loading the gate animation…");
-            inspectVideoBuffer();
-          }
-          if (!ready && videoReady) checkEntryReady();
-          else { update(); parallax(); }
-        }, { once: true });
-        video.addEventListener("loadedmetadata", inspectVideoBuffer);
-        video.addEventListener("progress", inspectVideoBuffer);
-        video.addEventListener("canplaythrough", inspectVideoBuffer);
-        video.addEventListener("error", () => {
-          if (!shouldGateEntry) {
-            finishLoading();
-            return;
-          }
-          videoFailed = true;
-          entryContinue.hidden = true;
-          setEntryProgress(88, "Opening with the still cover…");
-          checkEntryReady();
-        }, { once: true });
-
-        function update() {
-          const rect = heroSec.getBoundingClientRect();
-          const scrollable = heroSec.offsetHeight - window.innerHeight;
-          let p = scrollable > 0 ? -rect.top / scrollable : 0;
-          p = Math.max(0, Math.min(1, p));
-          if (videoReady && video.duration) {
-            // The source clip fades to an empty pastel frame at its final few
-            // frames. Hold the fully opened gate as the next section arrives.
-            seekTo(video.duration * Math.min(p, 0.93));
-          }
-
-          if (reduceMotion) {
-            hBlessing.style.opacity = "1";
-            hBlessing.style.transform = "none";
-            hNames.style.opacity = "1";
-            hNames.style.transform = "translate(-50%, -50%)";
-            hMeta.style.opacity = "1";
-            scrollCue.style.opacity = "1";
-            veil.style.opacity = "0.25";
-            return;
-          }
-
-          const introOut = 1 - lerp(p, 0.05, 0.2);
-          hBlessing.style.opacity = introOut;
-          hBlessing.style.transform = "translateY(" + -12 * (1 - introOut) + "px)";
-          const fade = 1 - lerp(p, 0.9, 0.99);
-          const nameIn = lerp(p, 0.42, 0.62);
-          hNames.style.opacity = nameIn * fade;
-          hNames.style.transform = "translate(-50%,-50%) translateY(" + (26 * (1 - nameIn) - 30 * (1 - fade)) + "px)";
-          hMeta.style.opacity = lerp(p, 0.58, 0.74) * fade;
-          scrollCue.style.opacity = p < 1 ? "1" : "0";
-          veil.style.opacity = lerp(p, 0.82, 0.98) * 0.32;
-        }
         function parallax() {
           const vh = window.innerHeight;
           const transforms = [];
@@ -2671,6 +2405,7 @@
           }
           for (const [el, offset] of transforms) el.style.transform = "translate3d(0," + offset + "px,0)";
         }
+
         function startLenis() {
           if (reduceMotion || typeof Lenis === "undefined" || location.search.includes("nolenis")) return false;
           const lenis = new Lenis({
@@ -2691,7 +2426,6 @@
             if (lenis.isScrolling) requestLenisFrame();
           }
           lenis.on("scroll", () => {
-            update();
             parallax();
             if (lenis.isScrolling) requestLenisFrame();
           });
@@ -2710,75 +2444,57 @@
           if (!target) return;
           if (window.lenis) window.lenis.scrollTo(target, { immediate: true, force: true });
           else target.scrollIntoView({ behavior: "auto" });
-          update(); parallax();
+          parallax();
         }
-        function finishLoading() {
-          if (ready) return;
-          ready = true;
-          window.clearTimeout(slowEntryTimer);
-          sizeCanvas();
-          update();
+
+        function finishPageSetup() {
           parallax();
           if (!startLenis()) {
-            window.addEventListener("scroll", () => { update(); parallax(); }, { passive: true });
+            window.addEventListener("scroll", parallax, { passive: true });
           }
           if (location.hash) {
             [0, 120, 400, 900].forEach((delay) => window.setTimeout(jumpToHash, delay));
             window.addEventListener("load", jumpToHash, { once: true });
           }
-          if (shouldGateEntry) {
-            entryProgressValue = 100;
-            entryProgress.setAttribute("aria-valuenow", "100");
-            entryProgressFill.style.transform = "scaleX(1)";
-            entryPercent.textContent = "100%";
-            entryStatus.textContent = "Ready — enjoy the celebrations";
-            entryContinue.hidden = true;
-            entryLoader.classList.add("is-ready");
-            window.setTimeout(() => {
-              document.documentElement.classList.remove("entry-pending");
-              document.body.removeAttribute("aria-busy");
-              for (const node of blockedPageNodes) node.inert = false;
-              entryLoader.remove();
-            }, 440);
-          }
         }
-        window.addEventListener("resize", () => { sizeCanvas(); update(); parallax(); });
-        if (reduceMotion) {
-          video.preload = "none";
-          finishLoading();
-        } else if (shouldGateEntry) {
-          setEntryProgress(8, "Preparing the courtyard…");
-          Promise.all([
-            waitForImageDecode("assets/gfx/gate-poster.webp"),
-            waitForHeroFonts(),
-          ]).then(() => {
-            posterReady = true;
-            fontsReady = true;
-            setEntryProgress(12, "Loading the gate animation…");
-            checkEntryReady();
-          });
-          video.preload = "auto";
-          video.load();
-          if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-            videoReady = bufferedRatio() >= 0.995;
-            inspectVideoBuffer();
+
+        function revealInvitation() {
+          document.documentElement.classList.remove("entry-pending");
+          document.body.removeAttribute("aria-busy");
+          flow.inert = false;
+          flow.removeAttribute("aria-hidden");
+          opening.remove();
+          finishPageSetup();
+          invitationTitle.focus({ preventScroll: true });
+        }
+
+        function openCard() {
+          if (openingStarted) return;
+          openingStarted = true;
+          openingTap.setAttribute("aria-expanded", "true");
+          openingTap.setAttribute("aria-disabled", "true");
+          openingTap.setAttribute("aria-label", "Opening the wedding invitation");
+          openingTap.disabled = true;
+          if (reduceMotion) {
+            revealInvitation();
+            return;
           }
-          slowEntryTimer = window.setTimeout(() => {
-            if (!ready) {
-              entryStatus.textContent = "The animation is taking a little longer…";
-              entryContinue.hidden = false;
-            }
-          }, 9000);
+          opening.classList.add("is-opening");
+          window.setTimeout(revealInvitation, 2250);
+        }
+
+        opening.addEventListener("click", openCard);
+        window.addEventListener("resize", parallax, { passive: true });
+
+        if (shouldGateEntry) {
+          opening.setAttribute("aria-hidden", "false");
+          document.body.setAttribute("aria-busy", "true");
+          flow.inert = true;
+          flow.setAttribute("aria-hidden", "true");
+          openingTap.focus({ preventScroll: true });
         } else {
-          // Direct event links and reduced motion keep entry immediate. Load
-          // the gate clip after first paint for anyone who scrolls back to it.
-          window.requestAnimationFrame(() => {
-            finishLoading();
-            window.requestAnimationFrame(() => {
-              video.preload = "auto";
-              video.load();
-            });
-          });
+          opening.remove();
+          finishPageSetup();
         }
       })();
 
@@ -2930,13 +2646,20 @@
         const hint = reveal.querySelector(".date-reveal-hint");
         const status = reveal.querySelector("[data-date-reveal-status]");
         const dates = document.getElementById("weddingDates");
+        const countdownReveal = document.getElementById("countdownReveal");
         if (!cover || !canvas || !hint || !status || !dates) return;
+
+        function unlockCountdown() {
+          if (!countdownReveal) return;
+          countdownReveal.setAttribute("aria-hidden", "false");
+        }
 
         const context = canvas.getContext("2d", { willReadFrequently: true });
         if (!context) {
           reveal.classList.add("is-revealed", "flowers-blooming");
           cover.hidden = true;
-          hint.textContent = "Your celebration dates are shown below.";
+          unlockCountdown();
+          hint.textContent = "Your celebration date is shown below.";
           return;
         }
 
@@ -2986,11 +2709,8 @@
           context.textBaseline = "middle";
           context.fillStyle = "#532b32";
           const fontFamily = window.getComputedStyle(cover).fontFamily;
-          const dateFontFamily = window.getComputedStyle(dates).fontFamily;
           context.font = `600 14px ${fontFamily}`;
-          context.fillText("Scratch here to reveal", rect.width / 2, rect.height / 2 - 8);
-          context.font = `italic 12px ${dateFontFamily}`;
-          context.fillText("6 December 2026", rect.width / 2, rect.height / 2 + 13);
+          context.fillText("Scratch to reveal", rect.width / 2, rect.height / 2);
         }
 
         function pointFrom(event) {
@@ -3035,9 +2755,10 @@
         function revealDates() {
           if (reveal.classList.contains("is-revealed")) return;
           reveal.classList.add("is-revealed", "flowers-blooming");
+          unlockCountdown();
           cover.disabled = true;
           cover.setAttribute("aria-hidden", "true");
-          status.textContent = "Wedding date revealed: 6 December 2026, in Delhi and Mohali.";
+          status.textContent = "Wedding date revealed: 6th December 2026, in Delhi and Mohali.";
           hint.textContent = "Date revealed. We cannot wait to celebrate with you.";
           window.setTimeout(() => {
             cover.hidden = true;

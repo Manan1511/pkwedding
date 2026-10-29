@@ -22,7 +22,7 @@
       id: "haldi-mehendi", title: "Mehfil-e-Mela", subtitle: "Haldi & Mehendi", date: "2026-12-05", time: "11:00", timeLabel: "11:00 AM", start: "assembly",
       assembly: "Lobby of Tulip Inn", assemblyAddress: "Chandigarh–Ambala Road, near Indian Oil Petrol Pump", assemblyMapAddress: "Tulip Inn, Chandigarh–Ambala Road, near Indian Oil Petrol Pump, Mohali",
       venue: "House no. 3200", venueAddress: "House no. 3200, D Block, Gmada Aerocity, Sahibzada Ajit Singh Nagar, Mohali, Punjab 140306",
-      line: "Meri Bua Ki Mehndi Mein Zaroor Aana - Mehek Thapar",
+      line: "Meri Bua Ki Mehndi Mein Zaroor Aana - Meher Kaur Thapar",
     },
     {
       id: "anand-karaj", title: "Anand Karaj", subtitle: "Anand Karaj", date: "2026-12-06", time: "10:00", timeLabel: "10:00 AM", start: "ceremony",

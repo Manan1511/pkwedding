@@ -10,12 +10,12 @@
     "wedding-celebration": "-v2",
   };
   const eventVideos = {
-    engagement: "engagement-motion.mp4",
+    engagement: "engagement-motion.mp4?rev=20261029",
     sagan: "sagan-motion.mp4",
     jaggo: "jaggo-motion.mp4",
-    "haldi-mehendi": "haldi-mehendi-motion.mp4",
+    "haldi-mehendi": "haldi-mehendi-motion.mp4?rev=20261029",
     "anand-karaj": "anand-karaj-motion.mp4",
-    "wedding-celebration": "celebration-motion.mp4",
+    "wedding-celebration": "celebration-motion.mp4?rev=20261029",
   };
 
   const scenes = {
@@ -173,31 +173,34 @@
         style="--scene-color:${scene.color};--scene-accent:${scene.accent}"
         aria-labelledby="event-title-${escapeHtml(event.id)}"
       >
-        <div class="event-panel__portrait">
-          <picture class="event-panel__picture" aria-hidden="true">
-            <source
-              type="image/avif"
-              srcset="${asset}-768.avif 768w, ${asset}-1024.avif 1024w"
-              sizes="(max-width: 720px) 100vw, 680px"
-            />
-            <source
-              type="image/webp"
-              srcset="${asset}-768.webp 768w, ${asset}-1024.webp 1024w"
-              sizes="(max-width: 720px) 100vw, 680px"
-            />
-            <img
-              src="${asset}-768.webp"
-              width="1024"
-              height="1536"
-              loading="${loading}"
-              decoding="async"
-              fetchpriority="${fetchPriority}"
-              alt=""
-            />
-          </picture>
-          ${video}
-          <div class="event-panel__shade" aria-hidden="true"></div>
-
+        <div class="event-panel__media">
+          <div class="event-panel__portrait">
+            <picture class="event-panel__picture" aria-hidden="true">
+              <source
+                type="image/avif"
+                srcset="${asset}-768.avif 768w, ${asset}-1024.avif 1024w"
+                sizes="(max-width: 720px) 100vw, 680px"
+              />
+              <source
+                type="image/webp"
+                srcset="${asset}-768.webp 768w, ${asset}-1024.webp 1024w"
+                sizes="(max-width: 720px) 100vw, 680px"
+              />
+              <img
+                src="${asset}-768.webp"
+                width="1024"
+                height="1536"
+                loading="${loading}"
+                decoding="async"
+                fetchpriority="${fetchPriority}"
+                alt=""
+              />
+            </picture>
+            ${video}
+            <div class="event-panel__shade" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="event-panel__details">
           <div class="event-panel__content">
             <div class="event-panel__schedule">
               <time class="event-date" datetime="${escapeHtml(event.date)}">${escapeHtml(dateLabel(event.date))}</time>
