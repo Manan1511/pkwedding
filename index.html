@@ -38,11 +38,11 @@
       try {
         shouldOpenWeddingCard = !window.__directWeddingLink;
         if (shouldOpenWeddingCard) {
-          document.documentElement.classList.add("entry-pending");
+          document.documentElement.classList.add("entry-pending", "entry-loading");
         }
       } catch (_) {
         shouldOpenWeddingCard = !window.__directWeddingLink;
-        if (shouldOpenWeddingCard) document.documentElement.classList.add("entry-pending");
+        if (shouldOpenWeddingCard) document.documentElement.classList.add("entry-pending", "entry-loading");
       }
     </script>
 
@@ -121,6 +121,73 @@
       html.entry-pending body {
         overflow: hidden;
       }
+      .invitation-loader {
+        position: fixed;
+        z-index: 700;
+        inset: 0;
+        display: none;
+        place-items: center;
+        padding: 28px;
+        color: #fff7eb;
+        background:
+          radial-gradient(ellipse at 50% 42%, rgba(128, 55, 70, 0.38), transparent 54%),
+          linear-gradient(145deg, #54202f, #32101d 78%);
+        text-align: center;
+        opacity: 1;
+        transition: opacity 360ms ease;
+      }
+      html.entry-loading .invitation-loader {
+        display: grid;
+      }
+      html.entry-loading .invitation-opening {
+        display: none !important;
+      }
+      .invitation-loader.is-dismissing {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .invitation-loader__content {
+        width: min(100%, 340px);
+      }
+      .invitation-loader__monogram {
+        color: var(--gold-light);
+        font: 400 clamp(2.8rem, 12vw, 4.2rem)/1 var(--serif);
+        letter-spacing: -0.06em;
+      }
+      .invitation-loader__title {
+        margin-top: 24px;
+        color: #fff7eb;
+        font: italic 400 clamp(1.35rem, 5vw, 1.8rem)/1.2 var(--serif);
+      }
+      .invitation-loader__progress {
+        width: min(70vw, 300px);
+        height: 2px;
+        margin: 30px auto 13px;
+        overflow: hidden;
+        background: rgba(255, 247, 235, 0.23);
+      }
+      .invitation-loader__progress span {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: var(--gold-light);
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 180ms ease-out;
+      }
+      .invitation-loader__status {
+        min-height: 1.5em;
+        color: rgba(255, 247, 235, 0.78);
+        font: 500 0.72rem/1.5 var(--sans);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .invitation-loader,
+        .invitation-loader__progress span {
+          transition: none;
+        }
+      }
       .invitation-opening {
         position: fixed;
         inset: 0;
@@ -131,8 +198,7 @@
         overflow: hidden;
         isolation: isolate;
         color: var(--wine-deep);
-        background: var(--pink-soft);
-        transition: background-color 1ms linear 900ms;
+        background: transparent;
         text-align: center;
       }
       html.entry-pending .invitation-opening {
@@ -142,9 +208,9 @@
         opacity: 0;
         transition: opacity 280ms ease;
       }
-      html.entry-pending .invitation-opening.is-opening ~ .flow {
+      html.entry-pending .invitation-opening.is-curtains-opening ~ .flow {
         opacity: 1;
-        transition-delay: 900ms;
+        transition-delay: 0ms;
       }
       .invitation-opening::before {
         position: absolute;
@@ -172,20 +238,17 @@
         background-size: 200% 100%;
         backface-visibility: hidden;
         transform: translate3d(0, 0, 0);
-        visibility: hidden;
-        transition: visibility 0s linear, transform 1540ms cubic-bezier(0.7, 0, 0.3, 1);
+        transition: transform 1540ms cubic-bezier(0.7, 0, 0.3, 1);
       }
       .opening-curtain--left {
         left: 0;
         background-position: left center;
         transform-origin: left center;
-        transition-delay: 0s, 650ms;
       }
       .opening-curtain--right {
         right: 0;
         background-position: right center;
         transform-origin: right center;
-        transition-delay: 0s, 650ms;
       }
       @media (min-width: 760px) and (min-aspect-ratio: 1 / 1) {
         .opening-curtain {
@@ -195,13 +258,11 @@
       .opening-card {
         position: relative;
         z-index: 2;
-        width: min(100vw, 56.25vh, 460px);
-        width: min(100vw, 56.25svh, 460px);
-        height: min(100vh, 177.78vw, 820px);
-        height: min(100svh, 177.78vw, 820px);
+        width: 100%;
+        height: 100%;
         perspective: 1500px;
-        filter: drop-shadow(0 24px 36px rgba(18, 4, 11, 0.25));
-        transition: transform 350ms ease 780ms, opacity 350ms ease 780ms;
+        filter: none;
+        transition: transform 350ms ease, opacity 350ms ease;
       }
       .opening-card__face {
         position: absolute;
@@ -363,22 +424,16 @@
         outline: 2px solid var(--gold-light);
         outline-offset: -8px;
       }
-      html.entry-pending .invitation-opening.is-opening {
-        background-color: transparent;
-      }
       html.entry-pending .invitation-opening.is-opening::before {
         opacity: 0;
-        transition: opacity 220ms ease 900ms;
+        transition: opacity 220ms ease 1240ms;
       }
-      html.entry-pending .invitation-opening.is-opening .opening-card {
+      html.entry-pending .invitation-opening.is-curtains-revealed .opening-card {
         opacity: 0;
         transform: translateY(8px) scale(0.96);
       }
       html.entry-pending .invitation-opening.is-opening .opening-card__face {
         opacity: 0;
-      }
-      html.entry-pending .invitation-opening.is-opening .opening-curtain {
-        visibility: visible;
       }
       html.entry-pending .invitation-opening.is-opening .opening-card__flap--left {
         transform: rotateY(-165deg);
@@ -386,10 +441,10 @@
       html.entry-pending .invitation-opening.is-opening .opening-card__flap--right {
         transform: rotateY(165deg);
       }
-      html.entry-pending .invitation-opening.is-opening .opening-curtain--left {
+      html.entry-pending .invitation-opening.is-curtains-opening .opening-curtain--left {
         transform: translate3d(-104%, 0, 0);
       }
-      html.entry-pending .invitation-opening.is-opening .opening-curtain--right {
+      html.entry-pending .invitation-opening.is-curtains-opening .opening-curtain--right {
         transform: translate3d(104%, 0, 0);
       }
       @media (prefers-reduced-motion: reduce) {
@@ -1916,6 +1971,22 @@
     </style>
   </head>
   <body>
+    <div id="invitationLoader" class="invitation-loader" role="status" aria-live="polite" aria-atomic="true">
+      <div class="invitation-loader__content">
+        <div class="invitation-loader__monogram" aria-hidden="true">P&amp;A</div>
+        <p class="invitation-loader__title">Preparing your invitation</p>
+        <div
+          id="invitationLoaderProgress"
+          class="invitation-loader__progress"
+          role="progressbar"
+          aria-label="Preparing wedding invitation"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+        ><span id="invitationLoaderProgressFill"></span></div>
+        <p id="invitationLoaderStatus" class="invitation-loader__status">Loading wedding scenes</p>
+      </div>
+    </div>
     <div
       id="invitationOpening"
       class="invitation-opening"
@@ -2458,8 +2529,144 @@
           }
         }
 
+        async function prepareInvitationAssets() {
+          const loader = document.getElementById("invitationLoader");
+          const progress = document.getElementById("invitationLoaderProgress");
+          const progressFill = document.getElementById("invitationLoaderProgressFill");
+          const status = document.getElementById("invitationLoaderStatus");
+          const videos = Array.from(document.querySelectorAll(".event-panel__video[data-video-src]"));
+          const imageElements = Array.from(new Set(document.images));
+          const wideCurtains = window.matchMedia("(min-width: 760px) and (min-aspect-ratio: 1 / 1)").matches;
+          const curtainImage = new Image();
+          curtainImage.decoding = "async";
+          curtainImage.src = wideCurtains
+            ? "/assets/gfx/invitation-curtains-closed-wide.webp"
+            : "/assets/gfx/invitation-curtains-closed-mobile.webp";
+          imageElements.push(curtainImage);
+
+          const preparedVideoUrls = Object.create(null);
+          const failures = [];
+          const tasks = [
+            ...imageElements.map((image, index) => ({
+              label: index === 0 ? "Invitation artwork" : "Wedding artwork",
+              load: async (update) => {
+                image.loading = "eager";
+                if (typeof image.decode === "function") await image.decode();
+                else if (!image.complete) {
+                  await new Promise((resolve, reject) => {
+                    image.addEventListener("load", resolve, { once: true });
+                    image.addEventListener("error", reject, { once: true });
+                  });
+                }
+                update(1);
+              },
+            })),
+            ...videos.map((video, index) => ({
+              label: `Event film ${index + 1}`,
+              load: async (update) => {
+                const source = video.dataset.videoSrc;
+                const controller = new AbortController();
+                const timeout = window.setTimeout(() => controller.abort(), 30000);
+                try {
+                  const response = await fetch(new URL(source, document.baseURI), {
+                    cache: "force-cache",
+                    signal: controller.signal,
+                  });
+                  if (!response.ok) throw new Error(`Event video request failed: ${response.status}`);
+
+                  const contentType = response.headers.get("content-type") || "video/mp4";
+                  const reader = response.body?.getReader?.();
+                  if (!reader) {
+                    const blob = await response.blob();
+                    preparedVideoUrls[source] = URL.createObjectURL(blob);
+                    update(1);
+                    return;
+                  }
+
+                  const chunks = [];
+                  const total = Number(response.headers.get("content-length")) || 0;
+                  let loaded = 0;
+                  while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    chunks.push(value);
+                    loaded += value.byteLength;
+                    if (total > 0) update(Math.min(0.99, loaded / total));
+                  }
+                  preparedVideoUrls[source] = URL.createObjectURL(new Blob(chunks, { type: contentType }));
+                  update(1);
+                } finally {
+                  window.clearTimeout(timeout);
+                }
+              },
+            })),
+          ];
+
+          if (document.fonts?.ready) {
+            tasks.push({ label: "Invitation type", load: async (update) => { await document.fonts.ready; update(1); } });
+          }
+
+          const fractions = tasks.map(() => 0);
+          const paintProgress = () => {
+            const percent = Math.min(100, Math.floor(fractions.reduce((sum, value) => sum + value, 0) / tasks.length * 100));
+            const completed = fractions.filter((value) => value >= 1).length;
+            if (progress) progress.setAttribute("aria-valuenow", String(percent));
+            if (progressFill) progressFill.style.transform = `scaleX(${percent / 100})`;
+            if (status) status.textContent = `${completed} of ${tasks.length} assets ready`;
+          };
+          const runTask = async (index) => {
+            let timeout;
+            try {
+              await Promise.race([
+                tasks[index].load((fraction) => {
+                  fractions[index] = Math.max(fractions[index], Math.min(1, fraction));
+                  paintProgress();
+                }),
+                new Promise((_, reject) => {
+                  timeout = window.setTimeout(() => reject(new Error("Invitation asset timed out")), 30000);
+                }),
+              ]);
+            } catch (_) {
+              failures.push(tasks[index].label);
+            } finally {
+              window.clearTimeout(timeout);
+              fractions[index] = 1;
+              paintProgress();
+            }
+          };
+
+          let nextTask = 0;
+          const workerCount = Math.min(4, tasks.length);
+          await Promise.all(Array.from({ length: workerCount }, async () => {
+            while (nextTask < tasks.length) await runTask(nextTask++);
+          }));
+
+          window.__weddingPreloadedVideoSources = preparedVideoUrls;
+          if (progressFill) progressFill.style.transform = "scaleX(1)";
+          if (progress) progress.setAttribute("aria-valuenow", "100");
+          if (status) status.textContent = failures.length
+            ? "Ready · a few assets will load when needed"
+            : "Every scene is ready";
+          return loader;
+        }
+
+        function revealWaxCard(loader) {
+          const showCard = () => {
+            document.documentElement.classList.remove("entry-loading");
+            loader?.remove();
+            opening.setAttribute("aria-hidden", "false");
+            openingTap.focus({ preventScroll: true });
+          };
+          if (!loader) {
+            showCard();
+            return;
+          }
+          loader.classList.add("is-dismissing");
+          window.setTimeout(showCard, reduceMotion ? 0 : 360);
+        }
+
         function revealInvitation() {
-          document.documentElement.classList.remove("entry-pending");
+          document.documentElement.classList.remove("entry-loading", "entry-pending");
           document.body.removeAttribute("aria-busy");
           flow.inert = false;
           flow.removeAttribute("aria-hidden");
@@ -2480,20 +2687,27 @@
             return;
           }
           opening.classList.add("is-opening");
-          window.setTimeout(revealInvitation, 2250);
+          // The closed curtains are already behind the card. The card flaps
+          // reveal them first; then the curtains draw apart to reveal the page.
+          window.setTimeout(() => opening.classList.add("is-curtains-revealed"), 1240);
+          window.setTimeout(() => opening.classList.add("is-curtains-opening"), 1960);
+          window.setTimeout(revealInvitation, 3650);
         }
 
         opening.addEventListener("click", openCard);
         window.addEventListener("resize", parallax, { passive: true });
 
         if (shouldGateEntry) {
-          opening.setAttribute("aria-hidden", "false");
+          opening.setAttribute("aria-hidden", "true");
           document.body.setAttribute("aria-busy", "true");
           flow.inert = true;
           flow.setAttribute("aria-hidden", "true");
-          openingTap.focus({ preventScroll: true });
+          prepareInvitationAssets()
+            .catch(() => undefined)
+            .then(revealWaxCard);
         } else {
           opening.remove();
+          document.getElementById("invitationLoader")?.remove();
           finishPageSetup();
         }
       })();

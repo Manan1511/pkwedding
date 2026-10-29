@@ -288,7 +288,8 @@
       }
 
       if (!video.src) {
-        video.src = pageAssetUrl(video.dataset.videoSrc);
+        video.src = window.__weddingPreloadedVideoSources?.[video.dataset.videoSrc]
+          || pageAssetUrl(video.dataset.videoSrc);
         video.preload = "metadata";
         video.load();
       }
