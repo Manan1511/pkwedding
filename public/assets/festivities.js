@@ -171,9 +171,16 @@
         data-transition="${scene.transition}"
         data-art="${asset}-1024.avif"
         data-color="${scene.color}"
-        style="--scene-color:${scene.color};--scene-accent:${scene.accent}"
+        style="--scene-color:${scene.color};--scene-accent:${scene.accent}${scenes[events[index + 1]?.id] ? `;--next-color:color-mix(in srgb, ${scenes[events[index + 1].id].color} 78%, #0b1014)` : ""}"
         aria-labelledby="event-title-${escapeHtml(event.id)}"
       >
+        <header class="event-panel__heading">
+          <h3 class="event-title event-copy event-copy--title" id="event-title-${escapeHtml(event.id)}">${escapeHtml(scene.title)}</h3>
+          <div class="event-panel__schedule">
+            <time class="event-date event-copy event-copy--date" datetime="${escapeHtml(event.date)}">${escapeHtml(dateLabel(event.date))}</time>
+            <p class="event-time event-copy event-copy--time">${escapeHtml(eventTime)}</p>
+          </div>
+        </header>
         <div class="event-panel__media">
           <div class="event-panel__portrait">
             <picture class="event-panel__picture" aria-hidden="true">
@@ -203,11 +210,6 @@
         </div>
         <div class="event-panel__details">
           <div class="event-panel__content">
-            <h3 class="event-title event-copy event-copy--title" id="event-title-${escapeHtml(event.id)}">${escapeHtml(scene.title)}</h3>
-            <div class="event-panel__schedule">
-              <time class="event-date event-copy event-copy--date" datetime="${escapeHtml(event.date)}">${escapeHtml(dateLabel(event.date))}</time>
-              <p class="event-time event-copy event-copy--time">${escapeHtml(eventTime)}</p>
-            </div>
             ${scene.subtitle ? `<p class="event-subtitle event-copy event-copy--subtitle">${escapeHtml(scene.subtitle)}</p>` : ""}
             ${event.id === "haldi-mehendi" ? `<p class="event-quote event-copy event-copy--quote"><strong>${escapeHtml(event.line)}</strong></p>` : ""}
             <div class="event-title-rule event-copy event-copy--rule" aria-hidden="true"><span></span><i></i><span></span></div>
@@ -235,7 +237,6 @@
 
     const nextPanel = panel.nextElementSibling;
     if (nextPanel?.matches(".event-panel")) {
-      panel.style.setProperty("--next-color", nextPanel.dataset.color);
       panel.classList.add("has-next-scene");
     }
     panel.classList.add("art-ready");
