@@ -1,3 +1,5 @@
+Archived record: This is the license information for the previous soundtrack, replaced on 2026-10-29. It does not apply to the current user-supplied audio.
+
 # Music license and attribution record
 
 - **Track:** “Indian Wedding”

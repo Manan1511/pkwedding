@@ -9,19 +9,19 @@
     {
       id: "sagan", title: "Sagan Ceremony", subtitle: "Sagan", date: "2026-12-04", time: "11:00", timeLabel: "11:00 AM", start: "assembly",
       assembly: "Dhillon Plaza", assemblyAddress: "Dhillon Plaza, Punjab 140603", assemblyMapAddress: "Dhillon Plaza, Punjab 140603, Mohali",
-      venue: "House no. 3200", venueAddress: "House no. 3200, D Block, Gmada Aerocity, Sahibzada Ajit Singh Nagar, Mohali, Punjab 140306",
+      venue: "Utsav Park", venueAddress: "Utsav Park, GMADA Aerocity, Mohali", venueMapUrl: "https://maps.app.goo.gl/BupSf2Lz1Nn8bYGu5?g_st=iw",
       line: "Auspicious Beginnings & Shagna Di Shuruaat",
     },
     {
       id: "jaggo", title: "Dhol Vajda • Dil Nachda • Jashan Sajda", subtitle: "Jaggo Ceremony", date: "2026-12-04", time: "19:30", timeLabel: "7:30 PM", start: "assembly",
       assembly: "Lobby of Tulip Inn", assemblyAddress: "Chandigarh–Ambala Road, near Indian Oil Petrol Pump", assemblyMapAddress: "Tulip Inn, Chandigarh–Ambala Road, near Indian Oil Petrol Pump, Mohali",
-      venue: "House no. 3200", venueAddress: "House no. 3200, D Block, Gmada Aerocity, Sahibzada Ajit Singh Nagar, Mohali, Punjab 140306",
+      venue: "Utsav Park", venueAddress: "Utsav Park, GMADA Aerocity, Mohali", venueMapUrl: "https://maps.app.goo.gl/BupSf2Lz1Nn8bYGu5?g_st=iw",
       line: "Nachdi Raat, Khushiyan De Naal!",
     },
     {
       id: "haldi-mehendi", title: "Mehfil-e-Mela", subtitle: "Haldi & Mehendi", date: "2026-12-05", time: "11:00", timeLabel: "11:00 AM", start: "assembly",
       assembly: "Lobby of Tulip Inn", assemblyAddress: "Chandigarh–Ambala Road, near Indian Oil Petrol Pump", assemblyMapAddress: "Tulip Inn, Chandigarh–Ambala Road, near Indian Oil Petrol Pump, Mohali",
-      venue: "House no. 3200", venueAddress: "House no. 3200, D Block, Gmada Aerocity, Sahibzada Ajit Singh Nagar, Mohali, Punjab 140306",
+      venue: "Utsav Park", venueAddress: "Utsav Park, GMADA Aerocity, Mohali", venueMapUrl: "https://maps.app.goo.gl/BupSf2Lz1Nn8bYGu5?g_st=iw",
       line: "Meri Bua Ki Mehndi Mein Zaroor Aana - Meher Kaur Thapar",
     },
     {

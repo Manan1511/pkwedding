@@ -6,15 +6,15 @@
     engagement: "-v3",
     sagan: "-v2",
     jaggo: "-v2",
-    "anand-karaj": "-v2",
+    "anand-karaj": "-v4",
     "wedding-celebration": "-v2",
   };
   const eventVideos = {
     engagement: "engagement-motion.mp4?rev=20261029",
     sagan: "sagan-motion.mp4",
     jaggo: "jaggo-motion.mp4",
-    "haldi-mehendi": "haldi-mehendi-motion.mp4?rev=20261029",
-    "anand-karaj": "anand-karaj-motion.mp4",
+    "haldi-mehendi": "haldi-mehendi-motion.mp4?rev=20261029-v2",
+    "anand-karaj": "anand-karaj-motion.mp4?rev=20261030-v4",
     "wedding-celebration": "celebration-motion.mp4?rev=20261029",
   };
 
@@ -93,7 +93,7 @@
     });
   };
 
-  const locationMarkup = ({ label, name, address, directionLabel, time, mapAddress }) => {
+  const locationMarkup = ({ label, name, address, directionLabel, time, mapAddress, mapUrl }) => {
     const accessibleDirectionLabel = label === "Assembly point"
       ? `Directions to assembly at ${name}`
       : `Directions to venue at ${name}`;
@@ -104,7 +104,7 @@
         <strong class="event-location__name">${escapeHtml(name)}</strong>
         ${time ? `<span class="event-location__time">${escapeHtml(time)}</span>` : ""}
         <p class="event-location__address">${escapeHtml(address)}</p>
-        <a class="event-action event-action--directions" href="${escapeHtml(mapsUrl(mapAddress || (address ? `${name}, ${address}` : name)))}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(accessibleDirectionLabel)}">
+        <a class="event-action event-action--directions" href="${escapeHtml(mapUrl || mapsUrl(mapAddress || (address ? `${name}, ${address}` : name)))}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(accessibleDirectionLabel)}">
           ${escapeHtml(directionLabel)} <span aria-hidden="true">↗</span>
         </a>
       </div>`;
@@ -132,6 +132,7 @@
       directionLabel: event.assembly ? "Directions to venue" : "Get directions",
       time: "",
       mapAddress: event.venueMapAddress || event.venueAddress,
+      mapUrl: event.venueMapUrl,
     }));
 
     return parts.join("");
@@ -202,16 +203,16 @@
         </div>
         <div class="event-panel__details">
           <div class="event-panel__content">
+            <h3 class="event-title event-copy event-copy--title" id="event-title-${escapeHtml(event.id)}">${escapeHtml(scene.title)}</h3>
             <div class="event-panel__schedule">
-              <time class="event-date" datetime="${escapeHtml(event.date)}">${escapeHtml(dateLabel(event.date))}</time>
-              <p class="event-time">${escapeHtml(eventTime)}</p>
+              <time class="event-date event-copy event-copy--date" datetime="${escapeHtml(event.date)}">${escapeHtml(dateLabel(event.date))}</time>
+              <p class="event-time event-copy event-copy--time">${escapeHtml(eventTime)}</p>
             </div>
-            <h3 class="event-title" id="event-title-${escapeHtml(event.id)}">${escapeHtml(scene.title)}</h3>
-            ${scene.subtitle ? `<p class="event-subtitle">${escapeHtml(scene.subtitle)}</p>` : ""}
-            ${event.id === "haldi-mehendi" ? `<p class="event-quote"><strong>${escapeHtml(event.line)}</strong></p>` : ""}
-            <div class="event-title-rule" aria-hidden="true"><span></span><i></i><span></span></div>
-            <div class="event-locations">${renderLocation(event)}</div>
-            <div class="event-actions">
+            ${scene.subtitle ? `<p class="event-subtitle event-copy event-copy--subtitle">${escapeHtml(scene.subtitle)}</p>` : ""}
+            ${event.id === "haldi-mehendi" ? `<p class="event-quote event-copy event-copy--quote"><strong>${escapeHtml(event.line)}</strong></p>` : ""}
+            <div class="event-title-rule event-copy event-copy--rule" aria-hidden="true"><span></span><i></i><span></span></div>
+            <div class="event-locations event-copy event-copy--locations">${renderLocation(event)}</div>
+            <div class="event-actions event-copy event-copy--actions">
               <button
                 class="event-action event-action--calendar"
                 type="button"
@@ -252,16 +253,28 @@
     scenesInOrder.forEach((panel) => artworkObserver.observe(panel));
 
     if (!reducedMotion.matches) {
-      document.body.classList.add("has-festivities-motion");
-      const revealObserver = new IntersectionObserver((entries) => {
+      const panelRevealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.classList.add("is-entered");
-          revealObserver.unobserve(entry.target);
+          panelRevealObserver.unobserve(entry.target);
         });
       }, { threshold: 0.05 });
 
-      scenesInOrder.forEach((panel) => revealObserver.observe(panel));
+      scenesInOrder.forEach((panel) => panelRevealObserver.observe(panel));
+      document.body.classList.add("has-festivities-motion");
+
+      const copyRevealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-entered");
+          copyRevealObserver.unobserve(entry.target);
+        });
+      }, { rootMargin: "0px 0px -72px 0px", threshold: 0 });
+
+      scenesInOrder.forEach((panel) => {
+        panel.querySelectorAll(".event-copy").forEach((copy) => copyRevealObserver.observe(copy));
+      });
     }
   } else {
     scenesInOrder.forEach(loadArtwork);

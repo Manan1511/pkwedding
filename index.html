@@ -60,7 +60,7 @@
         rel="stylesheet"
       />
     </noscript>
-    <link rel="stylesheet" href="/assets/festivities.css" />
+    <link rel="stylesheet" href="/assets/festivities.css?v=20261029-event-viewport-motion" />
     <style>
       :root {
         --pink: #f3d5de;
@@ -405,6 +405,17 @@
         text-transform: uppercase;
         pointer-events: none;
       }
+      .opening-card__prompt {
+        display: grid;
+        justify-items: center;
+        gap: 2px;
+      }
+      .opening-card__hashtag {
+        margin: 0;
+        color: var(--gold-light);
+        font: 500 0.74rem/1.4 var(--sans);
+        letter-spacing: 0.1em;
+      }
       .opening-screen-tap {
         position: absolute;
         z-index: 3;
@@ -685,6 +696,12 @@
         max-width: 34ch;
         margin: 32px auto 0;
         line-height: 1.7;
+      }
+      .invite-hashtag {
+        margin: 14px auto 0;
+        color: var(--wine);
+        font: 500 0.76rem/1.4 var(--sans);
+        letter-spacing: 0.1em;
       }
       .date-reveal {
         width: min(100%, 430px);
@@ -2010,7 +2027,10 @@
               <img src="/assets/gfx/invitation-wax-seal.webp" width="640" height="640" alt="" fetchpriority="high" />
               <span aria-hidden="true">P&amp;A</span>
             </span>
-            <span class="opening-card__tap-cue" aria-hidden="true">Tap to Open</span>
+            <div class="opening-card__prompt">
+              <span class="opening-card__tap-cue" aria-hidden="true">Tap to Open</span>
+              <span class="opening-card__hashtag">#Pav&amp;AshMeet</span>
+            </div>
           </div>
         </div>
       </div>
@@ -2023,7 +2043,7 @@
       ></button>
     </div>
     <audio id="weddingAudio" loop preload="none" aria-label="Punjabi wedding instrumental">
-      <source src="audio/indian-wedding.mp3" type="audio/mpeg" />
+      <source src="audio/indian-wedding.mp3?rev=20261029-audio-v2" type="audio/mpeg" />
     </audio>
 
     <div class="flow">
@@ -2050,6 +2070,7 @@
         <p class="invite-body reveal">
           as they begin their journey together, surrounded by family and friends
         </p>
+        <p class="invite-hashtag reveal">#Pav&amp;AshMeet</p>
         <div class="date-reveal reveal" id="date-reveal" data-date-reveal>
           <div class="date-reveal-card">
             <strong id="weddingDates">6th December 2026</strong>
@@ -2447,8 +2468,8 @@
       </footer>
     </div>
 
-    <script src="assets/invitation.js"></script>
-    <script src="/assets/festivities.js"></script>
+    <script src="assets/invitation.js?v=20261029-utsav-park"></script>
+    <script src="/assets/festivities.js?v=20261030-event-viewport-motion-anand-v4"></script>
     <script src="assets/lenis.min.js"></script>
     <script>
       /* Card opening, curtain reveal, anchor navigation, and lightweight scroll motion. */

@@ -65,6 +65,24 @@
         ],
         "createdAt": "2026-10-24T16:03:55.859Z",
         "reason": "Agent: the event date is a purposeful invitation kicker above the title, matching the chosen wedding reference."
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-24T19:16:50.361Z",
+        "reason": "Agent: the footer heading overlays the pale #eedfe8 image gradient; #0b1322 is only the fallback background color."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-25T05:13:27.903Z",
+        "reason": "Agent: rendered sections show 30–42px headings against 16px body text; the static detector misses the page type rules when scanning index.html with CSS served from Vite public assets."
       }
     ]
   }

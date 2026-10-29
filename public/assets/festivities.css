@@ -219,7 +219,7 @@
   display: grid;
   justify-items: center;
   gap: 3px;
-  margin-bottom: 20px;
+  margin: 0 0 20px;
 }
 
 .event-date {
@@ -253,6 +253,7 @@
 }
 
 .event-title {
+  margin: 0 auto clamp(16px, 2.5vw, 22px);
   color: #fff8eb;
   font: italic 500 clamp(2.35rem, 6.7vw, 4.45rem) / 0.98 var(--serif);
   letter-spacing: -0.025em;
@@ -417,16 +418,82 @@
 }
 
 .has-festivities-motion .event-panel__content {
-  opacity: 0.25;
-  transform: translateY(24px);
-  transition:
-    opacity 750ms ease 180ms,
-    transform 850ms cubic-bezier(0.2, 0.72, 0.22, 1) 180ms;
+  opacity: 1;
+  transform: none;
 }
 
-.has-festivities-motion .event-panel.is-entered .event-panel__content {
-  opacity: 1;
-  transform: translateY(0);
+.has-festivities-motion .event-panel .event-copy {
+  --event-copy-delay: 0ms;
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  filter: blur(2px);
+}
+
+.has-festivities-motion .event-panel .event-copy--date {
+  --event-copy-delay: 160ms;
+}
+
+.has-festivities-motion .event-panel .event-copy--time {
+  --event-copy-delay: 540ms;
+}
+
+.has-festivities-motion .event-panel .event-copy--title {
+  --event-copy-delay: 0ms;
+}
+
+.has-festivities-motion .event-panel .event-copy--subtitle {
+  --event-copy-delay: 650ms;
+}
+
+.has-festivities-motion .event-panel .event-copy--quote {
+  --event-copy-delay: 740ms;
+}
+
+.has-festivities-motion .event-panel .event-copy--rule {
+  --event-copy-delay: 820ms;
+}
+
+.has-festivities-motion .event-panel .event-copy--locations {
+  --event-copy-delay: 930ms;
+}
+
+.has-festivities-motion .event-panel .event-copy--actions {
+  --event-copy-delay: 1080ms;
+}
+
+.has-festivities-motion .event-panel .event-copy.is-entered {
+  animation: event-copy-entrance 620ms cubic-bezier(0.16, 1, 0.3, 1) var(--event-copy-delay) both;
+}
+
+.has-festivities-motion .event-panel .event-copy--title.is-entered {
+  animation-name: event-title-arrive;
+  animation-duration: 760ms;
+}
+
+@keyframes event-copy-entrance {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes event-title-arrive {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translate3d(12px, 10px, 0) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
 }
 
 .has-festivities-motion .event-panel[data-transition="emerald"] .event-panel__picture {
@@ -567,6 +634,7 @@
   .event-panel__picture,
   .event-panel__video,
   .event-panel__content,
+  .event-copy,
   .event-action {
     animation: none !important;
     transition: none !important;
@@ -574,7 +642,8 @@
   }
 
   .event-panel__picture,
-  .event-panel__content {
+  .event-panel__content,
+  .event-copy {
     clip-path: none !important;
     filter: none !important;
     opacity: 1 !important;
