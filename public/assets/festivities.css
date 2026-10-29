@@ -320,7 +320,7 @@
 .event-subtitle {
   margin-top: 7px;
   color: rgba(255, 248, 235, 0.9);
-  font: 400 clamp(0.9rem, 1.9vw, 1.08rem) / 1.5 var(--serif);
+  font: 400 calc(clamp(0.9rem, 1.9vw, 1.08rem) + 1px) / 1.5 var(--serif);
   letter-spacing: 0.025em;
   text-wrap: balance;
 }
@@ -332,7 +332,7 @@
   margin: 16px auto 0;
   padding: 0;
   color: var(--scene-accent, #edcf96);
-  font: italic 500 clamp(1.08rem, 2.2vw, 1.3rem) / 1.45 var(--serif);
+  font: italic 500 calc(clamp(1.08rem, 2.2vw, 1.3rem) + 1px) / 1.45 var(--serif);
   text-wrap: balance;
   text-shadow: none;
 }
@@ -379,7 +379,7 @@
   display: block;
   margin-bottom: 2px;
   color: var(--scene-accent, #edcf96);
-  font: 600 11px / 1.4 var(--sans);
+  font: 600 12px / 1.4 var(--sans);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -387,7 +387,7 @@
 .event-location__name {
   display: block;
   color: #fff8eb;
-  font: italic 500 clamp(1.2rem, 2.2vw, 1.52rem) / 1.18 var(--serif);
+  font: italic 500 calc(clamp(1.2rem, 2.2vw, 1.52rem) + 1px) / 1.18 var(--serif);
   text-wrap: balance;
 }
 
@@ -395,7 +395,7 @@
   display: block;
   margin-top: 5px;
   color: rgba(255, 248, 235, 0.95);
-  font: 500 clamp(12px, 1vw, 13px) / 1.5 var(--sans);
+  font: 500 calc(clamp(12px, 1vw, 13px) + 1px) / 1.5 var(--sans);
   letter-spacing: 0.05em;
 }
 
@@ -403,7 +403,7 @@
   max-width: 43ch;
   margin: 5px auto 0;
   color: rgba(255, 248, 235, 0.88);
-  font: 400 clamp(12px, 1.4vw, 13.4px) / 1.45 var(--sans);
+  font: 400 calc(clamp(12px, 1.4vw, 13.4px) + 1px) / 1.45 var(--sans);
   letter-spacing: 0.008em;
   overflow-wrap: anywhere;
   text-wrap: pretty;
@@ -427,7 +427,7 @@
   border-radius: 0;
   color: #fff7e8;
   background: transparent;
-  font: 600 12px / 1.35 var(--sans);
+  font: 600 13px / 1.35 var(--sans);
   letter-spacing: 0.17em;
   text-align: center;
   text-decoration: none;
@@ -664,6 +664,10 @@
     padding: 32px clamp(18px, 5.2vw, 26px) max(88px, calc(env(safe-area-inset-bottom) + 56px));
   }
 
+  #event-engagement .event-panel__details {
+    margin-top: -72px;
+  }
+
   .event-panel__locations {
     grid-template-columns: 1fr;
     gap: 18px;
@@ -691,7 +695,7 @@
   }
 
   .event-location__address {
-    font-size: 12px;
+    font-size: 13px;
   }
 }
 

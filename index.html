@@ -121,6 +121,30 @@
       html.entry-pending body {
         overflow: hidden;
       }
+      .invite-scroll-nudge {
+        position: fixed;
+        z-index: 100;
+        left: 50%;
+        bottom: max(18px, env(safe-area-inset-bottom));
+        display: grid;
+        justify-items: center;
+        gap: 2px;
+        color: #68283d;
+        font: 600 11px/1.4 var(--sans);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-shadow: 0 1px 6px #f8e9e8, 0 0 12px #f8e9e8;
+        transform: translateX(-50%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 300ms ease;
+      }
+      .invite-scroll-nudge.is-visible { opacity: 1; }
+      .invite-scroll-nudge span { font-size: 20px; animation: invite-nudge 1.6s ease-in-out infinite; }
+      @keyframes invite-nudge { 50% { transform: translateY(5px); } }
+      @media (prefers-reduced-motion: reduce) {
+        .invite-scroll-nudge, .invite-scroll-nudge span { animation: none; transition: none; }
+      }
       .invitation-loader {
         position: fixed;
         z-index: 700;
@@ -2046,6 +2070,7 @@
       <source src="audio/indian-wedding.mp3?rev=20261029-audio-v2" type="audio/mpeg" />
     </audio>
 
+    <div class="invite-scroll-nudge" id="inviteScrollNudge" aria-hidden="true">Scroll down <span>↓</span></div>
     <div class="flow">
       <!-- ===== INVITE ===== -->
       <section class="sec emerald jewel invite pad" id="invitation" tabindex="-1">
@@ -2694,6 +2719,9 @@
           opening.remove();
           finishPageSetup();
           invitationTitle.focus({ preventScroll: true });
+          const nudge = document.getElementById("inviteScrollNudge");
+          nudge.classList.add("is-visible");
+          window.addEventListener("scroll", () => nudge.classList.remove("is-visible"), { once: true, passive: true });
         }
 
         function openCard() {
