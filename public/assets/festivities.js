@@ -144,7 +144,7 @@
 
     const asset = `images/${event.id}-portrait-motion${artworkVersions[event.id] || ""}`;
     const eventTime = event.start === "assembly"
-      ? `Assembly · ${event.timeLabel}`
+      ? `${event.timeLabel} onwards`
       : event.start === "ceremony"
         ? `Ceremony · ${event.timeLabel}`
         : event.timeLabel;
