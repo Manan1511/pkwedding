@@ -20,8 +20,8 @@
 
   const scenes = {
     engagement: {
-      title: "Lights, Glitz & Glam",
-      subtitle: "Engagement",
+      title: "Engagement",
+      subtitle: "Lights, Glitz & Glam",
       transition: "emerald",
       color: "#172a27",
       accent: "#e4c98d",

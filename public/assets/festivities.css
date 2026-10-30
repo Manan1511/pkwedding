@@ -320,7 +320,7 @@
 .event-subtitle {
   margin-top: 7px;
   color: rgba(255, 248, 235, 0.9);
-  font: 400 calc(clamp(0.9rem, 1.9vw, 1.08rem) + 1px) / 1.5 var(--serif);
+  font: 400 clamp(1.2rem, 2.4vw, 1.45rem) / 1.5 var(--serif);
   letter-spacing: 0.025em;
   text-wrap: balance;
 }
